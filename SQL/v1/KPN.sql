@@ -1,0 +1,16 @@
+CREATE TABLE [dbo].[KPN] (
+	[ID]				INT				NOT NULL,
+	[Name]				VARCHAR(100)	NOT NULL,
+	[ProductID]			VARCHAR(50)		NOT NULL,
+	[CreateData]		DATETIME		NULL,
+	[UpdateDate]		DATETIME		NULL,
+	CONSTRAINT [PK_KPN] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
+ALTER TABLE [dbo].[KPN]
+   ADD CONSTRAINT [FK_KPN_Product] FOREIGN KEY ([ProductID])
+      REFERENCES [dbo].[Product] ([NumberID])
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+;

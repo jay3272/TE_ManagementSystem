@@ -1,0 +1,92 @@
+#languageCheckList{
+	display:block;
+}
+.checkList-container{
+overflow:hidden;
+width:100%;
+}
+.checkList{
+	float:left;
+	border: 1px solid #ccc;
+	display: inline-block;
+	width:49%;
+	height: 300px;
+	overflow:hidden;
+}
+.selectedcheckList{
+	float:left;
+	border: 1px solid #ccc;
+	display: inline-block;
+	width:49%;
+	height: 300px;
+	overflow:hidden;
+}
+.check-all{
+	display:inline-block;
+}
+.selectedChecklist-table label{
+	padding:2px;
+}
+.selected-title-container{
+	padding:3.5px;
+}
+.selectedTitle{
+	
+}
+.checkList .checklist-wrapper{
+	max-height:260px;
+	overflow:auto;
+}
+.checkList .filterbox{
+	display:inline-block;
+	float:right;
+}
+.checkList .toolbar, .selectedcheckList .toolbar{
+	background-color: #eee;
+	border-bottom: 1px solid #ccc;
+	padding: 3px;
+	overflow: hidden;
+}
+
+.checkList .toolbar .txtFilter{
+	display:block;
+	width:100%;
+	padding:4px;
+	border-radius:4px;
+	margin-left: 3px;
+	border:1px solid #ccc;
+}
+
+.checkList .toolbar .filterBox{
+	display: inline-block;
+	float: right;
+
+}
+
+.checkList .toolbar .chkAll{
+	border-right: 1px solid #ccc;
+	vertical-align: middle;
+}
+
+.checkList .checklist-table,.selectedChecklist-table{
+	width: 100%;
+	border-spacing: 0;
+}
+
+.checkList .checklist-table td ,.selectedChecklist-table td{
+	padding: 2px;
+	border-bottom: 1px solid #eee;
+}
+
+.checkList tr td:first-child{
+	width: 16px;
+}
+
+.checkList tr td label,.selectedChecklist-table span{
+	display: inline-block;
+	width: 100%;
+}
+
+.highlight{
+	background-color: #FFC;
+}

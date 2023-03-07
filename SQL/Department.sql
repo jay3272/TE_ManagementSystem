@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[Department] (
+	[ID]			INT				NOT NULL,
+	[Name]			VARCHAR(20)		NOT NULL,
+	[Spare1]		VARCHAR(100)	NULL,
+	[Spare2]		VARCHAR(100)	NULL,
+	[Spare3]		VARCHAR(100)	NULL,
+	[Spare4]		VARCHAR(100)	NULL,
+	[Spare5]		VARCHAR(100)	NULL,
+	CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED ([ID] ASC)
+);

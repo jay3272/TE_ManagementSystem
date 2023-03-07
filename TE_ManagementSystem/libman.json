@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "vue@3.2.47",
+      "destination": "lib/vue/"
+    },
+    {
+      "library": "bootstrap@5.2.3",
+      "destination": "lib/bootstrap/"
+    },
+    {
+      "library": "jquery@3.6.3",
+      "destination": "lib/jquery/"
+    }
+  ]
+}

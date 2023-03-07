@@ -1,0 +1,126 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.MeProduct>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            ME治具查詢表
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="display" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                治具名稱
+                            </th>
+                            <th>
+                                種類
+                            </th>
+                            <th>
+                                客戶
+                            </th>
+                            <th>
+                                供應商
+                            </th>
+                            <th>
+                                數量
+                            </th>
+                            <th>
+                                Shift Time
+                            </th>
+                            <th>
+                                有鉛
+                            </th>
+                            <th>
+                                圖片
+                            </th>
+                            <th>
+                                料號
+                            </th>
+                            <th>
+                                負責人
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Spare1)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kind.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Supplier.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShiftTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Pb)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Image)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ComList)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Spare1)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+
+</script>
+

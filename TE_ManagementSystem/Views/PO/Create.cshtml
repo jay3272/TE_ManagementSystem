@@ -1,0 +1,114 @@
+﻿@model TE_ManagementSystem.Models.ProductTransaction
+
+@{
+    ViewBag.Title = @ViewBag.PoTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Content/custom/supplierMePO.js"></script>
+<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link href="../Content/style2.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="~/Content/custom/supplierMePO.js"></script>
+
+
+<h2>@ViewBag.PoTitle</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    </div>
+
+}
+
+
+<div class="content-wrapper">
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    @*<div class="box-header with-border">
+                        <h3 class="box-title">Create New Product</h3>
+                    </div>*@
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <form role="form">
+                            <div class="box-body">
+
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <input type="text" autocomplete="off" class="form-control" id="NewPoId" value=@ViewBag.SuggestedNewPoId readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Opid, "Opid", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <input type="text" name="Opid" id="Opid" />
+                                        @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("儲物ID", new { @class = "control-label" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox" name="ProductID">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listProduct)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                @if (! @ViewBag.IsReturn)
+                                {
+
+                                    <div class="form-group">
+                                        @Html.Label("修護", new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.IsToFix)
+                                        @Html.ValidationMessageFor(model => model.IsToFix, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                }
+
+                            </div>
+
+                            <div class="box-footer">
+                                <input type="submit" value="@ViewBag.PoBtn" id="CreateProduct" class="btn btn-primary" />
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

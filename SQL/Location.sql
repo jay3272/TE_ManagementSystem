@@ -1,0 +1,14 @@
+CREATE TABLE [dbo].[Location](
+	[ID]			INT				NOT NULL,
+	[Name]			VARCHAR(20)		NOT NULL,
+	[RackPosition]	VARCHAR(20)		NOT NULL,
+	[Status]		BIT				NOT NULL,
+	[Spare1]		VARCHAR(100)	NULL,
+	[Spare2]		VARCHAR(100)	NULL,
+	[Spare3]		VARCHAR(100)	NULL,
+	[Spare4]		VARCHAR(100)	NULL,
+	[Spare5]		VARCHAR(100)	NULL,
+	CONSTRAINT	[PK_Location] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+

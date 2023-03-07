@@ -1,0 +1,282 @@
+﻿@model TE_ManagementSystem.Models.MeProduct
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Content/custom/supplierMePO.js"></script>
+<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link href="../Content/style2.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="~/Content/custom/supplierMePO.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
+<script src="../Content/jquery.ui.checkList.js"></script>
+
+<div class="content-wrapper">
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">新增治具</h3>
+                    </div>
+
+                    <script type="text/javascript">
+                        $(document).re
+                    </script>
+
+
+                    @using (Html.BeginForm("Create", "MeProduct", FormMethod.Post, new { id = "MeProductForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form role="form">
+                            <div class="box-body">
+
+                                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" autocomplete="off" class="form-control" id="NewMeProdId" value=@ViewBag.SuggestedNewMeProdId readonly="readonly" />
+            </div>
+        </div>*@
+
+                                <div class="form-group">
+                                    @Html.Label("治具名稱", new { @class = "control-label" })
+
+                                    @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("治具種類", new { @class = "control-label" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox" name="KindID">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listKind)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("數量", new { @class = "control-label" })
+
+                                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "perPack", @value = 1 } })
+                                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Shift Time", new { @class = "control-label" })
+
+                                    @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control", @id = "perPack", @value = 1 } })
+                                    @Html.ValidationMessageFor(model => model.ShiftTime, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("有鉛", new { @class = "control-label" })
+
+                                    @Html.EditorFor(model => model.Pb)
+                                    @Html.ValidationMessageFor(model => model.Pb, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("照片", new { @class = "control-label" })
+
+                                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("料號", new { @class = "control-label" })
+
+                                    @*<div class="ui-widget">
+                <select id="combobox4" name="ComList">
+                    <option value=""></option>
+                    @foreach (var item in ViewBag.listKPN)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>*@
+
+                                    <div id='myCheckList'></div>
+                                    <div id='selectedItems'></div>
+                                    @*<div id='comListKpn' name="ComList"></div>*@
+                                    @*@Html.Editor("ComList", new { id = "comListKpn", htmlAttributes = new { @class = "form-control" } })*@
+                                    @*@Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })*@
+                                    @*<label Value="5" id="comListKpn" name="ComList" type="hidden" />*@
+
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            var items = [{ text: '1', value: 'KPN001' },
+                                            { text: '2', value: 'KPN002' },
+                                            { text: '3', value: 'KPN003' },
+                                            { text: '4', value: 'KPN004' },
+                                            { text: '5', value: 'KPN005' }];
+
+                                            $('#myCheckList').checkList({
+                                                listItems: items,
+                                                onChange: selChange
+                                            });
+
+                                            function selChange() {
+                                                var selection = $('#myCheckList').checkList('getSelection');
+                                                $('#selectedItems').text(JSON.stringify(selection));
+                                                let str;
+                                                $.each(selection, function (text, value) {
+                                                    str += value.value + ',';
+                                                    $('#comListKpn').text(str);
+                                                    //alert(text + ": " + value.value);
+                                                });
+
+                                            }
+
+                                        });
+                                    </script>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("負責人", new { @class = "control-label" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox2" name="Opid">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listOpid)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("供應商", new { @class = "control-label" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox2" name="SupplierID">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listSupplier)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("客戶", new { @class = "control-label" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox1" name="CustomerID">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listCustomer)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="box-footer">
+                                <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+
+                            @*<script type="text/javascript">
+                                    var onSuccess = function (data) {
+                                        alert(data.result);
+                                    }
+                                </script>*@
+
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@*<script>
+
+    $('#CreateProduct').click(function () {
+        var selection = $('#myCheckList').checkList('getSelection');
+
+        $.ajax('/MeProduct/Create2', {
+            method: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(selection),
+            traditional: true,
+            success: function (d) {
+                //do stuff
+            }
+        });
+
+    });
+
+</script>*@
+
+
+@*<script>
+        @foreach (var d in ViewBag.Suppliers)
+        {
+            @: suppliers.push(["@d.ID", "@d.Name", "@d.Email", "@d.Phone"]);
+        }
+        OnTypeSupplierName('#supplier');
+
+    </script>
+
+    <script>
+        @foreach (var d in ViewBag.Kind)
+        {
+            @: kinds.push(["@d.ID", "@d.Name"]);
+        }
+        OnTypeKindName('#kind');
+
+    </script>
+
+    <script>
+        @foreach (var d in ViewBag.Customer)
+        {
+            @: customers.push(["@d.ID", "@d.Name", "@d.CustCode"]);
+        }
+        OnTypeCustomerName('#customer');
+
+    </script>
+
+    <script>
+        @foreach (var d in ViewBag.Kpn)
+        {
+            @: kpns.push(["@d.ID", "@d.Name"]);
+        }
+        OnTypeKpnName('#kpn');
+
+    </script>*@
+

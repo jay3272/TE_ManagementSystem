@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
+    <script src="../Content/jquery.ui.checkList.js"></script>
+
+    <style type='text/css'>
+        body {
+            font-family: 'Open Sans',Tahoma,Arial,Helvetica,sans-serif;
+            vertical-align: top;
+            font-size: .813em;
+            line-height: 1.4em;
+            color: #222;
+            background-color: #fafafa;
+        }
+
+        #myCheckList, #selected {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+    </style>
+    <title>jQuery CheckList Plugin Example</title>
+</head>
+<body>
+
+    <h3>What do you want to have in your toast?</h3>
+    <div id='myCheckList'></div>
+
+    <br />
+    <h3>Selection</h3>
+    <div id='selectedItems'></div>
+
+    <br /><br />
+    <a href='#' id='populate'>Populate Beverages</a>
+    <a href='#' id='myAjaxButton'>test</a>
+
+    <script type="text/javascript">
+        $(function () {
+            var items = [{ text: 'Onion', value: '1' },
+            { text: 'Ketchup', value: '2' },
+            { text: 'Mayonnaise', value: '3' },
+            { text: 'Pickles', value: '4' },
+            { text: 'Tomato', value: '5' }];
+
+            $('#myCheckList').checkList({
+                listItems: items,
+                onChange: selChange
+            });
+
+            function selChange() {
+                var selection = $('#myCheckList').checkList('getSelection');
+
+                $('#selectedItems').text(JSON.stringify(selection));
+            }
+
+            $('#populate').click(function () {
+                var selection = $('#myCheckList').checkList('getSelection');
+
+                $.ajax('/MeProduct/Create2', {
+                    method: 'post',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(selection),
+                    traditional: true,
+                    success: function (d) {
+                        //do stuff
+                    }
+                });
+
+                //var bevs = [{ text: 'Coca Cola', value: '1' },
+                //{ text: 'Pepsi', value: '2' },
+                //{ text: 'Sprite', value: '3' },
+                //{ text: 'Fanta', value: '4' },
+                //{ text: 'Dr Pepper', value: '5' }];
+
+                //$('#myCheckList').checkList('setData', bevs);
+            });
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>
+

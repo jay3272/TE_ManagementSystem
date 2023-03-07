@@ -1,0 +1,132 @@
+﻿@model TE_ManagementSystem.Models.Product
+
+@{
+    ViewBag.Title = "Resume";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<div>
+
+    <div class="row align-items-center justify-content-between pt-3">
+        <div class="col-auto mb-3">
+            <h1 class="card-title">
+                "Resume - "
+            </h1>
+        </div>
+    </div>
+
+
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MeProduct.Kind.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeProduct.Kind.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MeProduct.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeProduct.Image)
+        </dd>
+
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MeProduct.Pb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeProduct.Pb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Life)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Life)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MeProduct.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeProduct.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastBorrowDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastBorrowDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastReturnDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastReturnDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UseLastDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UseLastDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usable)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.NumberID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

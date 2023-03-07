@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>jQuery UI Multicolumn Autocomplete Demo</title>
+
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/themes/cupertino/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.19/jquery-ui.min.js"></script>
+    <script src="jquery.mcautocomplete.js"></script>
+
+    <script type='text/javascript'>
+        $(document).ready(function () {
+
+            function customRenderItem(ul, item) {
+                var t = '<span class="mcacCol1">' + item[0] + '</span><span class="mcacCol2">' + item[1] + '</span>',
+                    result = $('<li class="ui-menu-item" role="menuitem"></li>')
+                        .data('item.autocomplete', item)
+                        .append('<a class="ui-corner-all" style="position:relative;" tabindex="-1">' + t + '</a>')
+                        .appendTo(ul);
+
+                return result;
+            }
+
+            var columns = [{ name: 'Color', width: '100px' }, { name: 'Hex', width: '70px' }],
+                colors = [['Red', '#f00'], ['Green', '#0f0'], ['Blue', '#00f']];
+
+            $("#search").mcautocomplete({
+                showHeader: true,
+                columns: columns,
+                source: colors,
+                select: function (event, ui) {
+                    this.value = (ui.item ? ui.item[0] : '');
+                    return false;
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div style="margin:10px 10px;padding:8px;width:300px;" class="ui-widget ui-widget-content ui-corner-all">
+        <div style="margin:0 0 4px 4px;">Type in a color</div>
+
+        <!-- This is the input control that gets turned into the jquery ui widget -->
+        <input id="search" type="text" style="padding:2px;font-size:.8em;width:200px;" />
+
+        <img src="powered.png" alt="Powered by Deacon Software" />
+    </div>
+</body>
+
+</html>

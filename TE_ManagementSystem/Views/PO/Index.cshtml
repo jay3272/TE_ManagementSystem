@@ -1,0 +1,158 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.ProductTransaction>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+</table>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            借用歸還紀錄表
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="display" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                部門
+                            </th>
+                            <th>
+                                員工
+                            </th>
+                            <th>
+                                治具編號
+                            </th>
+                            <th>
+                                治具名稱
+                            </th>
+                            <th>
+                                種類
+                            </th>
+                            <th>
+                                治具室
+                            </th>
+                            <th>
+                                儲位
+                            </th>
+                            <th>
+                                料號
+                            </th>
+                            <th>
+                                狀態
+                            </th>
+                            <th>
+                                歸還狀態
+                            </th>
+                            <th>
+                                修護
+                            </th>
+                            <th>
+                                借用天數
+                            </th>
+                            <th>
+                                登記時間
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee.Department.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.NumberID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.MeProduct.ProdName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.MeProduct.Kind.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Location.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.Location.RackPosition)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.MeProduct.ComList)
+                                </td>
+                                <td>
+                                    @if (item.IsReturn)
+                                    {
+                                        <span>倉庫</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="onLend">
+                                            <span>借出</span>
+                                        </div>
+                                    }
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsReturn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsToFix)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BorrowDay)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RegisterDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["message"]));
+            alert(message);
+    </script>
+}
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+
+</script>
+

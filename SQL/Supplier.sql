@@ -1,0 +1,12 @@
+CREATE TABLE [dbo].[Supplier] (
+	[ID]				INT				NOT NULL,
+	[Name]				VARCHAR(100)	NOT NULL,
+	[Email]				VARCHAR(100)	NOT NULL,
+	[Phone]				VARCHAR(100)	NOT NULL,
+	[Address]			VARCHAR(100)	NOT NULL,
+	[Spare2]			VARCHAR(100)	NULL,
+	[Spare3]			VARCHAR(100)	NULL,
+	[Spare4]			VARCHAR(100)	NULL,
+	[Spare5]			VARCHAR(100)	NULL,
+	CONSTRAINT [PK_Supplier] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
