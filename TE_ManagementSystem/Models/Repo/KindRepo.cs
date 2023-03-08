@@ -30,49 +30,49 @@ namespace TE_ManagementSystem.Models.Repo
             return db.Kind.Find(name);
         }
 
-        public bool UpdateLabelRule(int id, string name)
-        {
-            try
-            {
-                int kindId = this.FindKindId(id);
+        //public bool UpdateLabelRule(int id, string name)
+        //{
+        //    try
+        //    {
+        //        int kindId = this.FindKindId(id);
 
-                if (kindId != -1)
-                {
-                    db.Kind.Find(kindId).LabelRule = name;
-                    db.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        //        if (kindId != -1)
+        //        {
+        //            db.Kind.Find(kindId).LabelRule = name;
+        //            db.SaveChanges();
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public string GetLabelRuleByName(int id)
-        {
-            string kindName =  this.FindKindName(id);
+        //public string GetLabelRuleByName(int id)
+        //{
+        //    string kindName =  this.FindKindName(id);
 
-            if (kindName != string.Empty)
-            {
-                var record = db.Kind.DefaultIfEmpty().Where(x => x.Name == kindName);
-                string labelrule;
+        //    if (kindName != string.Empty)
+        //    {
+        //        var record = db.Kind.DefaultIfEmpty().Where(x => x.Name == kindName);
+        //        string labelrule;
 
-                int count = record.Count();
+        //        int count = record.Count();
 
-                if (count == 1)
-                {
-                    foreach (var item in record)
-                    {
-                        labelrule = item.LabelRule;
-                        return labelrule;
-                    }
-                }
-            }
+        //        if (count == 1)
+        //        {
+        //            foreach (var item in record)
+        //            {
+        //                labelrule = item.LabelRule;
+        //                return labelrule;
+        //            }
+        //        }
+        //    }
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
 
         public IQueryable<Kind> ListAllKind()
         {

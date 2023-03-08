@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.LabelRule>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Kind.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KindProcess.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LabelRule1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kind.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KindProcess.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LabelRule1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -17,11 +17,11 @@ namespace TE_ManagementSystem.Models.Repo
         //搜尋
         Kind GetKindByName(string name);
 
-        //新增
-        string GetLabelRuleByName(int id);
+        ////新增
+        //string GetLabelRuleByName(int id);
 
-        //更新
-        bool UpdateLabelRule(int id,string name);
+        ////更新
+        //bool UpdateLabelRule(int id,string name);
 
         //新增
         bool AddKind(Kind kind);

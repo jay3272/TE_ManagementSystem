@@ -9,12 +9,6 @@ namespace TE_ManagementSystem.Models
     [Table("KPN")]
     public partial class KPN
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KPN()
-        {
-            MeProduct = new HashSet<MeProduct>();
-        }
-
         [StringLength(20)]
         public string ID { get; set; }
 
@@ -36,8 +30,5 @@ namespace TE_ManagementSystem.Models
 
         [StringLength(100)]
         public string Spare5 { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeProduct> MeProduct { get; set; }
     }
 }

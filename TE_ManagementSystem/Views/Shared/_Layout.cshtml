@@ -53,19 +53,19 @@
             <div class="sidebar-heading">
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseY"
-                       aria-expanded="true" aria-controls="collapseY">
-                        <i class="fa fa-table" aria-hidden="true"></i>
-                        <span>常用</span>
-                    </a>
-                    <div id="collapseY" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            @*<h6 class="collapse-header">常用:</h6>*@
-                            <a class="collapse-item" href="/PO/Create?IsReturn=false">借出</a>
-                            <a class="collapse-item" href="/PO/Create?IsReturn=true">歸還</a>
-                            <a class="collapse-item" href="/Product/Create">治具資料單筆</a>
-                        </div>
-                    </div>
+                    @*<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseY"
+           aria-expanded="true" aria-controls="collapseY">
+            <i class="fa fa-table" aria-hidden="true"></i>
+            <span>常用</span>
+        </a>*@
+                    @*<div id="collapseY" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">*@
+                    @*<h6 class="collapse-header">常用:</h6>*@
+                    <a class="collapse-item" href="/PO/Create?IsReturn=false">借出</a>
+                    <a class="collapse-item" href="/PO/Create?IsReturn=true">歸還</a>
+                    <a class="collapse-item" href="/Product/Create">治具資料單筆</a>
+                    @*</div>
+        </div>*@
 
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                        aria-expanded="true" aria-controls="collapseTwo">
@@ -93,6 +93,18 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="/PO/Create?IsReturn=false">治具借出</a>
                             <a class="collapse-item" href="/PO/Create?IsReturn=true">治具歸還</a>
+                        </div>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo4"
+                       aria-expanded="true" aria-controls="collapseTwo4">
+                        <i class="fa fa-table" aria-hidden="true"></i>
+                        <span>治具標籤編碼表單</span>
+                    </a>
+                    <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/KindProcess/Index">製程種類表單</a>
+                            <a class="collapse-item" href="/LabelRule/Index">標籤編碼表單</a>
                         </div>
                     </div>
 

@@ -16,7 +16,9 @@ namespace TE_ManagementSystem.Models
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Kind> Kind { get; set; }
+        public virtual DbSet<KindProcess> KindProcess { get; set; }
         public virtual DbSet<KPN> KPN { get; set; }
+        public virtual DbSet<LabelRule> LabelRule { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<MeProduct> MeProduct { get; set; }
         public virtual DbSet<Product> Product { get; set; }
@@ -138,7 +140,7 @@ namespace TE_ManagementSystem.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Kind>()
-                .Property(e => e.LabelRule)
+                .Property(e => e.Number)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Kind>()
@@ -162,8 +164,27 @@ namespace TE_ManagementSystem.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Kind>()
+                .HasMany(e => e.LabelRule)
+                .WithRequired(e => e.Kind)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Kind>()
                 .HasMany(e => e.MeProduct)
                 .WithRequired(e => e.Kind)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<KindProcess>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<KindProcess>()
+                .Property(e => e.Number)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<KindProcess>()
+                .HasMany(e => e.LabelRule)
+                .WithRequired(e => e.KindProcess)
+                .HasForeignKey(e => e.ProcessKindID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<KPN>()
@@ -194,11 +215,9 @@ namespace TE_ManagementSystem.Models
                 .Property(e => e.Spare5)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<KPN>()
-                .HasMany(e => e.MeProduct)
-                .WithRequired(e => e.KPN)
-                .HasForeignKey(e => e.Opid)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<LabelRule>()
+                .Property(e => e.LabelRule1)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Location>()
                 .Property(e => e.Name)

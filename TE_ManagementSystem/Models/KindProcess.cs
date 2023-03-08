@@ -6,14 +6,13 @@ namespace TE_ManagementSystem.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Kind")]
-    public partial class Kind
+    [Table("KindProcess")]
+    public partial class KindProcess
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Kind()
+        public KindProcess()
         {
             LabelRule = new HashSet<LabelRule>();
-            MeProduct = new HashSet<MeProduct>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -24,28 +23,10 @@ namespace TE_ManagementSystem.Models
         public string Name { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(1)]
         public string Number { get; set; }
-
-        [StringLength(100)]
-        public string Spare1 { get; set; }
-
-        [StringLength(100)]
-        public string Spare2 { get; set; }
-
-        [StringLength(100)]
-        public string Spare3 { get; set; }
-
-        [StringLength(100)]
-        public string Spare4 { get; set; }
-
-        [StringLength(100)]
-        public string Spare5 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LabelRule> LabelRule { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MeProduct> MeProduct { get; set; }
     }
 }

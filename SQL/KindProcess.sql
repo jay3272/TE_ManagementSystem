@@ -1,0 +1,6 @@
+CREATE TABLE [dbo].[KindProcess](
+	[ID]			INT				NOT NULL,
+	[Name]			VARCHAR(100)	NOT NULL,
+	[Number]		VARCHAR(1)		NOT NULL,
+	CONSTRAINT	[PK_KindProcess] PRIMARY KEY CLUSTERED ([ID] ASC)
+);

@@ -202,6 +202,8 @@
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KindProcessController.cs" />
+    <Compile Include="Controllers\LabelRuleController.cs" />
     <Compile Include="Controllers\MeProductController.cs" />
     <Compile Include="Controllers\POController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -212,16 +214,20 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Kind.cs" />
+    <Compile Include="Models\KindProcess.cs" />
     <Compile Include="Models\KPN.cs" />
+    <Compile Include="Models\LabelRule.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ProductContext.cs" />
     <Compile Include="Models\MeProduct.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductTransaction.cs" />
+    <Compile Include="Models\Repo\IKindProcessRepo.cs" />
     <Compile Include="Models\Repo\IKindRepo.cs" />
     <Compile Include="Models\Repo\IPORepo.cs" />
     <Compile Include="Models\Repo\IMeProductRepo.cs" />
     <Compile Include="Models\Repo\IProductRepo.cs" />
+    <Compile Include="Models\Repo\KindProcessRepo.cs" />
     <Compile Include="Models\Repo\KindRepo.cs" />
     <Compile Include="Models\Repo\PORepo.cs" />
     <Compile Include="Models\Repo\MeProductRepo.cs" />
@@ -10003,6 +10009,8 @@
     <Content Include="Views\Shared\_Layout_vuetest.cshtml" />
     <Content Include="Views\MeProduct\Vue.cshtml" />
     <Content Include="Views\Home\Index3.cshtml" />
+    <Content Include="Views\KindProcess\Index.cshtml" />
+    <Content Include="Views\LabelRule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
