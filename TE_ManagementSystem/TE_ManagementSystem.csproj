@@ -222,11 +222,13 @@
     <Compile Include="Models\MeProduct.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductTransaction.cs" />
+    <Compile Include="Models\Repo\ILabelRuleRepo.cs" />
     <Compile Include="Models\Repo\IKindProcessRepo.cs" />
     <Compile Include="Models\Repo\IKindRepo.cs" />
     <Compile Include="Models\Repo\IPORepo.cs" />
     <Compile Include="Models\Repo\IMeProductRepo.cs" />
     <Compile Include="Models\Repo\IProductRepo.cs" />
+    <Compile Include="Models\Repo\LabelRuleRepo.cs" />
     <Compile Include="Models\Repo\KindProcessRepo.cs" />
     <Compile Include="Models\Repo\KindRepo.cs" />
     <Compile Include="Models\Repo\PORepo.cs" />
@@ -10011,6 +10013,7 @@
     <Content Include="Views\Home\Index3.cshtml" />
     <Content Include="Views\KindProcess\Index.cshtml" />
     <Content Include="Views\LabelRule\Index.cshtml" />
+    <Content Include="Views\LabelRule\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
