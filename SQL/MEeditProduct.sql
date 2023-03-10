@@ -2,6 +2,7 @@ CREATE TABLE [dbo].[MeProduct](
 	[ID]				INT				NOT NULL,
 	[ProdName]			VARCHAR(100)	NOT NULL,
 	[KindID]			INT				NOT NULL,
+	[KindProcessID]		INT				NOT NULL,
 	[CustomerID]		INT				NOT NULL,
 	[SupplierID]		INT				NOT NULL,
 	[KpnID]				INT				NULL,
@@ -22,6 +23,13 @@ CREATE TABLE [dbo].[MeProduct](
 ALTER TABLE [dbo].[MeProduct]
    ADD CONSTRAINT [FK_Product_Kind] FOREIGN KEY ([KindID])
       REFERENCES [dbo].[Kind] ([ID])
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+;
+
+ALTER TABLE [dbo].[MeProduct]
+   ADD CONSTRAINT [FK_Product_KindProcess] FOREIGN KEY ([KindProcessID])
+      REFERENCES [dbo].[KindProcess] ([ID])
       ON DELETE CASCADE
       ON UPDATE CASCADE
 ;

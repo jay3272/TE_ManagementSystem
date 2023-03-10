@@ -13,6 +13,7 @@ namespace TE_ManagementSystem.Models
         public KindProcess()
         {
             LabelRule = new HashSet<LabelRule>();
+            MeProduct = new HashSet<MeProduct>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -28,5 +29,8 @@ namespace TE_ManagementSystem.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LabelRule> LabelRule { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MeProduct> MeProduct { get; set; }
     }
 }

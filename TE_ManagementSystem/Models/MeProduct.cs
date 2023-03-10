@@ -24,6 +24,8 @@ namespace TE_ManagementSystem.Models
 
         public int KindID { get; set; }
 
+        public int KindProcessID { get; set; }
+
         public int CustomerID { get; set; }
 
         public int SupplierID { get; set; }
@@ -70,6 +72,8 @@ namespace TE_ManagementSystem.Models
         public virtual Employee Employee { get; set; }
 
         public virtual Kind Kind { get; set; }
+
+        public virtual KindProcess KindProcess { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Product { get; set; }
