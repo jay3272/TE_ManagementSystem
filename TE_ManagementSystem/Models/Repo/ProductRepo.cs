@@ -7,7 +7,7 @@ namespace TE_ManagementSystem.Models.Repo
 {
     public class ProductRepo : IProductRepo, IDisposable
     {
-        public ProductContext db = new ProductContext();
+        public ManagementContextEntities db = new ManagementContextEntities();
         private bool disposedValue;
 
         public bool AddProduct(Product product)
@@ -22,7 +22,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         public Product GetProductById(int id)
         {
-            return db.Product.Find(id);
+            return db.Products.Find(id);
         }
 
         public IQueryable<Product> GetProductsByName(string name)
@@ -32,7 +32,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         public IQueryable<Product> ListAllProduct()
         {
-            return db.Product;
+            return db.Products;
         }
 
         public IQueryable<Product> ListAllProductUpdateDue()
@@ -41,7 +41,7 @@ namespace TE_ManagementSystem.Models.Repo
             DateTime dateTimeLastLend;
             TimeSpan timeSpan;
 
-            foreach (var item in db.Product)
+            foreach (var item in db.Products)
             {
                 if (item.LastBorrowDate != null)
                 {
@@ -60,12 +60,12 @@ namespace TE_ManagementSystem.Models.Repo
             }
 
             db.SaveChanges();
-            return db.Product;
+            return db.Products;
         }
 
         public Product LinkToResume(string id)
         {
-            Product product = db.Product.Find(id);
+            Product product = db.Products.Find(id);
             return product;
         }
 

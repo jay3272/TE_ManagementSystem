@@ -11,7 +11,7 @@ namespace TE_ManagementSystem.Controllers
     public class LabelRuleController : Controller
     {
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
-        private ProductContext db = new ProductContext();
+        private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: LabelRule
         public ActionResult Index()
@@ -22,14 +22,14 @@ namespace TE_ManagementSystem.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            int maxId = db.LabelRule.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.LabelRules.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             ViewBag.SuggestedLabelRuleId = maxId;
-            ViewBag.Kind = db.Kind;
-            ViewBag.KindProcess = db.KindProcess;
+            ViewBag.Kind = db.Kinds;
+            ViewBag.KindProcess = db.KindProcesses;
 
-            var kindData = db.Kind;
-            var kindProcessData = db.KindProcess;
+            var kindData = db.Kinds;
+            var kindProcessData = db.KindProcesses;
 
             List<SelectListItem> selectKindListItems = new List<SelectListItem>();
             List<SelectListItem> selectKindProcessListItems = new List<SelectListItem>();
@@ -64,7 +64,7 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,ProcessKindID,KindID,LabelRule")] LabelRule labelRule)
         {
-            int maxId = db.LabelRule.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.LabelRules.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             labelRule.ID = maxId;
             //var chkRepeat = db.LabelRule.Where(x => x.KindID == labelRule.KindID || x.ProcessKindID == labelRule.ProcessKindID).FirstOrDefault();
@@ -78,19 +78,19 @@ namespace TE_ManagementSystem.Controllers
             //    kindList = (from k in db.Kind where k.ID == labelRule.KindID select k).ToList();
 
             //}
-            var chkRepeat = db.LabelRule.Where
+            var chkRepeat = db.LabelRules.Where
             (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
 
-            var kindProcessess = db.KindProcess.Where
+            var kindProcessess = db.KindProcesses.Where
             (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
 
-            var kinds = db.Kind.Where
+            var kinds = db.Kinds.Where
             (k => k.ID == labelRule.KindID).FirstOrDefault();
 
             if (chkRepeat is null)
             {
                 labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
-                db.LabelRule.Add(labelRule);
+                db.LabelRules.Add(labelRule);
 
                 db.SaveChanges();
             }

@@ -14,7 +14,7 @@ namespace TE_ManagementSystem.Controllers
         IProductRepo ProductRepo = new ProductRepo();
         IMeProductRepo MeProductRepo = new MeProductRepo();
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
-        private ProductContext db = new ProductContext();
+        private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Product
         public ActionResult Index()
@@ -40,14 +40,14 @@ namespace TE_ManagementSystem.Controllers
         {
             var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
 
-            int maxId = db.Product.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             ViewBag.SuggestedNewProdId = maxId;
             ViewBag.MeProducts = readyImportProduct;
-            ViewBag.Locations = db.Location;
+            ViewBag.Locations = db.Locations;
 
 
-            var locationData = db.Location;
+            var locationData = db.Locations;
             var meProductData = readyImportProduct;
 
             List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
@@ -99,7 +99,7 @@ namespace TE_ManagementSystem.Controllers
             if (LabelRuleRepo.UpdateLabelRuleNumber(Product.EngID, Product.NumberID))
             {
 
-                int maxId = db.Product.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 Product.ID = maxId;
                 Product.StockDate = DateTime.Now;
@@ -116,7 +116,7 @@ namespace TE_ManagementSystem.Controllers
                         Product.Status = "借出";
                     }
 
-                    db.Product.Add(Product);
+                    db.Products.Add(Product);
 
                     db.SaveChanges();
                 }
@@ -143,7 +143,7 @@ namespace TE_ManagementSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Product product = db.Product.Find(id);
+            Product product = db.Products.Find(id);
 
             if (product == null)
             {

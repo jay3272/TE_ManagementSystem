@@ -7,7 +7,7 @@ namespace TE_ManagementSystem.Models.Repo
 {
     public class MeProductRepo : IMeProductRepo, IDisposable
     {
-        public ProductContext db = new ProductContext();
+        public ManagementContextEntities db = new ManagementContextEntities();
         private bool disposedValue;
 
         public bool AddMeProduct(MeProduct meProduct)
@@ -22,7 +22,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         public IQueryable<MeProduct> ListAllMeProductNotStock()
         {
-            var record = db.MeProduct.DefaultIfEmpty().Where(p => p.IsStock == false);
+            var record = db.MeProducts.DefaultIfEmpty().Where(p => p.IsStock == false);
 
             //foreach (var item in record)
             //{
@@ -37,7 +37,7 @@ namespace TE_ManagementSystem.Models.Repo
             try
             {
                 //var record = db.MeProduct.Find(id);
-                db.MeProduct.Find(id).IsStock = true;
+                db.MeProducts.Find(id).IsStock = true;
                 //record.IsStock = true;
                 db.SaveChanges();
                 return true;
@@ -50,17 +50,17 @@ namespace TE_ManagementSystem.Models.Repo
 
         public MeProduct GetMeProductById(int id)
         {
-            return db.MeProduct.Find(id);
+            return db.MeProducts.Find(id);
         }
 
         public MeProduct GetMeProductsByName(string name)
         {
-            return db.MeProduct.Find(name);
+            return db.MeProducts.Find(name);
         }
 
         public IQueryable<MeProduct> ListAllMeProduct()
         {
-            return db.MeProduct;
+            return db.MeProducts;
         }
 
         public bool UpdateMeProduct(MeProduct meProduct)

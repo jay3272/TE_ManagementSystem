@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e5dae52ec7af4071bdb94347550dea1d" Name="Diagram1">
+        <EntityTypeShape EntityType="ManagementContextModel.Customer" Width="1.5" PointX="3.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.Department" Width="1.5" PointX="1.5" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.Employee" Width="1.5" PointX="3.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.Kind" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.KindProcess" Width="1.5" PointX="3.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.KPN" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.LabelRule" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.Location" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.MeProduct" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.Product" Width="1.5" PointX="8.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.ProductTransaction" Width="1.5" PointX="10.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManagementContextModel.Supplier" Width="1.5" PointX="3.75" PointY="21" IsExpanded="true" />
+        <AssociationConnector Association="ManagementContextModel.FK_Product_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_Employee_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_MeProduct_Opid" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_ProductTransaction_Opid" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_LabelRule_Kind" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_Product_Kind" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_LabelRule_ProcessKind" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_Product_KindProcess" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_Product_Location" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_Product_Eng" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_Product_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementContextModel.FK_ProductTransaction_Product" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

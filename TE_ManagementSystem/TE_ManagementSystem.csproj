@@ -210,18 +210,54 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Customer.cs" />
-    <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\Employee.cs" />
-    <Compile Include="Models\Kind.cs" />
-    <Compile Include="Models\KindProcess.cs" />
-    <Compile Include="Models\KPN.cs" />
-    <Compile Include="Models\LabelRule.cs" />
-    <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\ProductContext.cs" />
-    <Compile Include="Models\MeProduct.cs" />
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductTransaction.cs" />
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kind.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KindProcess.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KPN.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LabelRule.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManagementContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManagementContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManagementContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManagementContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManagementContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MeProduct.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductTransaction.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Repo\ILabelRuleRepo.cs" />
     <Compile Include="Models\Repo\IKindProcessRepo.cs" />
     <Compile Include="Models\Repo\IKindRepo.cs" />
@@ -234,7 +270,9 @@
     <Compile Include="Models\Repo\PORepo.cs" />
     <Compile Include="Models\Repo\MeProductRepo.cs" />
     <Compile Include="Models\Repo\ProductRepo.cs" />
-    <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -7197,6 +7235,16 @@
     <Content Include="lib\vue\vue.runtime.global.min.js" />
     <Content Include="lib\vue\vue.runtime.global.prod.js" />
     <Content Include="lib\vue\vue.runtime.global.prod.min.js" />
+    <Content Include="Models\ManagementContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ManagementContext.edmx</DependentUpon>
+      <LastGenOutput>ManagementContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ManagementContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ManagementContext.edmx</DependentUpon>
+      <LastGenOutput>ManagementContext.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\JS\App.jsx" />
     <Content Include="Scripts\JS\test\App.jsx" />
     <Content Include="Scripts\JS\test\components\MultiSelect\index.js" />
@@ -9817,6 +9865,13 @@
     <None Include=".bin\git.cmd" />
     <None Include=".bin\node.cmd" />
     <None Include=".bin\npm.cmd" />
+    <EntityDeploy Include="Models\ManagementContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ManagementContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ManagementContext.edmx.diagram">
+      <DependentUpon>ManagementContext.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Template\sbAdmin2\.browserslistrc" />
     <Content Include="Template\sbAdmin2\.travis.yml" />

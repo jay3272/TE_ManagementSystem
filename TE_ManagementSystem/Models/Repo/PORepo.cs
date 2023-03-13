@@ -7,7 +7,7 @@ namespace TE_ManagementSystem.Models.Repo
 {
     public class PORepo : IPORepo, IDisposable
     {
-        public ProductContext db = new ProductContext();
+        public ManagementContextEntities db = new ManagementContextEntities();
         private bool disposedValue;
 
         public bool AddProductTransaction(ProductTransaction productTransaction)
@@ -33,7 +33,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         public IQueryable<ProductTransaction> ListAllProductTransaction()
         {
-            return db.ProductTransaction.OrderByDescending(x=>x.RegisterDate);
+            return db.ProductTransactions.OrderByDescending(x=>x.RegisterDate);
         }
 
         public bool UpdateProductTransaction(ProductTransaction productTransaction)

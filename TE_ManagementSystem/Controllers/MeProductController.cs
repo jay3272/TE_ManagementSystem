@@ -11,7 +11,7 @@ namespace TE_ManagementSystem.Controllers
     public class MeProductController : Controller
     {
         IMeProductRepo MeProductRepo = new MeProductRepo();
-        private ProductContext db = new ProductContext();
+        private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: MeProduct
         public ActionResult Index()
@@ -22,22 +22,22 @@ namespace TE_ManagementSystem.Controllers
         [HttpGet]
         public ActionResult Create()
         {            
-            int maxId = db.MeProduct.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             ViewBag.SuggestedNewMeProdId = maxId;
-            ViewBag.Suppliers = db.Supplier;
-            ViewBag.Kind = db.Kind;
-            ViewBag.Customer = db.Customer;
-            ViewBag.Kpn = db.KPN;
-            ViewBag.Opid = db.Employee;
-            ViewBag.ProcessKind = db.KindProcess;
+            ViewBag.Suppliers = db.Suppliers;
+            ViewBag.Kind = db.Kinds;
+            ViewBag.Customer = db.Customers;
+            ViewBag.Kpn = db.KPNs;
+            ViewBag.Opid = db.Employees;
+            ViewBag.ProcessKind = db.KindProcesses;
 
-            var kindData = db.Kind;
-            var supplierData = db.Supplier;
-            var customerData = db.Customer;
-            var kpnData = db.KPN;
-            var opidData = db.Employee;
-            var processKindData = db.KindProcess;
+            var kindData = db.Kinds;
+            var supplierData = db.Suppliers;
+            var customerData = db.Customers;
+            var kpnData = db.KPNs;
+            var opidData = db.Employees;
+            var processKindData = db.KindProcesses;
 
             List<SelectListItem> selectKindListItems = new List<SelectListItem>();
             List<SelectListItem> selectSupplierListItems = new List<SelectListItem>();
@@ -137,7 +137,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5")] MeProduct meProduct, List<myStruct> kpn)
         {
             var tmp = kpn;
-            int maxId = db.MeProduct.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             meProduct.ID = maxId;
             meProduct.IsStock = false;
@@ -148,28 +148,28 @@ namespace TE_ManagementSystem.Controllers
                 meProduct.ShiftTime = 10;
             }
 
-            db.MeProduct.Add(meProduct);
+            db.MeProducts.Add(meProduct);
 
             LabelRule labelRule = new LabelRule();
-            int maxlabelRuleId = db.LabelRule.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
+            int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
             maxlabelRuleId +=1;
             labelRule.ID = maxlabelRuleId;
             labelRule.KindID = meProduct.KindID;
             labelRule.ProcessKindID = meProduct.KindProcessID;
 
-            var chkRepeat = db.LabelRule.Where
+            var chkRepeat = db.LabelRules.Where
             (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
 
             if (chkRepeat is null)
             {
-                var kindProcessess = db.KindProcess.Where
+                var kindProcessess = db.KindProcesses.Where
                 (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
 
-                var kinds = db.Kind.Where
+                var kinds = db.Kinds.Where
                 (k => k.ID == labelRule.KindID).FirstOrDefault();
 
                 labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
-                db.LabelRule.Add(labelRule);
+                db.LabelRules.Add(labelRule);
             }
             else
             {

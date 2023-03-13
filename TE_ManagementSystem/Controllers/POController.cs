@@ -14,7 +14,7 @@ namespace TE_ManagementSystem.Controllers
     {
         IPORepo PORepo = new PORepo();
 
-        private ProductContext db = new ProductContext(); 
+        private ManagementContextEntities db = new ManagementContextEntities(); 
 
         // GET: PO
         public ActionResult Index()
@@ -25,10 +25,10 @@ namespace TE_ManagementSystem.Controllers
         // GET: PO/Create
         public ActionResult Create(bool IsReturn)
         {
-            int maxId = db.ProductTransaction.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             ViewBag.SuggestedNewPoId = maxId;
-            ViewBag.MeProducts = db.MeProduct;
+            ViewBag.MeProducts = db.MeProducts;
             ViewBag.IsReturn = IsReturn;
 
             if (IsReturn)
@@ -43,7 +43,7 @@ namespace TE_ManagementSystem.Controllers
             }
 
 
-            var productData = db.Product;
+            var productData = db.Products;
 
             List<SelectListItem> selectProductListItems = new List<SelectListItem>();
 
@@ -67,14 +67,14 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Opid,ProductID,IsReturn,IsToFix,BorrowDay,RegisterDate")] ProductTransaction productTransaction, bool IsReturn)
         {
-            int maxId = db.ProductTransaction.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             productTransaction.ID = maxId;
             productTransaction.IsReturn = IsReturn;
             productTransaction.RegisterDate = DateTime.Now;
-            db.ProductTransaction.Add(productTransaction);
+            db.ProductTransactions.Add(productTransaction);
 
-            var products = db.Product.Where
+            var products = db.Products.Where
             (m => m.NumberID == productTransaction.ProductID).FirstOrDefault();
 
             productTransaction.BorrowDay = products.MeProduct.ShiftTime;
@@ -122,7 +122,7 @@ namespace TE_ManagementSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ProductTransaction productTransaction = db.ProductTransaction.Find(id);
+            ProductTransaction productTransaction = db.ProductTransactions.Find(id);
 
             if (productTransaction == null)
             {
@@ -136,7 +136,7 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Opid,ProductID,CustomerID,Kpn,BorrowReturn,BorrowDay,RegisterDate,Overdue")] ProductTransaction productTransaction)
         {
-            var productTransactions = db.ProductTransaction.Where
+            var productTransactions = db.ProductTransactions.Where
                 (m => m.ID == productTransaction.ID).FirstOrDefault();
 
             productTransactions.Product.MeProduct.ComList = productTransaction.Product.MeProduct.ComList;

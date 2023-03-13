@@ -7,7 +7,7 @@ namespace TE_ManagementSystem.Models.Repo
 {
     public class LabelRuleRepo : ILabelRuleRepo, IDisposable
     {
-        public ProductContext db = new ProductContext();
+        public ManagementContextEntities db = new ManagementContextEntities();
         private bool disposedValue;
 
         public bool AddLabelRule(LabelRule labelRule)
@@ -22,20 +22,20 @@ namespace TE_ManagementSystem.Models.Repo
 
         public LabelRule GetLabelRuleById(int id)
         {
-            return db.LabelRule.Find(id);
+            return db.LabelRules.Find(id);
         }
 
         public LabelRule GetLabelRuleByName(string name)
         {
-            return db.LabelRule.Find(name);
+            return db.LabelRules.Find(name);
         }
 
         public string GetLabelRule(int engId)
         {
-            var meProduct = db.MeProduct.Where
+            var meProduct = db.MeProducts.Where
             (x => (x.ID == engId)).FirstOrDefault();
 
-            var labelRule = db.LabelRule.Where
+            var labelRule = db.LabelRules.Where
             (k => (k.KindID == meProduct.KindID && k.ProcessKindID == meProduct.KindProcessID)).FirstOrDefault();
 
             return labelRule.LabelRule1;
@@ -43,7 +43,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         public IQueryable<LabelRule> ListAllLabelRule()
         {
-            return db.LabelRule;
+            return db.LabelRules;
         }
 
         public bool UpdateLabelRuleNumber(int id, string name)
@@ -54,16 +54,16 @@ namespace TE_ManagementSystem.Models.Repo
                 int kindId = this.FindKindId(id);
                 int processkindId = this.FindProcessKindId(id);
 
-                var record = db.LabelRule.Where
+                var record = db.LabelRules.Where
                 (k => (k.KindID == kindId && k.ProcessKindID == processkindId)).FirstOrDefault();
 
                 //確認檢查
                 string recordFrontNum = record.LabelRule1.Substring(0, 6);
                 string newlabelFrontNum = name.Substring(0, 6);
 
-                if (recordFrontNum == newlabelFrontNum)
+                if (recordFrontNum.Equals(newlabelFrontNum))
                 {
-                    db.LabelRule.Find(record.ID).LabelRule1 = name;
+                    db.LabelRules.Find(record.ID).LabelRule1 = name;
                     db.SaveChanges();
                     return true;
                 }
@@ -109,7 +109,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         private int FindKindId(int id)
         {
-            var recordMe = db.MeProduct.DefaultIfEmpty().Where(m => m.ID == id);
+            var recordMe = db.MeProducts.DefaultIfEmpty().Where(m => m.ID == id);
 
             foreach (var el in recordMe)
             {
@@ -120,7 +120,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         private int FindProcessKindId(int id)
         {
-            var recordMe = db.MeProduct.DefaultIfEmpty().Where(m => m.ID == id);
+            var recordMe = db.MeProducts.DefaultIfEmpty().Where(m => m.ID == id);
 
             foreach (var el in recordMe)
             {

@@ -7,7 +7,7 @@ namespace TE_ManagementSystem.Models.Repo
 {
     public class KindProcessRepo : IKindProcessRepo, IDisposable
     {
-        public ProductContext db = new ProductContext();
+        public ManagementContextEntities db = new ManagementContextEntities();
         private bool disposedValue;
 
         public bool AddKindProcess(KindProcess kindProcess)
@@ -22,17 +22,17 @@ namespace TE_ManagementSystem.Models.Repo
 
         public KindProcess GetKindProcessById(int id)
         {
-            return db.KindProcess.Find(id);
+            return db.KindProcesses.Find(id);
         }
 
         public KindProcess GetKindProcessByName(string name)
         {
-            return db.KindProcess.Find(name);
+            return db.KindProcesses.Find(name);
         }
 
         public IQueryable<KindProcess> ListAllKindProcess()
         {
-            return db.KindProcess;
+            return db.KindProcesses;
         }
 
         public bool UpdateKindProcess(KindProcess kindProcess)

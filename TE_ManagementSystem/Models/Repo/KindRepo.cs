@@ -7,7 +7,7 @@ namespace TE_ManagementSystem.Models.Repo
 {
     public class KindRepo : IKindRepo, IDisposable
     {
-        public ProductContext db = new ProductContext();
+        public ManagementContextEntities db = new ManagementContextEntities();
         private bool disposedValue;
 
         public bool AddKind(Kind kind)
@@ -22,12 +22,12 @@ namespace TE_ManagementSystem.Models.Repo
 
         public Kind GetKindById(int id)
         {
-            return db.Kind.Find(id);
+            return db.Kinds.Find(id);
         }
 
         public Kind GetKindByName(string name)
         {
-            return db.Kind.Find(name);
+            return db.Kinds.Find(name);
         }
 
         //public string GetLabelRuleByName(int id)
@@ -56,7 +56,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         public IQueryable<Kind> ListAllKind()
         {
-            return db.Kind;
+            return db.Kinds;
         }
 
         public bool UpdateKind(Kind kind)
@@ -90,7 +90,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         private string FindKindName(int id)
         {
-            var recordMe = db.MeProduct.DefaultIfEmpty().Where(m => m.ID == id);
+            var recordMe = db.MeProducts.DefaultIfEmpty().Where(m => m.ID == id);
             
             foreach (var el in recordMe)
             {
@@ -101,7 +101,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         private int FindKindId(int id)
         {
-            var recordMe = db.MeProduct.DefaultIfEmpty().Where(m => m.ID == id);
+            var recordMe = db.MeProducts.DefaultIfEmpty().Where(m => m.ID == id);
 
             foreach (var el in recordMe)
             {
