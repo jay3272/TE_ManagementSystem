@@ -73,7 +73,6 @@ namespace TE_ManagementSystem.Controllers
             productTransaction.IsReturn = IsReturn;
             productTransaction.RegisterDate = DateTime.Now;
             db.ProductTransaction.Add(productTransaction);
-            //db.SaveChanges();
 
             var products = db.Product.Where
             (m => m.NumberID == productTransaction.ProductID).FirstOrDefault();

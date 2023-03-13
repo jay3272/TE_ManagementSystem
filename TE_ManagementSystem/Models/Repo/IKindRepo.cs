@@ -20,9 +20,6 @@ namespace TE_ManagementSystem.Models.Repo
         ////新增
         //string GetLabelRuleByName(int id);
 
-        ////更新
-        //bool UpdateLabelRule(int id,string name);
-
         //新增
         bool AddKind(Kind kind);
         //更新

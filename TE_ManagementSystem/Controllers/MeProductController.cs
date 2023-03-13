@@ -30,18 +30,21 @@ namespace TE_ManagementSystem.Controllers
             ViewBag.Customer = db.Customer;
             ViewBag.Kpn = db.KPN;
             ViewBag.Opid = db.Employee;
+            ViewBag.ProcessKind = db.KindProcess;
 
             var kindData = db.Kind;
             var supplierData = db.Supplier;
             var customerData = db.Customer;
             var kpnData = db.KPN;
             var opidData = db.Employee;
+            var processKindData = db.KindProcess;
 
             List<SelectListItem> selectKindListItems = new List<SelectListItem>();
             List<SelectListItem> selectSupplierListItems = new List<SelectListItem>();
             List<SelectListItem> selectCustomerListItems = new List<SelectListItem>();
             List<SelectListItem> selectKpnListItems = new List<SelectListItem>();
             List<SelectListItem> selectOpidListItems = new List<SelectListItem>();
+            List<SelectListItem> selectProcessKindListItems = new List<SelectListItem>();
 
             foreach (var item in kindData)
             {
@@ -93,11 +96,22 @@ namespace TE_ManagementSystem.Controllers
                 });
             }
 
+            foreach (var item in processKindData)
+            {
+                selectProcessKindListItems.Add(new SelectListItem()
+                {
+                    Text = item.ID + "/" + item.Name,
+                    Value = item.ID.ToString(),
+                    Selected = false
+                });
+            }
+
             ViewBag.listKind = selectKindListItems;
             ViewBag.listSupplier = selectSupplierListItems;
             ViewBag.listCustomer = selectCustomerListItems;
             ViewBag.listKPN = selectKpnListItems;
             ViewBag.listOpid = selectOpidListItems;
+            ViewBag.listProcessKind = selectProcessKindListItems;
 
             return View();
         }
@@ -120,7 +134,7 @@ namespace TE_ManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5")] MeProduct meProduct, List<myStruct> kpn)
+        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5")] MeProduct meProduct, List<myStruct> kpn)
         {
             var tmp = kpn;
             int maxId = db.MeProduct.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
@@ -135,6 +149,32 @@ namespace TE_ManagementSystem.Controllers
             }
 
             db.MeProduct.Add(meProduct);
+
+            LabelRule labelRule = new LabelRule();
+            int maxlabelRuleId = db.LabelRule.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
+            maxlabelRuleId +=1;
+            labelRule.ID = maxlabelRuleId;
+            labelRule.KindID = meProduct.KindID;
+            labelRule.ProcessKindID = meProduct.KindProcessID;
+
+            var chkRepeat = db.LabelRule.Where
+            (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
+
+            if (chkRepeat is null)
+            {
+                var kindProcessess = db.KindProcess.Where
+                (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
+
+                var kinds = db.Kind.Where
+                (k => k.ID == labelRule.KindID).FirstOrDefault();
+
+                labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
+                db.LabelRule.Add(labelRule);
+            }
+            else
+            {
+                //已有此規則不需建立新的
+            }
 
             db.SaveChanges();
             return RedirectToAction("Index");

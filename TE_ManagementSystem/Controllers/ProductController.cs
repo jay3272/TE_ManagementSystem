@@ -13,7 +13,7 @@ namespace TE_ManagementSystem.Controllers
     {
         IProductRepo ProductRepo = new ProductRepo();
         IMeProductRepo MeProductRepo = new MeProductRepo();
-        IKindRepo KindRepo = new KindRepo();
+        ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
         private ProductContext db = new ProductContext();
 
         // GET: Product
@@ -84,19 +84,20 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5")] Product Product)
         {
-            //string labelRule = KindRepo.GetLabelRuleByName(Product.EngID);
+            const int cNumberSeries = 5;
+            string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
 
             //取label規則+1補0
-            //string labelHeader = labelRule.Substring(0, 2);
-            //string slabelNumber;
-            //int labelNumber;
-            //int.TryParse(labelRule.Substring(2, 5), out labelNumber);
-            //labelNumber += 1;
-            //slabelNumber = labelNumber.ToString().PadLeft(5, '0');
-            //Product.NumberID = labelHeader + slabelNumber;
+            string labelHeader = labelRuleNumber.Substring(0, 3);
+            string slabelNumber;
+            int labelNumber;
+            int.TryParse(labelRuleNumber.Substring(3, 5), out labelNumber);
+            labelNumber += 1;
+            slabelNumber = labelNumber.ToString().PadLeft(cNumberSeries, '0');
+            Product.NumberID = labelHeader + slabelNumber;
             //回填DB
-            //if (KindRepo.UpdateLabelRule(Product.EngID, Product.NumberID))
-            //{
+            if (LabelRuleRepo.UpdateLabelRuleNumber(Product.EngID, Product.NumberID))
+            {
 
                 int maxId = db.Product.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
@@ -124,11 +125,11 @@ namespace TE_ManagementSystem.Controllers
                     //更新失敗
                 }
 
-            //}
-            //else
-            //{
-            //    //更新失敗
-            //}
+            }
+            else
+            {
+                //更新失敗
+            }
 
 
             return RedirectToAction("Index");

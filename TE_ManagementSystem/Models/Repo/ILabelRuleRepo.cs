@@ -17,6 +17,12 @@ namespace TE_ManagementSystem.Models.Repo
         //搜尋
         LabelRule GetLabelRuleByName(string name);
 
+        //取得LabelRule
+        String GetLabelRule(int engId);
+
+        //新增
+        bool UpdateLabelRuleNumber(int id, string name);
+
         //新增
         bool AddLabelRule(LabelRule labelRule);
         //更新

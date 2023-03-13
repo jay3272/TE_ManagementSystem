@@ -30,26 +30,6 @@ namespace TE_ManagementSystem.Models.Repo
             return db.Kind.Find(name);
         }
 
-        //public bool UpdateLabelRule(int id, string name)
-        //{
-        //    try
-        //    {
-        //        int kindId = this.FindKindId(id);
-
-        //        if (kindId != -1)
-        //        {
-        //            db.Kind.Find(kindId).LabelRule = name;
-        //            db.SaveChanges();
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-
         //public string GetLabelRuleByName(int id)
         //{
         //    string kindName =  this.FindKindName(id);
