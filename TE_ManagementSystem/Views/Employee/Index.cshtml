@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        員工查詢表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            工號
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                        <th>
+                            部門
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            在職狀態
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Opid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Department.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsActive)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+
+</script>
+

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.Location>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        治具室查詢表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            治具室
+                        </th>
+                        <th>
+                            儲位
+                        </th>
+                        <th>
+                            狀態
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RackPosition)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+
+</script>
+

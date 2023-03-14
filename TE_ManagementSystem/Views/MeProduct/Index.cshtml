@@ -7,9 +7,9 @@
 
 @*<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -31,7 +31,10 @@
                                 治具名稱
                             </th>
                             <th>
-                                種類
+                                製程種類
+                            </th>
+                            <th>
+                                治具種類
                             </th>
                             <th>
                                 客戶
@@ -69,6 +72,9 @@
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ProdName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.KindProcess.Name)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Kind.Name)

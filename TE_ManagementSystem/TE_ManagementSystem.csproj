@@ -201,12 +201,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KindController.cs" />
     <Compile Include="Controllers\KindProcessController.cs" />
+    <Compile Include="Controllers\KpnController.cs" />
     <Compile Include="Controllers\LabelRuleController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MeProductController.cs" />
     <Compile Include="Controllers\POController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,12 +264,22 @@
     <Compile Include="Models\ProductTransaction.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repo\CustomerRepo.cs" />
+    <Compile Include="Models\Repo\ICustomerRepo.cs" />
+    <Compile Include="Models\Repo\SupplierRepo.cs" />
+    <Compile Include="Models\Repo\ISupplierRepo.cs" />
+    <Compile Include="Models\Repo\IEmployeeRepo.cs" />
+    <Compile Include="Models\Repo\ILocationRepo.cs" />
+    <Compile Include="Models\Repo\IKpnRepo.cs" />
     <Compile Include="Models\Repo\ILabelRuleRepo.cs" />
     <Compile Include="Models\Repo\IKindProcessRepo.cs" />
     <Compile Include="Models\Repo\IKindRepo.cs" />
     <Compile Include="Models\Repo\IPORepo.cs" />
     <Compile Include="Models\Repo\IMeProductRepo.cs" />
     <Compile Include="Models\Repo\IProductRepo.cs" />
+    <Compile Include="Models\Repo\EmployeeRepo.cs" />
+    <Compile Include="Models\Repo\LocationRepo.cs" />
+    <Compile Include="Models\Repo\KpnRepo.cs" />
     <Compile Include="Models\Repo\LabelRuleRepo.cs" />
     <Compile Include="Models\Repo\KindProcessRepo.cs" />
     <Compile Include="Models\Repo\KindRepo.cs" />
@@ -10068,7 +10084,12 @@
     <Content Include="Views\Home\Index3.cshtml" />
     <Content Include="Views\KindProcess\Index.cshtml" />
     <Content Include="Views\LabelRule\Index.cshtml" />
-    <Content Include="Views\LabelRule\Create.cshtml" />
+    <Content Include="Views\Kind\Index.cshtml" />
+    <Content Include="Views\Kpn\Index.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Location\Index.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

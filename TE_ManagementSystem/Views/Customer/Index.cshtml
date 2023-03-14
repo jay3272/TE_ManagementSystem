@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        客戶查詢表
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            客戶代碼
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CustCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+
+</script>

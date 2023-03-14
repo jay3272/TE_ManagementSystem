@@ -79,7 +79,7 @@
                         <li>
                             <a href="/Product/Create">
                                 <i class="fa fa-file-export" style="color:floralwhite"></i>
-                                <span style="color:floralwhite;font-size:16px;">治具資料單筆</span>
+                                <span style="color:floralwhite;font-size:16px;">治具資料匯入</span>
                             </a>
                         </li>
                     </ul>
@@ -94,12 +94,12 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             @*<h6 class="collapse-header">治具相關查詢:</h6>*@
-                            <a class="collapse-item" href="/Product/Index">治具資料</a>
-                            <a class="collapse-item" href="/MeProduct/Index">ME治具資料</a>
+                            <a class="collapse-item" href="/Product/Index">治具資料查詢</a>
+                            <a class="collapse-item" href="/MeProduct/Index">ME治具資料查詢</a>
                             <a class="collapse-item" href="/PO/Index">交易紀錄查詢</a>
-                            <a class="collapse-item" href="cards.html">治具類別</a>
-                            <a class="collapse-item" href="cards.html">機種治具查詢</a>
-                            <a class="collapse-item" href="cards.html">治具室儲位</a>
+                            <a class="collapse-item" href="/Kind/Index">治具種類查詢</a>
+                            <a class="collapse-item" href="/Kpn/Index">料號查詢</a>
+                            <a class="collapse-item" href="/Location/Index">治具室儲位查詢</a>
                         </div>
                     </div>
 
@@ -118,12 +118,12 @@
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo4"
                        aria-expanded="true" aria-controls="collapseTwo4">
                         <i class="fa fa-table" aria-hidden="true"></i>
-                        <span>治具標籤編碼表單</span>
+                        <span>治具標籤編碼查詢表單</span>
                     </a>
                     <div id="collapseTwo4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/KindProcess/Index">製程種類表單</a>
-                            <a class="collapse-item" href="/LabelRule/Index">標籤編碼表單</a>
+                            <a class="collapse-item" href="/KindProcess/Index">製程種類查詢</a>
+                            <a class="collapse-item" href="/LabelRule/Index">標籤編碼查詢</a>
                         </div>
                     </div>
 
@@ -134,23 +134,11 @@
                     </a>
                     <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="/Product/Create">治具資料單筆</a>
-                            @*<a class="collapse-item" href="buttons.html">治具資料批量</a>*@
-                            @*<h6 class="collapse-header">ME治具資料匯入:</h6>*@
-                            <a class="collapse-item" href="/MeProduct/Create">ME治具資料單筆</a>
-                            @*<a class="collapse-item" href="buttons.html">ME治具資料批量</a>*@
-                            @*<h6 class="collapse-header">治具類別匯入:</h6>*@
-                            <a class="collapse-item" href="cards.html">治具類別單筆</a>
-                            @*<a class="collapse-item" href="cards.html">治具類別批量</a>*@
-                            @*<h6 class="collapse-header">治具類別匯入:</h6>*@
-                            <a class="collapse-item" href="cards.html">治具類別單筆</a>
-                            @*<a class="collapse-item" href="cards.html">治具類別批量</a>*@
-                            @*<h6 class="collapse-header">機種治具匯入:</h6>*@
-                            <a class="collapse-item" href="cards.html">機種治具單筆</a>
-                            @*<a class="collapse-item" href="cards.html">機種治具批量</a>*@
-                            @*<h6 class="collapse-header">治具室儲位匯入:</h6>*@
-                            <a class="collapse-item" href="cards.html">治具室儲位單筆</a>
-                            @*<a class="collapse-item" href="cards.html">治具室儲位批量</a>*@
+                            <a class="collapse-item" href="/Product/Create">治具資料匯入</a>
+                            <a class="collapse-item" href="/MeProduct/Create">ME治具資料匯入</a>
+                            <a class="collapse-item" href="cards.html">治具種類匯入</a>
+                            <a class="collapse-item" href="cards.html">料號匯入</a>
+                            <a class="collapse-item" href="cards.html">治具室儲位匯入</a>
                         </div>
                     </div>
 
@@ -161,10 +149,12 @@
                     </a>
                     <div id="collapseTwo3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            @*<h6 class="collapse-header">其他:</h6>*@
-                            <a class="collapse-item" href="cards.html">員工查詢</a>
-                            <a class="collapse-item" href="cards.html">供應商資料</a>
-                            <a class="collapse-item" href="cards.html">客戶資料</a>
+                            <a class="collapse-item" href="/Employee/Index">員工查詢</a>
+                            <a class="collapse-item" href="cards.html">員工匯入</a>
+                            <a class="collapse-item" href="/Supplier/Index">供應商查詢</a>
+                            <a class="collapse-item" href="cards.html">供應商匯入</a>
+                            <a class="collapse-item" href="/Customer/Index">客戶查詢</a>
+                            <a class="collapse-item" href="cards.html">客戶匯入</a>
                         </div>
                     </div>
                 </li>
