@@ -11,11 +11,28 @@ namespace TE_ManagementSystem.Controllers
     public class KpnController : Controller
     {
         IKpnRepo KpnRepo = new KpnRepo();
+        private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Kpn
         public ActionResult Index()
         {
             return View(KpnRepo.ListAllKpn());
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ID,Name,Spare1,Spare2,Spare3,Spare4,Spare5")] KPN kpn)
+        {
+            db.KPNs.Add(kpn);
+
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
