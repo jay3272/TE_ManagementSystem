@@ -41,6 +41,14 @@ namespace TE_ManagementSystem.Models.Repo
             return labelRule.LabelRule1;
         }
 
+        public int GetLocationID(string room, string rack)
+        {
+            var location = db.Locations.Where
+            (x => (x.Name == room && x.RackPosition == rack)).FirstOrDefault();
+
+            return location.ID;
+        }
+
         public IQueryable<LabelRule> ListAllLabelRule()
         {
             return db.LabelRules;

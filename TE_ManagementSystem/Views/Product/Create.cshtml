@@ -14,207 +14,215 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="~/Content/custom/supplierMePO.js"></script>
 
-<div class="content-wrapper">
-    <section class="content">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-6">
-                <!-- general form elements -->
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+            <!-- general form elements -->
 
-                <div class="container-fluid">
+            <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            未匯入ME治具列表
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="display" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                <!-- Page Heading -->
+                @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        未匯入ME治具列表
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            治具名稱
+                                        </th>
+                                        <th>
+                                            種類
+                                        </th>
+                                        <th>
+                                            客戶
+                                        </th>
+                                        <th>
+                                            供應商
+                                        </th>
+                                        <th>
+                                            數量
+                                        </th>
+                                        <th>
+                                            Shift Time
+                                        </th>
+                                        <th>
+                                            有鉛
+                                        </th>
+                                        <th>
+                                            圖片
+                                        </th>
+                                        <th>
+                                            料號
+                                        </th>
+                                        <th>
+                                            備註
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.MeProducts)
+                                    {
                                         <tr>
-                                            <th>
-                                                治具名稱
-                                            </th>
-                                            <th>
-                                                種類
-                                            </th>
-                                            <th>
-                                                客戶
-                                            </th>
-                                            <th>
-                                                供應商
-                                            </th>
-                                            <th>
-                                                數量
-                                            </th>
-                                            <th>
-                                                Shift Time
-                                            </th>
-                                            <th>
-                                                有鉛
-                                            </th>
-                                            <th>
-                                                圖片
-                                            </th>
-                                            <th>
-                                                料號
-                                            </th>
-                                            <th>
-                                                備註
-                                            </th>
-                                            <th></th>
+                                            <td>
+                                                @item.ProdName
+                                            </td>
+                                            <td>
+                                                @item.Kind.Name
+                                            </td>
+                                            <td>
+                                                @item.Customer.Name
+                                            </td>
+                                            <td>
+                                                @item.Supplier.Name
+                                            </td>
+                                            <td>
+                                                @item.Quantity
+                                            </td>
+                                            <td>
+                                                @item.ShiftTime
+                                            </td>
+                                            <td>
+                                                @item.Pb
+                                            </td>
+                                            <td>
+                                                @item.Image
+                                            </td>
+                                            <td>
+                                                @item.ComList
+                                            </td>
+                                            <td>
+                                                @item.Spare1
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.MeProducts)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @item.ProdName
-                                                </td>
-                                                <td>
-                                                    @item.Kind.Name
-                                                </td>
-                                                <td>
-                                                    @item.Customer.Name
-                                                </td>
-                                                <td>
-                                                    @item.Supplier.Name
-                                                </td>
-                                                <td>
-                                                    @item.Quantity
-                                                </td>
-                                                <td>
-                                                    @item.ShiftTime
-                                                </td>
-                                                <td>
-                                                    @item.Pb
-                                                </td>
-                                                <td>
-                                                    @item.Image
-                                                </td>
-                                                <td>
-                                                    @item.ComList
-                                                </td>
-                                                <td>
-                                                    @item.Spare1
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">治具入庫</h3>
-                    </div>
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <form role="form">
-                            <div class="box-body">
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">治具入庫</h3>
+                </div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <form role="form">
+                        <div class="box-body">
 
 
-                                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            <input type="text" autocomplete="off" class="form-control" id="NewProdId" value=@ViewBag.SuggestedNewProdId readonly="readonly" />
-                                        </div>
-                                    </div>*@
-
-                                @*<div class="form-group">
-                                        @Html.Label("治具編號", new { @class = "control-label" })
-
-                                        @Html.EditorFor(model => model.NumberID, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.NumberID, "", new { @class = "text-danger" })
-
-                                    </div>*@
-
+                            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.RFID, htmlAttributes: new { @class = "control-label" })
-
-                                    @Html.EditorFor(model => model.RFID, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.RFID, "", new { @class = "text-danger" })
-
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.Label("可借用", new { @class = "control-label" })
-
-                                    @Html.CheckBoxFor(model => model.Usable, new { @checked = "checked" })
-                                    @Html.ValidationMessageFor(model => model.Usable, "", new { @class = "text-danger" })
-
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.Label("治具室儲位", new { @class = "control-label" })
-
-                                    <div class="ui-widget">
-                                        <select id="combobox" name="LocationID">
-                                            <option value=""></option>
-                                            @foreach (var item in ViewBag.listLocation)
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        </select>
+                                    @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <input type="text" autocomplete="off" class="form-control" id="NewProdId" value=@ViewBag.SuggestedNewProdId readonly="readonly" />
                                     </div>
+                                </div>*@
 
-                                </div>
+                            @*<div class="form-group">
+                                    @Html.Label("治具編號", new { @class = "control-label" })
 
-                                <div class="form-group">
-                                    @Html.Label("治具名稱", new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.NumberID, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.NumberID, "", new { @class = "text-danger" })
 
-                                    <div class="ui-widget">
-                                        <select id="combobox2" name="EngID">
-                                            <option value=""></option>
-                                            @foreach (var item in ViewBag.listMeProduct)
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        </select>
-                                    </div>
+                                </div>*@
 
-                                </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RFID, htmlAttributes: new { @class = "control-label" })
 
-                                <div class="form-group">
-                                    @Html.Label("年限", new { @class = "control-label" })
+                                @Html.EditorFor(model => model.RFID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RFID, "", new { @class = "text-danger" })
 
-                                    @Html.EditorFor(model => model.Life, new { htmlAttributes = new { @class = "form-control", @id = "perPack", @value = 1 } })
-                                    @Html.ValidationMessageFor(model => model.Life, "", new { @class = "text-danger" })
+                            </div>
 
+                            <div class="form-group">
+                                @Html.Label("可借用", new { @class = "control-label" })
+
+                                @Html.CheckBoxFor(model => model.Usable, new { @checked = "checked" })
+                                @Html.ValidationMessageFor(model => model.Usable, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("治具室", new { @class = "control-label" })
+
+                                <div class="ui-widget">
+                                    <select id="combobox" name="Room">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listLocation)
+                                        {
+                                            <option value="@item.Text">@item.Text</option>
+                                        }
+                                    </select>
                                 </div>
 
                             </div>
 
-                            <div class="box-footer">
-                                <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
-                                @Html.ActionLink("Back to List", "Index")
+                            <div class="form-group">
+                                @Html.Label("儲位", new { @class = "control-label" })
+
+                                <div class="ui-widget">
+                                    <select id="combobox" name="Rack">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listRack)
+                                        {
+                                            <option value="@item.Text">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+
                             </div>
 
+                            <div class="form-group">
+                                @Html.Label("治具名稱", new { @class = "control-label" })
 
-                        </form>
-                    }
-                </div>
+                                <div class="ui-widget">
+                                    <select id="combobox2" name="EngID">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listMeProduct)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("年限", new { @class = "control-label" })
+
+                                @Html.EditorFor(model => model.Life, new { htmlAttributes = new { @class = "form-control", @id = "perPack", @value = 1 } })
+                                @Html.ValidationMessageFor(model => model.Life, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+
+                        <div class="box-footer">
+                            <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+
+
+                    </form>
+                }
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 <script>
     @foreach (var d in ViewBag.MeProducts)

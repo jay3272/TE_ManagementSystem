@@ -47,18 +47,28 @@ namespace TE_ManagementSystem.Controllers
             ViewBag.Locations = db.Locations;
 
 
-            var locationData = db.Locations;
+            var locationData = db.Locations.Select(x => x.Name).Distinct();
+            var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
             var meProductData = readyImportProduct;
 
             List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+            List<SelectListItem> selectRackListItems = new List<SelectListItem>();
             List<SelectListItem> selectMeProductListItems = new List<SelectListItem>();
 
             foreach (var item in locationData)
             {
                 selectLocationListItems.Add(new SelectListItem()
                 {
-                    Text = item.ID + "/" + item.Name + "/" + item.RackPosition,
-                    Value = item.ID.ToString(),
+                    Text = item,
+                    Selected = false
+                });
+            }
+
+            foreach (var item in rackData)
+            {
+                selectRackListItems.Add(new SelectListItem()
+                {
+                    Text = item,
                     Selected = false
                 });
             }
@@ -74,6 +84,7 @@ namespace TE_ManagementSystem.Controllers
             }
 
             ViewBag.listLocation = selectLocationListItems;
+            ViewBag.listRack = selectRackListItems;
             ViewBag.listMeProduct = selectMeProductListItems;
 
 
@@ -82,16 +93,17 @@ namespace TE_ManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5")] Product Product)
+        public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5")] Product Product)
         {
             const int cNumberSeries = 5;
             string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
+            Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room,Product.Rack);
 
             //取label規則+1補0
             string labelHeader = labelRuleNumber.Substring(0, 3);
             string slabelNumber;
             int labelNumber;
-            int.TryParse(labelRuleNumber.Substring(3, 5), out labelNumber);
+            int.TryParse(labelRuleNumber.Substring(3, cNumberSeries), out labelNumber);
             labelNumber += 1;
             slabelNumber = labelNumber.ToString().PadLeft(cNumberSeries, '0');
             Product.NumberID = labelHeader + slabelNumber;
