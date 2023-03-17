@@ -39,7 +39,8 @@ namespace TE_ManagementSystem.Models
         public string Spare3 { get; set; }
         public string Spare4 { get; set; }
         public string Spare5 { get; set; }
-    
+        public string Test { get; set; }
+
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Kind Kind { get; set; }

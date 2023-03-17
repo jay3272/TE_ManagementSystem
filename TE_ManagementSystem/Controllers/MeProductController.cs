@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TE_ManagementSystem.Models;
 using TE_ManagementSystem.Models.Repo;
+using System.Text.Json;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -134,15 +135,20 @@ namespace TE_ManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5")] MeProduct meProduct, List<myStruct> kpn)
+        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test")] MeProduct meProduct)
         {
-            var tmp = kpn;
             int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             meProduct.ID = maxId;
             meProduct.IsStock = false;
             meProduct.IsReturnMe = false;
-            meProduct.ComList = "Test";
+            List<Mutiplekpn> mutiplekpns = JsonSerializer.Deserialize<List<Mutiplekpn>>(meProduct.Test);
+            foreach (var item in mutiplekpns)
+            {
+                meProduct.ComList += item.value + ",";
+            }
+
+            //meProduct.ComList = JsonSerialize(meProduct.Test);
             if (meProduct.ShiftTime == 0)
             {
                 meProduct.ShiftTime = 10;
@@ -186,7 +192,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
 
-        public struct myStruct
+        public class Mutiplekpn
         {
             public string text { get; set; }
             public string value { get; set; }

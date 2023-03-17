@@ -119,22 +119,25 @@
                                 @Html.Label("料號", new { @class = "control-label" })
 
                                 @*<div class="ui-widget">
-                                        <select id="combobox4" name="ComList">
-                                            <option value=""></option>
-                                            @foreach (var item in ViewBag.listKPN)
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        </select>
-                                    </div>*@
+            <select id="combobox4" name="ComList">
+                <option value=""></option>
+                @foreach (var item in ViewBag.listKPN)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>*@
 
                                 <div id='myCheckList'></div>
-                                <div id='selectedItems'></div>
-                                @*<div id='comListKpn' name="ComList"></div>*@
+                                @*<div id='selectedItems'></div>*@
                                 @*@Html.Editor("ComList", new { id = "comListKpn", htmlAttributes = new { @class = "form-control" } })*@
                                 @*@Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })*@
-                                @*<label Value="5" id="comListKpn" name="ComList" type="hidden" />*@
+                                @*<label id="comListKpn" name="ComList" type="hidden" />
+        <label id="test1" name="test1"/>*@
+                                @*<input type="text" id="test" name="Test">*@
 
+                                @Html.TextBoxFor(model => model.Test, new { id = "Test", Value = "empty" })
+                                
                                 <script type="text/javascript">
                                     $(function () {
                                         var items = [{ text: '1', value: 'KPN001' },
@@ -150,16 +153,18 @@
 
                                         function selChange() {
                                             var selection = $('#myCheckList').checkList('getSelection');
-                                            $('#selectedItems').text(JSON.stringify(selection));
-                                            let str;
-                                            $.each(selection, function (text, value) {
-                                                str += value.value + ',';
-                                                $('#comListKpn').text(str);
-                                                //alert(text + ": " + value.value);
-                                            });
+                                            //let selectionstr = $('#myCheckList').checkList('getSelectionStr');
 
+                                            //$('#selectedItems').text(JSON.stringify(selection));
+                                            $("#Test").val(JSON.stringify(selection));
+                                            //$.each(selection, function (text, value) {
+                                            //    str += value.value + ',';
+                                            //    //$('#comListKpn').text(selectionstr);
+                                            //    //$('#Test').attr('value', selectionstr)
+                                            //    //alert(text + ": " + value.value);
+                                            //    //document.getElementById('Test').value = selectionstr;
+                                            //});
                                         }
-
                                     });
                                 </script>
 

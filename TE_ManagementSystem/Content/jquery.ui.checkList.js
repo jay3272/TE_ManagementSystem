@@ -160,6 +160,14 @@
 			var self = this, o = self.options, el = self.element;
 			return o.selectedItems;
 		},
+		getSelectionStr: function () {
+			var self = this, o = self.options, el = self.element;
+			let re;
+			o.selectedItems.forEach(function (item) {
+				re += item.value + ','				
+			});
+			return re;
+		},
 		setSelectedData: function(dataModel){
 			var self = this, o = self.options, el = self.element;
 			$.each(dataModel,function(){
