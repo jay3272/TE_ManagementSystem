@@ -20,9 +20,8 @@ namespace TE_ManagementSystem.Controllers
             return View(MeProductRepo.ListAllMeProduct());
         }
 
-        [HttpGet]
         public ActionResult Create()
-        {            
+        {
             int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             ViewBag.SuggestedNewMeProdId = maxId;
@@ -43,7 +42,6 @@ namespace TE_ManagementSystem.Controllers
             List<SelectListItem> selectKindListItems = new List<SelectListItem>();
             List<SelectListItem> selectSupplierListItems = new List<SelectListItem>();
             List<SelectListItem> selectCustomerListItems = new List<SelectListItem>();
-            List<SelectListItem> selectKpnListItems = new List<SelectListItem>();
             List<SelectListItem> selectOpidListItems = new List<SelectListItem>();
             List<SelectListItem> selectProcessKindListItems = new List<SelectListItem>();
 
@@ -77,14 +75,14 @@ namespace TE_ManagementSystem.Controllers
                 });
             }
 
+            Mutiplekpn mutiplekpn = new Mutiplekpn();
+            List<Mutiplekpn> mutiplekpns = new List<Mutiplekpn>();
+
             foreach (var item in kpnData)
             {
-                selectKpnListItems.Add(new SelectListItem()
-                {
-                    Text = item.ID + "/" + item.Name,
-                    Value = item.ID.ToString(),
-                    Selected = false
-                });
+                mutiplekpn.text = item.ID;
+                mutiplekpn.value = item.Name;
+                mutiplekpns.Add(mutiplekpn);
             }
 
             foreach (var item in opidData)
@@ -107,10 +105,13 @@ namespace TE_ManagementSystem.Controllers
                 });
             }
 
+            //string jsonmutiplekpns = JsonSerializer.Serialize(mutiplekpns);
+            string jsonmutiplekpns = "{ text: '1', value: 'KPN001' },{ text: '2', value: 'KPN002' },{ text: '3', value: 'KPN003' },{ text: '4', value: 'KPN004' },{ text: '5', value: 'KPN005' }";
+
             ViewBag.listKind = selectKindListItems;
             ViewBag.listSupplier = selectSupplierListItems;
             ViewBag.listCustomer = selectCustomerListItems;
-            ViewBag.listKPN = selectKpnListItems;
+            ViewBag.listKPN = jsonmutiplekpns;
             ViewBag.listOpid = selectOpidListItems;
             ViewBag.listProcessKind = selectProcessKindListItems;
 
@@ -128,7 +129,7 @@ namespace TE_ManagementSystem.Controllers
         //    //string tmp = form["ComList"].ToString();
         //    meProduct.ComList = Request["ComList"].ToString();
         //    db.MeProduct.Add(meProduct);
-            
+
         //    db.SaveChanges();
         //    return RedirectToAction("Index");
         //}
@@ -186,11 +187,30 @@ namespace TE_ManagementSystem.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [HttpGet]
+        public JsonResult PostMethod2()
+        {
+            var kpnData = db.KPNs;
+
+            List<Mutiplekpn> mutiplekpns = new List<Mutiplekpn>();
+
+            foreach (var item in kpnData)
+            {
+                Mutiplekpn mutiplekpn = new Mutiplekpn();
+                mutiplekpn.text = item.Name;
+                mutiplekpn.value = item.Name;
+                mutiplekpns.Add(mutiplekpn);
+            }
+
+            return Json(mutiplekpns, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult Vue()
         {
             return View();
         }
-
 
         public class Mutiplekpn
         {

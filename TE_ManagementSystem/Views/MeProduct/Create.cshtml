@@ -32,7 +32,7 @@
                 </script>
 
 
-                @using (Html.BeginForm("Create", "MeProduct", FormMethod.Post, new { id = "MeProductForm" }))
+                @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
                     <form role="form">
@@ -119,53 +119,50 @@
                                 @Html.Label("料號", new { @class = "control-label" })
 
                                 @*<div class="ui-widget">
-            <select id="combobox4" name="ComList">
-                <option value=""></option>
-                @foreach (var item in ViewBag.listKPN)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            </select>
-        </div>*@
+                                        <select id="combobox4" name="ComList">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listKPN)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>*@
 
                                 <div id='myCheckList'></div>
                                 @*<div id='selectedItems'></div>*@
                                 @*@Html.Editor("ComList", new { id = "comListKpn", htmlAttributes = new { @class = "form-control" } })*@
                                 @*@Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })*@
                                 @*<label id="comListKpn" name="ComList" type="hidden" />
-        <label id="test1" name="test1"/>*@
+                                    <label id="test1" name="test1"/>*@
                                 @*<input type="text" id="test" name="Test">*@
 
-                                @Html.TextBoxFor(model => model.Test, new { id = "Test", Value = "empty" })
+                                @Html.TextBoxFor(model => model.Test, new { id = "Test", Value = "empty", Type = "hidden" })
                                 
-                                <script type="text/javascript">
+                                <script>
                                     $(function () {
-                                        var items = [{ text: '1', value: 'KPN001' },
-                                        { text: '2', value: 'KPN002' },
-                                        { text: '3', value: 'KPN003' },
-                                        { text: '4', value: 'KPN004' },
-                                        { text: '5', value: 'KPN005' }];
+                                        var items = [{ text: '0', value: 'default' }];
 
-                                        $('#myCheckList').checkList({
-                                            listItems: items,
-                                            onChange: selChange
-                                        });
+                                        $.get("/MeProduct/PostMethod2",
+                                            function (response) {
+                                                items = response;
+                                                console.log(items);
+
+                                                $('#myCheckList').checkList({
+                                                    listItems: items,
+                                                    onChange: selChange
+                                                });
+
+                                            }
+                                        );
 
                                         function selChange() {
                                             var selection = $('#myCheckList').checkList('getSelection');
-                                            //let selectionstr = $('#myCheckList').checkList('getSelectionStr');
 
-                                            //$('#selectedItems').text(JSON.stringify(selection));
                                             $("#Test").val(JSON.stringify(selection));
-                                            //$.each(selection, function (text, value) {
-                                            //    str += value.value + ',';
-                                            //    //$('#comListKpn').text(selectionstr);
-                                            //    //$('#Test').attr('value', selectionstr)
-                                            //    //alert(text + ": " + value.value);
-                                            //    //document.getElementById('Test').value = selectionstr;
-                                            //});
+
                                         }
                                     });
+
                                 </script>
 
                             </div>
@@ -235,6 +232,34 @@
         </div>
     </div>
 </section>
+
+
+@*<script>
+        $(function () {
+            var items;
+
+            $.get("/MeProduct/PostMethod2",
+                function (response) {
+                    items = response;
+                    console.log(response);
+                    console.log(items);
+                }
+            );
+
+            $('#myCheckList').checkList({
+                listItems: items,
+                onChange: selChange
+            });
+
+            function selChange() {
+                var selection = $('#myCheckList').checkList('getSelection');
+
+                $("#Test").val(JSON.stringify(selection));
+
+            }
+        });
+
+    </script>*@
 
 
 @*<script>
