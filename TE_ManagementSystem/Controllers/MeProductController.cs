@@ -150,11 +150,7 @@ namespace TE_ManagementSystem.Controllers
             }
 
             //meProduct.ComList = JsonSerialize(meProduct.Test);
-            if (meProduct.ShiftTime == 0)
-            {
-                meProduct.ShiftTime = 10;
-            }
-
+            
             db.MeProducts.Add(meProduct);
 
             LabelRule labelRule = new LabelRule();

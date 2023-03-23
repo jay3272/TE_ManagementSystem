@@ -11,6 +11,7 @@ namespace TE_ManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class MeProduct
     {
@@ -28,6 +29,9 @@ namespace TE_ManagementSystem.Models
         public int SupplierID { get; set; }
         public string Opid { get; set; }
         public int Quantity { get; set; }
+        [Required]
+        [Display(Name ="ShiftTime")]
+        [Range(1,300,ErrorMessage ="Range:1-300")]
         public int ShiftTime { get; set; }
         public bool IsStock { get; set; }
         public bool IsReturnMe { get; set; }

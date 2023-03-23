@@ -196,3 +196,10 @@ input[type=text]::-ms-clear {
 .inStore {
     color: lightgreen;
 }
+
+.flex-between-end{
+    -webkit-box-align: end;
+    align-items: flex-end;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}

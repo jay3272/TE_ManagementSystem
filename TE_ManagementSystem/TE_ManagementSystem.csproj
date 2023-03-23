@@ -7198,7 +7198,9 @@
     <Content Include="Content\custom\downloads\jquery.mcautocomplete.js" />
     <Content Include="Content\custom\downloads\jquery.scannerdetection.js" />
     <Content Include="Content\custom\downloads\note.txt" />
+    <Content Include="Content\custom\fine-uploader-new.css" />
     <Content Include="Content\custom\icon.css" />
+    <Content Include="Content\custom\jquery.fine-uploader.js" />
     <Content Include="Content\custom\locationPOPR.js" />
     <Content Include="Content\custom\styles.css" />
     <Content Include="Content\custom\supplier.js" />
