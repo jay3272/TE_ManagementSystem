@@ -171,7 +171,7 @@
                                     @Html.DisplayFor(modelItem => item.MeProduct.Pb)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.Image)
+                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.MeProduct.ID + " class="img-responsive" thimbnail"="">
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.StockDate)
