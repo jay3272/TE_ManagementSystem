@@ -28,6 +28,7 @@ namespace TE_ManagementSystem.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Kind> Kinds { get; set; }
         public virtual DbSet<KindProcess> KindProcesses { get; set; }
         public virtual DbSet<KPN> KPNs { get; set; }

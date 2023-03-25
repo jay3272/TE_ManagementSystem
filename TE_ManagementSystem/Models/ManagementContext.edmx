@@ -46,6 +46,15 @@
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="500" />
+          <Property Name="ImageByte" Type="image" />
+          <Property Name="ImagePath" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Kind">
           <Key>
             <PropertyRef Name="ID" />
@@ -118,13 +127,15 @@
           <Property Name="IsStock" Type="bit" Nullable="false" />
           <Property Name="IsReturnMe" Type="bit" Nullable="false" />
           <Property Name="Pb" Type="bit" Nullable="false" />
-          <Property Name="Image" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="varchar" MaxLength="100" />
           <Property Name="ComList" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Spare1" Type="varchar" MaxLength="100" />
           <Property Name="Spare2" Type="varchar" MaxLength="100" />
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="Test" Type="varchar" MaxLength="100" />
+          <Property Name="ImageByte" Type="image" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -148,6 +159,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="Room" Type="varchar" MaxLength="100" />
+          <Property Name="Rack" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -330,6 +343,7 @@
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kind" EntityType="Self.Kind" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KindProcess" EntityType="Self.KindProcess" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KPN" EntityType="Self.KPN" Schema="dbo" store:Type="Tables" />
@@ -439,6 +453,15 @@
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_MeProduct_Opid" FromRole="Employee" ToRole="MeProduct" />
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Opid" FromRole="Employee" ToRole="ProductTransaction" />
         </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ImageByte" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Kind">
           <Key>
             <PropertyRef Name="ID" />
@@ -518,13 +541,15 @@
           <Property Name="IsStock" Type="Boolean" Nullable="false" />
           <Property Name="IsReturnMe" Type="Boolean" Nullable="false" />
           <Property Name="Pb" Type="Boolean" Nullable="false" />
-          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ComList" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Spare1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Test" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ImageByte" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Product_Customer" FromRole="MeProduct" ToRole="Customer" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_MeProduct_Opid" FromRole="MeProduct" ToRole="Employee" />
           <NavigationProperty Name="Kind" Relationship="Self.FK_Product_Kind" FromRole="MeProduct" ToRole="Kind" />
@@ -554,6 +579,8 @@
           <Property Name="Spare3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Room" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Rack" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Location" Relationship="Self.FK_Product_Location" FromRole="Product" ToRole="Location" />
           <NavigationProperty Name="MeProduct" Relationship="Self.FK_Product_Eng" FromRole="Product" ToRole="MeProduct" />
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Product" FromRole="Product" ToRole="ProductTransaction" />
@@ -742,6 +769,7 @@
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
           <EntitySet Name="Kinds" EntityType="Self.Kind" />
           <EntitySet Name="KindProcesses" EntityType="Self.KindProcess" />
           <EntitySet Name="KPNs" EntityType="Self.KPN" />
@@ -850,6 +878,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="ManagementContextModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ImageByte" ColumnName="ImageByte" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Kinds">
             <EntityTypeMapping TypeName="ManagementContextModel.Kind">
               <MappingFragment StoreEntitySet="Kind">
@@ -933,6 +971,8 @@
                 <ScalarProperty Name="Spare3" ColumnName="Spare3" />
                 <ScalarProperty Name="Spare4" ColumnName="Spare4" />
                 <ScalarProperty Name="Spare5" ColumnName="Spare5" />
+                <ScalarProperty Name="Test" ColumnName="Test" />
+                <ScalarProperty Name="ImageByte" ColumnName="ImageByte" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -957,6 +997,8 @@
                 <ScalarProperty Name="Spare3" ColumnName="Spare3" />
                 <ScalarProperty Name="Spare4" ColumnName="Spare4" />
                 <ScalarProperty Name="Spare5" ColumnName="Spare5" />
+                <ScalarProperty Name="Room" ColumnName="Room" />
+                <ScalarProperty Name="Rack" ColumnName="Rack" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

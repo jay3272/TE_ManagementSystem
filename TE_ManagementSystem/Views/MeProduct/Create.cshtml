@@ -16,94 +16,7 @@
 
 <link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
 <script src="../Content/jquery.ui.checkList.js"></script>
-
-<!-- Fine Uploader New/Modern CSS file
-====================================================================== -->
-<link href="~/Content/custom/fine-uploader-new.css" rel="stylesheet" />
-
-<!-- Fine Uploader jQuery JS file
-====================================================================== -->
-<script src="~/Content/custom/jquery.fine-uploader.js"></script>
-
-
-<!-- Fine Uploader Gallery template
-   ====================================================================== -->
-<script type="text/template" id="qq-template-gallery">
-    <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
-        <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
-            <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
-        </div>
-        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-            <span class="qq-upload-drop-area-text-selector"></span>
-        </div>
-        <div class="qq-upload-button-selector qq-upload-button">
-            <div>Upload a file</div>
-        </div>
-        <span class="qq-drop-processing-selector qq-drop-processing">
-            <span>Processing dropped files...</span>
-            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-        </span>
-        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
-            <li>
-                <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
-                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
-                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-                </div>
-                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                <div class="qq-thumbnail-wrapper">
-                    <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
-                </div>
-                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
-                <button type="button" class="qq-upload-retry-selector qq-upload-retry">
-                    <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
-                    Retry
-                </button>
-
-                <div class="qq-file-info">
-                    <div class="qq-file-name">
-                        <span class="qq-upload-file-selector qq-upload-file"></span>
-                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
-                    </div>
-                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-                    <span class="qq-upload-size-selector qq-upload-size"></span>
-                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
-                        <span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
-                    </button>
-                    <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
-                        <span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
-                    </button>
-                    <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
-                        <span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
-                    </button>
-                </div>
-            </li>
-        </ul>
-
-        <dialog class="qq-alert-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Close</button>
-            </div>
-        </dialog>
-
-        <dialog class="qq-confirm-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">No</button>
-                <button type="button" class="qq-ok-button-selector">Yes</button>
-            </div>
-        </dialog>
-
-        <dialog class="qq-prompt-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <input type="text">
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Cancel</button>
-                <button type="button" class="qq-ok-button-selector">Ok</button>
-            </div>
-        </dialog>
-    </div>
-</script>
+<link href="~/Template/theme.min.css" rel="stylesheet" />
 
 
 @using (Html.BeginForm())
@@ -116,7 +29,7 @@
                 <h2 class="mb-2">新增ME治具</h2>
             </div>
             <div class="col-auto">
-                <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
+                <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" onclick="UploadImage()" />
                 @Html.ActionLink("Discard", "Index")
             </div>
 
@@ -143,7 +56,7 @@
                             </div>*@
 
                         <div class="form-group">
-                            @Html.Label("治具名稱", new { @class = "control-label",@style="color:black" })
+                            @Html.Label("治具名稱", new { @class = "control-label", @style = "color:black"})
 
                             @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
@@ -326,33 +239,26 @@
                         <div class="card-body">
                             @Html.Label("照片", new { @class = "control-label", @style = "color:black" })
 
-                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                            @*@Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })*@
 
+                            @*<div action="upload" class="dropzone dropzone-single" id="my-awesome-dropzone">
 
-                            <!-- Fine Uploader DOM Element
-                            ====================================================================== -->
-                            <div id="fine-uploader-gallery"></div>
+                                    <div class="dz-preview d-flex flex-wrap"></div>
+                                    <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here<span class="text-800"> or</span><button class="btn btn-link p-0" type="button">Browse from device</button><br><img class="mt-3 me-2" src="../../../img/image-icon.png" width="40" alt=""></div>
+                                </div>*@
 
-                            <!-- Your code to create an instance of Fine Uploader and bind to the DOM/template
-                            ====================================================================== -->
-                            <script>
-                                $('#fine-uploader-gallery').fineUploader({
-                                    template: 'qq-template-gallery',
-                                    request: {
-                                        endpoint: '/server/uploads'
-                                    },
-                                    thumbnails: {
-                                        placeholders: {
-                                            waitingPath: '/source/placeholders/waiting-generic.png',
-                                            notAvailablePath: '/source/placeholders/not_available-generic.png'
-                                        }
-                                    },
-                                    validation: {
-                                        allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']
-                                    }
-                                });
-                            </script>
+                            <div class="container">
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Image, new { id = "Image", Value = "empty", Type = "hidden" })
+
+                                    <input type="file" id="SelectImage" /><br />
+                                    <a href="#" class="btn btn-sm btn-info" onclick="UploadImage()">Upload</a>
+                                </div>
+
+                                <div class="col-md-4 thumbnail" id="UploadedImage"></div>
+
+                            </div>
 
                         </div>
 
@@ -365,6 +271,36 @@
         </div>
 
     </form>
+}
+
+
+<script>
+    var UploadImage = function () {
+        var file = $("#SelectImage").get(0).files;
+        var data = new FormData;
+        data.append("ImageFile", file[0]);
+        $.ajax({
+            type: "POST",
+            url: "/MeProduct/ImageUpload",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (imgID) {
+                $("#UploadedImage").html("");
+                $("#UploadedImage").append('<img src="/MeProduct/DisplayingImage?imgID=' + imgID + '"class=img-responsive  thimbnail"/>');
+                $("#Image").val($("#SelectImage").get(0).files[0].name);
+            }
+        })
+    }
+
+</script>
+
+@if (TempData["ErrMessage"] != null)
+{
+    <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["ErrMessage"]));
+            alert(message);
+    </script>
 }
 
 @*<script>

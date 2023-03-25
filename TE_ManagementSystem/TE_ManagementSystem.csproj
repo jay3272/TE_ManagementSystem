@@ -253,6 +253,10 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Image.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ImageViewModel.cs" />
     <Compile Include="Models\Kind.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
@@ -7113,6 +7117,10 @@
     <Content Include="Content\Bootstrap\bootstrap.bundle.min.js" />
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\checkList.css" />
+    <Content Include="Content\css\jquery.fileupload-noscript.css" />
+    <Content Include="Content\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\css\jquery.fileupload-ui.css" />
+    <Content Include="Content\css\jquery.fileupload.css" />
     <Content Include="Content\custom\custom 32.css" />
     <Content Include="Content\custom\custom.css" />
     <Content Include="Content\custom\customer.js" />
@@ -7198,9 +7206,7 @@
     <Content Include="Content\custom\downloads\jquery.mcautocomplete.js" />
     <Content Include="Content\custom\downloads\jquery.scannerdetection.js" />
     <Content Include="Content\custom\downloads\note.txt" />
-    <Content Include="Content\custom\fine-uploader-new.css" />
     <Content Include="Content\custom\icon.css" />
-    <Content Include="Content\custom\jquery.fine-uploader.js" />
     <Content Include="Content\custom\locationPOPR.js" />
     <Content Include="Content\custom\styles.css" />
     <Content Include="Content\custom\supplier.js" />
@@ -7219,12 +7225,25 @@
     <Content Include="Content\Img\TailynLogo_2021.jpg" />
     <Content Include="Content\Img\user.png" />
     <Content Include="Content\jquery.ui.checkList.js" />
+    <Content Include="Content\js\cors\jquery.postmessage-transport.js" />
+    <Content Include="Content\js\cors\jquery.xdr-transport.js" />
+    <Content Include="Content\js\demo.js" />
+    <Content Include="Content\js\jquery.fileupload-audio.js" />
+    <Content Include="Content\js\jquery.fileupload-image.js" />
+    <Content Include="Content\js\jquery.fileupload-process.js" />
+    <Content Include="Content\js\jquery.fileupload-ui.js" />
+    <Content Include="Content\js\jquery.fileupload-validate.js" />
+    <Content Include="Content\js\jquery.fileupload-video.js" />
+    <Content Include="Content\js\jquery.fileupload.js" />
+    <Content Include="Content\js\jquery.iframe-transport.js" />
+    <Content Include="Content\js\vendor\jquery.ui.widget.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Site1.css" />
     <Content Include="Content\style2.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="img\image-icon.png" />
     <Content Include="img\undraw_posting_photo.svg" />
     <Content Include="img\undraw_profile.svg" />
     <Content Include="img\undraw_profile_1.svg" />
@@ -7291,6 +7310,8 @@
       <DependentUpon>ManagementContext.edmx</DependentUpon>
       <LastGenOutput>ManagementContext.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\JS\App.jsx" />
     <Content Include="Scripts\JS\test\App.jsx" />
     <Content Include="Scripts\JS\test\components\MultiSelect\index.js" />
@@ -7348,6 +7369,10 @@
     <Content Include="Template\sbAdmin2\vendor\datatables\dataTables.bootstrap4.min.js" />
     <Content Include="Template\sbAdmin2\vendor\datatables\jquery.dataTables.js" />
     <Content Include="Template\sbAdmin2\vendor\datatables\jquery.dataTables.min.js" />
+    <Content Include="Template\sbAdmin2\vendor\dropzone\dropzone.css" />
+    <Content Include="Template\sbAdmin2\vendor\dropzone\dropzone.js" />
+    <Content Include="Template\sbAdmin2\vendor\dropzone\dropzone.min.css" />
+    <Content Include="Template\sbAdmin2\vendor\dropzone\dropzone.min.js" />
     <Content Include="Template\sbAdmin2\vendor\fontawesome-free\attribution.js" />
     <Content Include="Template\sbAdmin2\vendor\fontawesome-free\css\all.css" />
     <Content Include="Template\sbAdmin2\vendor\fontawesome-free\css\all.min.css" />
@@ -9003,6 +9028,7 @@
     <Content Include="Template\sbAdmin2\vendor\jquery\jquery.min.js" />
     <Content Include="Template\sbAdmin2\vendor\jquery\jquery.slim.js" />
     <Content Include="Template\sbAdmin2\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Template\theme.min.css" />
     <Content Include="test\Index4.html" />
     <Content Include="test\Index3.html" />
     <Content Include="test\Index2.html" />
@@ -9029,6 +9055,7 @@
     <Folder Include="bower_components\inputmask\dist\min\inputmask\dependencyLibs\" />
     <Folder Include="bower_components\inputmask\dist\min\inputmask\global\" />
     <Folder Include="bower_components\inputmask\dist\min\inputmask\phone-codes\" />
+    <Folder Include="Class\" />
     <Folder Include="Content\skins\" />
   </ItemGroup>
   <ItemGroup>
