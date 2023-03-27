@@ -47,8 +47,8 @@ namespace TE_ManagementSystem.Models.Repo
                 {
                     dateTimeLastLend = (DateTime)item.LastBorrowDate;
                     timeSpan = dateTimeNow.Subtract(dateTimeLastLend);
-                    int dayCount = timeSpan.Days;
-                    if (dayCount>(int)item.MeProduct.ShiftTime)
+                    double dayCount = timeSpan.TotalDays;
+                    if (dayCount>item.MeProduct.ShiftTime)
                     {
                         item.Overdue = true;
                     }
