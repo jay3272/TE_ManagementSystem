@@ -19,7 +19,7 @@
 <link href="~/Template/theme.min.css" rel="stylesheet" />
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "MeProduct", FormMethod.Post, new { id = "frmMeProduct", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -302,6 +302,61 @@
             alert(message);
     </script>
 }
+
+<script type="text/javascript">
+
+    var postUrl = '@Url.Action("Create", "MeProduct")';
+
+    $(function () {
+        $('#CreateMeProduct').click(function (e) {
+            e.preventDefault();
+            CreateItem();
+        });
+    });
+
+    function CreateItem() {
+        var question = "確認新增匯入該項?";
+        ConfirmCreate(question).then(function (answer) {
+            var ans = (String(answer) === "true");
+            if (ans) {
+                var data = $('#frmMeProduct').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    data: data
+                });
+            }
+        });
+    }
+
+    function ConfirmCreate(question) {
+        var defer = $.Deferred();
+        $('<div id="id="divCreateClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Confirm Create',
+                buttons: {
+                    "Yes": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+</script>
 
 @*<script>
         $(function () {
