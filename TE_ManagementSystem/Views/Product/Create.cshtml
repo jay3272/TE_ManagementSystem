@@ -17,7 +17,7 @@
 <section class="content">
     <div class="row">
         <!-- left column -->
-        <div class="col-xl-12">
+        <div class="col-xl-10">
             <!-- general form elements -->
 
             <section class="layout">
@@ -33,25 +33,25 @@
 
 
                                 @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <input type="text" autocomplete="off" class="form-control" id="NewProdId" value=@ViewBag.SuggestedNewProdId readonly="readonly" />
-                            </div>
-                        </div>*@
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <input type="text" autocomplete="off" class="form-control" id="NewProdId" value=@ViewBag.SuggestedNewProdId readonly="readonly" />
+                                        </div>
+                                    </div>*@
 
                                 @*<div class="form-group">
-                            @Html.Label("治具編號", new { @class = "control-label" })
+                                        @Html.Label("治具編號", new { @class = "control-label" })
 
-                            @Html.EditorFor(model => model.NumberID, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.NumberID, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.NumberID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.NumberID, "", new { @class = "text-danger" })
 
-                        </div>*@
+                                    </div>*@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.RFID, htmlAttributes: new { @class = "control-label" })
 
-                                    @Html.EditorFor(model => model.RFID, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.RFID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                     @Html.ValidationMessageFor(model => model.RFID, "", new { @class = "text-danger" })
 
                                 </div>
@@ -83,7 +83,7 @@
                                     @Html.Label("儲位", new { @class = "control-label" })
 
                                     <div class="ui-widget">
-                                        <select id="combobox" name="Rack">
+                                        <select id="combobox1" name="Rack">
                                             <option value=""></option>
                                             @foreach (var item in ViewBag.listRack)
                                             {
@@ -112,7 +112,7 @@
                                 <div class="form-group">
                                     @Html.Label("年限", new { @class = "control-label" })
 
-                                    @Html.EditorFor(model => model.Life, new { htmlAttributes = new { @class = "form-control", @id = "perPack", @value = 1 } })
+                                    @Html.EditorFor(model => model.Life, new { htmlAttributes = new { @class = "form-control", @id = "perPack", @value = 1, style = "width:Auto" } })
                                     @Html.ValidationMessageFor(model => model.Life, "", new { @class = "text-danger" })
 
                                 </div>
@@ -141,11 +141,14 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="display" id="dataTable" width="100%" cellspacing="0">
+                                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>
                                                 治具名稱
+                                            </th>
+                                            <th>
+                                                圖片
                                             </th>
                                             <th>
                                                 種類
@@ -166,9 +169,6 @@
                                                 有鉛
                                             </th>
                                             <th>
-                                                圖片
-                                            </th>
-                                            <th>
                                                 料號
                                             </th>
                                             <th>
@@ -183,6 +183,9 @@
                                             <tr>
                                                 <td>
                                                     @item.ProdName
+                                                </td>
+                                                <td>
+                                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
                                                 </td>
                                                 <td>
                                                     @item.Kind.Name
@@ -201,9 +204,6 @@
                                                 </td>
                                                 <td>
                                                     @item.Pb
-                                                </td>
-                                                <td>
-                                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
                                                 </td>
                                                 <td>
                                                     @item.ComList
@@ -243,6 +243,15 @@
         @: locations.push(["@d.ID", "@d.Name", "@d.RackPosition"]);
     }
     OnTypeLocationName('#location');
+
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
 
 </script>
 

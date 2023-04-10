@@ -133,7 +133,7 @@
 				itm.append($('<td/>').attr('width','25').append(label));
 				o.selectedTable.append(itm);
 			});
-			o.selectedTitle.text(count+' languages selected')
+			o.selectedTitle.text(count+' items selected')
 			try{
 				// fire onChange event
 				o.onChange.call();

@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 @Html.Label("供應商名稱", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
                             </div>
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
                             </div>
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
 
                             </div>
@@ -60,7 +60,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
                             </div>

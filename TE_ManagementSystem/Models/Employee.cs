@@ -27,11 +27,7 @@ namespace TE_ManagementSystem.Models
         public byte RankID { get; set; }
         public int DepartmentID { get; set; }
         public string IsActive { get; set; }
-        public string Spare1 { get; set; }
-        public string Spare2 { get; set; }
-        public string Spare3 { get; set; }
-        public string Spare4 { get; set; }
-        public string Spare5 { get; set; }
+        public string Password { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

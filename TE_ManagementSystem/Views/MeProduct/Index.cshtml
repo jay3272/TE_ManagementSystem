@@ -24,11 +24,14 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="display" id="dataTable" width="100%" cellspacing="0">
+                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>
                                 治具名稱
+                            </th>
+                            <th>
+                                圖片
                             </th>
                             <th>
                                 製程種類
@@ -52,9 +55,6 @@
                                 有鉛
                             </th>
                             <th>
-                                圖片
-                            </th>
-                            <th>
                                 料號
                             </th>
                             <th>
@@ -72,6 +72,9 @@
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ProdName)
+                                </td>
+                                <td>
+                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.KindProcess.Name)
@@ -93,9 +96,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Pb)
-                                </td>
-                                <td>
-                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ComList)
@@ -123,7 +123,9 @@
 <script>
 
     $(document).ready(function () {
-        $('#dataTable').DataTable();
+        $('#dataTable').DataTable({
+            pagingType: 'full_numbers',
+        });
     });
 
 </script>

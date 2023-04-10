@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ManagementContextModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ManagementContextModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -40,11 +40,7 @@
           <Property Name="RankID" Type="tinyint" Nullable="false" />
           <Property Name="DepartmentID" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="varchar" MaxLength="2" Nullable="false" />
-          <Property Name="Spare1" Type="varchar" MaxLength="100" />
-          <Property Name="Spare2" Type="varchar" MaxLength="100" />
-          <Property Name="Spare3" Type="varchar" MaxLength="100" />
-          <Property Name="Spare4" Type="varchar" MaxLength="100" />
-          <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -402,8 +398,7 @@
             <End Role="ProductTransaction" EntitySet="ProductTransaction" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ManagementContextModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -444,14 +439,10 @@
           <Property Name="RankID" Type="Byte" Nullable="false" />
           <Property Name="DepartmentID" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Spare1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Spare2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Spare3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_MeProduct_Opid" FromRole="Employee" ToRole="MeProduct" />
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Opid" FromRole="Employee" ToRole="ProductTransaction" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -864,18 +855,14 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="ManagementContextModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Opid" ColumnName="Opid" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="RankID" ColumnName="RankID" />
                 <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Spare1" ColumnName="Spare1" />
-                <ScalarProperty Name="Spare2" ColumnName="Spare2" />
-                <ScalarProperty Name="Spare3" ColumnName="Spare3" />
-                <ScalarProperty Name="Spare4" ColumnName="Spare4" />
-                <ScalarProperty Name="Spare5" ColumnName="Spare5" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Images">

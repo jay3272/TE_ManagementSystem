@@ -12,7 +12,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="display" id="dataTable" width="100%" cellspacing="0">
+            <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>
@@ -26,6 +26,9 @@
                         </th>
                         <th>
                             Email
+                        </th>
+                        <th>
+                            權限
                         </th>
                         <th>
                             在職狀態
@@ -47,6 +50,28 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @switch (item.RankID)
+                                {
+                                    case 1:
+                                        @Html.Label("Admin", new { @class = "control-label", @style = "color:black" })
+                                        break;
+                                    case 2:
+                                        @Html.Label("Director", new { @class = "control-label", @style = "color:black" })
+                                        break;
+                                    case 3:
+                                        @Html.Label("Supervisor", new { @class = "control-label", @style = "color:black" })
+                                        break;
+                                    case 4:
+                                        @Html.Label("Engineer", new { @class = "control-label", @style = "color:black" })
+                                        break;
+                                    case 5:
+                                        @Html.Label("Guest", new { @class = "control-label", @style = "color:black" })
+                                        break;
+                                    default:
+                                        break;
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.IsActive)

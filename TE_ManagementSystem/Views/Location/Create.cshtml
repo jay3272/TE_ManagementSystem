@@ -20,7 +20,7 @@
 <section class="content">
     <div class="row">
         <!-- left column -->
-        <div class="col-md-6">
+        <div class="col-md-5">
             <!-- general form elements -->
 
             <div class="box box-primary">
@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 @Html.Label("治具室名稱", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
                             </div>
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 @Html.Label("儲位名稱", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.RackPosition, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.RackPosition, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.RackPosition, "", new { @class = "text-danger" })
 
                             </div>

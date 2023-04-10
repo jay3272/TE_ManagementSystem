@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 @Html.Label("工號", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Opid, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Opid, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger" })
 
                             </div>
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 @Html.Label("員工姓名", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
                             </div>
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
                             </div>
@@ -60,7 +60,7 @@
                             <div class="form-group">
                                 @Html.Label("權限", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.RankID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.RankID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.RankID, "", new { @class = "text-danger" })
 
                             </div>
@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 @Html.Label("部門", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.DepartmentID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.DepartmentID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
 
                             </div>
@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 @Html.Label("在職狀態", new { @class = "control-label" })
 
-                                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 
                             </div>

@@ -241,6 +241,7 @@
     <Compile Include="Controllers\POController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\UserManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -253,6 +254,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Image.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
@@ -7324,6 +7326,7 @@
     <Content Include="Scripts\react\react-with-addons.min.js" />
     <Content Include="Scripts\react\react.js" />
     <Content Include="Scripts\react\react.min.js" />
+    <Content Include="Template\AdminLTE\css\AdminLTE_.min.css" />
     <Content Include="Template\sbAdmin2\.gitignore" />
     <Content Include="Template\sbAdmin2\404.html" />
     <Content Include="Template\sbAdmin2\blank.html" />
@@ -10154,6 +10157,8 @@
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\KindProcess\Create.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\UserManagement\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

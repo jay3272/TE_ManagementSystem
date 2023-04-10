@@ -6,15 +6,15 @@
 }
 
 @*<div class="card-header">
-    <div class="row flex-between-end">
-        <div class="col-auto align-self-center">
-            <h5 class="mb-0" data-anchor="data-anchor" id="table-example">新增儲物<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#table-example" style="padding-left: 0.375em;"></a></h5>
-            <p>
-                @Html.ActionLink("Create New", "Create")
-            </p>
+        <div class="row flex-between-end">
+            <div class="col-auto align-self-center">
+                <h5 class="mb-0" data-anchor="data-anchor" id="table-example">新增儲物<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#table-example" style="padding-left: 0.375em;"></a></h5>
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+            </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 <style>
 
@@ -45,8 +45,13 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="display" id="dataTable" width="100%" cellspacing="0">
+                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
                     <thead>
+                        <tr>
+                            <th colspan="5">info</th>
+                            <th colspan="10">ME info</th>
+                            <th colspan="8">else</th>
+                        </tr> 
                         <tr>
                             <th>
                                 治具編號
@@ -55,16 +60,22 @@
                                 RFID
                             </th>
                             <th>
+                                圖片
+                            </th>
+                            <th>
                                 狀態
+                            </th>
+                            <th>
+                                逾期
+                            </th>
+                            <th>
+                                治具名稱
                             </th>
                             <th>
                                 治具室位置
                             </th>
                             <th>
                                 儲位
-                            </th>
-                            <th>
-                                治具名稱
                             </th>
                             <th>
                                 治具種類
@@ -88,9 +99,6 @@
                                 有鉛
                             </th>
                             <th>
-                                圖片
-                            </th>
-                            <th>
                                 入庫日期
                             </th>
                             <th>
@@ -104,9 +112,6 @@
                             </th>
                             <th>
                                 最後使用日期
-                            </th>
-                            <th>
-                                逾期
                             </th>
                             <th>
                                 履歷
@@ -127,6 +132,9 @@
                                     @Html.DisplayFor(modelItem => item.RFID)
                                 </td>
                                 <td>
+                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.MeProduct.ID + " class="img-responsive" thimbnail"="">
+                                </td>
+                                <td>
 
                                     @if (item.Status == "借出")
                                     {
@@ -139,54 +147,6 @@
                                         @Html.DisplayFor(modelItem => item.Status)
                                     }
 
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Location.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Location.RackPosition)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.ProdName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.Kind.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.Supplier.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.Customer.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.ComList)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.ShiftTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeProduct.Pb)
-                                </td>
-                                <td>
-                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.MeProduct.ID + " class="img-responsive" thimbnail"="">
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StockDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Life)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LastBorrowDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LastReturnDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UseLastDate)
                                 </td>
                                 <td>
 
@@ -214,6 +174,51 @@
 
                                 </td>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.ProdName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location.RackPosition)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Kind.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Supplier.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Customer.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.ComList)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.ShiftTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Pb)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StockDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Life)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastBorrowDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastReturnDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UseLastDate)
+                                </td>
+                                <td>
                                     @Html.ActionLink("Link", "Resume", new { id = item.NumberID })
                                 </td>
                                 <td>
@@ -233,7 +238,9 @@
 <script>
 
     $(document).ready(function () {
-        $('#dataTable').DataTable();
+        $('#dataTable').DataTable({
+            pagingType: 'full_numbers',
+        });
     });
 
 </script>

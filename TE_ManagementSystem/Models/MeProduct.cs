@@ -11,7 +11,7 @@ namespace TE_ManagementSystem.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class MeProduct
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -41,7 +41,7 @@ namespace TE_ManagementSystem.Models
         public string Spare5 { get; set; }
         public string Test { get; set; }
         public byte[] ImageByte { get; set; }
-
+    
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Kind Kind { get; set; }
