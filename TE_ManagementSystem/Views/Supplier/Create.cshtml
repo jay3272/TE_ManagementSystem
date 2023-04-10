@@ -27,7 +27,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">新增供應商</h3>
                 </div>
-                @using (Html.BeginForm())
+                @using (Html.BeginForm("Create", "Supplier", FormMethod.Post, new { id = "frmSupplier", enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
                     <form role="form">
@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="box-footer">
-                            <input type="submit" value="新增" id="Create" class="btn btn-primary" />
+                            <input type="submit" value="新增" id="cmdCreate" class="btn btn-primary" />
                             @Html.ActionLink("Back to List", "Index")
                         </div>
 
@@ -80,3 +80,57 @@
     </div>
 </section>
 
+<script type="text/javascript">
+
+    var postUrl = '@Url.Action("Create", "Supplier")';
+
+    $(function () {
+        $('#cmdCreate').click(function (e) {
+            e.preventDefault();
+            CreateItem();
+        });
+    });
+
+    function CreateItem() {
+        var question = "Do you want to create this item info?";
+        ConfirmCreate(question).then(function (answer) {
+            var ans = (String(answer) === "true");
+            if (ans) {
+                var data = $('#frmSupplier').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    data: data
+                });
+            }
+        });
+    }
+
+    function ConfirmCreate(question) {
+        var defer = $.Deferred();
+        $('<div id="id="divCreateClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Confirm Create',
+                buttons: {
+                    "Yes": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+</script>
