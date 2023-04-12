@@ -27,7 +27,7 @@ namespace TE_ManagementSystem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Spare1,Spare2,Spare3,Spare4,Spare5")] Employee employee)
-        {            
+        {
             db.Employees.Add(employee);
 
             db.SaveChanges();

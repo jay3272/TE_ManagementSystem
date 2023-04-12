@@ -30,11 +30,13 @@
                 @using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { id = "frmEmployee", enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
+
                     <form role="form">
                         <div class="box-body">
 
                             <div class="form-group">
-                                @Html.Label("工號", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Opid, new { @class = "control-label", @style = "color:black" })
+
 
                                 @Html.EditorFor(model => model.Opid, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger" })
@@ -42,7 +44,15 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.Label("員工姓名", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Password, new { @class = "control-label", @style = "color:black" })
+
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new { @class = "control-label", @style = "color:black" })
 
                                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -50,7 +60,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label", @style = "color:black" })
 
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -58,15 +68,17 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.Label("權限", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.RankID, new { @class = "control-label", @style = "color:black" })
+                                <br />
+                                <label>1:Admin.2:Director.3:Supervisor.4:Engineer.5:Guest.</label>
 
-                                @Html.EditorFor(model => model.RankID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                                @Html.EditorFor(model => model.RankID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto", min = 1, max = 5, Value = 5 } })
                                 @Html.ValidationMessageFor(model => model.RankID, "", new { @class = "text-danger" })
 
                             </div>
 
                             <div class="form-group">
-                                @Html.Label("部門", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.DepartmentID, new { @class = "control-label", @style = "color:black" })
 
                                 @Html.EditorFor(model => model.DepartmentID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
@@ -74,9 +86,9 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.Label("在職狀態", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.IsActive, new { @class = "control-label", @style = "color:black" })
 
-                                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                                @Html.EditorFor(model => model.IsActive)
                                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 
                             </div>
@@ -84,7 +96,8 @@
                         </div>
 
                         <div class="box-footer">
-                            <input type="submit" value="新增" id="CreateValid" class="btn btn-primary" />
+                            @*<button onclick="test()">新增</button>*@
+                            <input type="submit" value="新增" id="CreateValid" class="btn btn-primary"/>
                             @Html.ActionLink("Back to List", "Index")
                         </div>
 
@@ -109,17 +122,20 @@
 
     function CreateItem() {
         var question = "確認新增匯入該項?";
-        ConfirmCreate(question).then(function (answer) {
-            var ans = (String(answer) === "true");
-            if (ans) {
-                var data = $('#frmEmployee').serialize();
-                $.ajax({
-                    type: "POST",
-                    url: postUrl,
-                    data: data
-                });
-            }
-        });
+        var isValid = $("#frmEmployee").valid();
+        if (isValid) {
+            ConfirmCreate(question).then(function (answer) {
+                var ans = (String(answer) === "true");
+                if (ans) {
+                    var data = $('#frmEmployee').serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: postUrl,
+                        data: data
+                    });
+                }
+            });
+        }
     }
 
     function ConfirmCreate(question) {
@@ -150,5 +166,4 @@
     }
 
 </script>
-
 

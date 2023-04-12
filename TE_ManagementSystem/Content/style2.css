@@ -37,3 +37,9 @@ table {
 .grow1 {
     flex-grow: 1;
 }
+
+.error {
+    font-family: Arial;
+    font-size: 10pt;
+    color: red;
+}

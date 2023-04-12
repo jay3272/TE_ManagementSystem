@@ -26,7 +26,7 @@ namespace TE_ManagementSystem.Models
         public string Email { get; set; }
         public byte RankID { get; set; }
         public int DepartmentID { get; set; }
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string Password { get; set; }
     
         public virtual Department Department { get; set; }

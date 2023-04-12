@@ -254,6 +254,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeePartial.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Image.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
@@ -7314,6 +7315,9 @@
     </Content>
     <Content Include="Scripts\dropzone\dropzone.css" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\JS\App.jsx" />
     <Content Include="Scripts\JS\test\App.jsx" />
     <Content Include="Scripts\JS\test\components\MultiSelect\index.js" />
