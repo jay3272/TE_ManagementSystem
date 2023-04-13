@@ -96,8 +96,7 @@
                         </div>
 
                         <div class="box-footer">
-                            @*<button onclick="test()">新增</button>*@
-                            <input type="submit" value="新增" id="CreateValid" class="btn btn-primary"/>
+                            <input type="submit" value="新增" id="CreateValid" class="btn btn-primary" />
                             @Html.ActionLink("Back to List", "Index")
                         </div>
 
@@ -131,7 +130,10 @@
                     $.ajax({
                         type: "POST",
                         url: postUrl,
-                        data: data
+                        data: data,
+                        success: function (data) {
+                            window.location.href = data;
+                        }
                     });
                 }
             });
