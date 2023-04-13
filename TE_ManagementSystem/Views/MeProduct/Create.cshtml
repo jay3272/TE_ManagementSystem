@@ -323,7 +323,10 @@
                 $.ajax({
                     type: "POST",
                     url: postUrl,
-                    data: data
+                    data: data,
+                    success: function (data) {
+                        window.location.href = data;
+                    }
                 });
             }
         });

@@ -29,6 +29,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Create([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Password")] Employee employee)
         {
             employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
+            employee.IsActive = true;
 
             db.Employees.Add(employee);
 
