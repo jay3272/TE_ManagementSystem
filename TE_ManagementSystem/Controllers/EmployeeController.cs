@@ -21,6 +21,7 @@ namespace TE_ManagementSystem.Controllers
 
         public ActionResult Create()
         {
+            this.loaddefault();
             return View();
         }
 
@@ -35,6 +36,47 @@ namespace TE_ManagementSystem.Controllers
 
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private void loaddefault()
+        {
+            ViewBag.Department = db.Departments;
+
+            var departmentData = db.Departments;
+
+            List<SelectListItem> selectDepartmentListItems = new List<SelectListItem>();
+            List<SelectListItem> selectRankListItems = new List<SelectListItem>();
+
+            foreach (var item in departmentData)
+            {
+                selectDepartmentListItems.Add(new SelectListItem()
+                {
+                    Text = item.ID + "/" + item.Name,
+                    Value = item.ID.ToString(),
+                    Selected = false
+                });
+            }
+
+            var dictRank = new Dictionary<string, string>();
+            dictRank.Add("1", "Admin");
+            dictRank.Add("2", "Director");
+            dictRank.Add("3", "Supervisor");
+            dictRank.Add("4", "Engineer");
+            dictRank.Add("5", "Guest");
+
+            foreach (KeyValuePair<string, string> item in dictRank)
+            {
+                selectRankListItems.Add(new SelectListItem()
+                {
+                    Text = item.Key + "/" + item.Value,
+                    Value = item.Key.ToString(),
+                    Selected = false
+                });
+            }
+            
+            ViewBag.listDepartment = selectDepartmentListItems;
+            ViewBag.listRank = selectRankListItems;
+
         }
 
     }
