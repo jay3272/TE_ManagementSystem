@@ -34,7 +34,7 @@
                         <div class="box-body">
 
                             <div class="form-group">
-                                @Html.Label("種類名稱", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Name, new { @class = "control-label", @style = "color:black" })
 
                                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.Label("種類代號", new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Number, new { @class = "control-label", @style = "color:black" })
 
                                 @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                 @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })

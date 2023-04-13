@@ -248,12 +248,20 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SupplierPartial.cs" />
+    <Compile Include="Models\ProductPartial.cs" />
+    <Compile Include="Models\MeProductPartial.cs" />
+    <Compile Include="Models\LocationPartial.cs" />
+    <Compile Include="Models\KPNPartial.cs" />
+    <Compile Include="Models\KindProcessPartial.cs" />
+    <Compile Include="Models\KindPartial.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerPartial.cs" />
     <Compile Include="Models\EmployeePartial.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Image.cs">
