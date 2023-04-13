@@ -45,6 +45,8 @@ namespace TE_ManagementSystem.Models
             [Required(ErrorMessage = "required.")]
             [Display(Name = "料號")]
             public string ComList { get; set; }
+            [Display(Name = "備註")]
+            public string Spare1 { get; set; }
         }
     }
 }

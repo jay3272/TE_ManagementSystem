@@ -98,6 +98,7 @@ namespace TE_ManagementSystem.Controllers
             const int cNumberSeries = 5;
             string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
             Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room,Product.Rack);
+            Product.Usable = true;
 
             //取label規則+1補0
             string labelHeader = labelRuleNumber.Substring(0, 3);
@@ -114,23 +115,24 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 Product.ID = maxId;
-                Product.StockDate = DateTime.Now;
+                Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+
+                if (Product.Usable)
+                {
+                    Product.Status = "倉庫";
+                }
+                else
+                {
+                    Product.Status = "借出";
+                }
+
+                db.Products.Add(Product);
+
+                db.SaveChanges();
 
                 if (MeProductRepo.UpdateMeProductStock(Product.EngID))
                 {
 
-                    if (Product.Usable)
-                    {
-                        Product.Status = "倉庫";
-                    }
-                    else
-                    {
-                        Product.Status = "借出";
-                    }
-
-                    db.Products.Add(Product);
-
-                    db.SaveChanges();
                 }
                 else
                 {

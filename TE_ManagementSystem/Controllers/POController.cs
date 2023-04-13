@@ -71,7 +71,7 @@ namespace TE_ManagementSystem.Controllers
             maxId += 1;
             productTransaction.ID = maxId;
             productTransaction.IsReturn = IsReturn;
-            productTransaction.RegisterDate = DateTime.Now;
+            productTransaction.RegisterDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
             db.ProductTransactions.Add(productTransaction);
 
             var products = db.Products.Where
@@ -85,7 +85,7 @@ namespace TE_ManagementSystem.Controllers
                 if (!products.Usable)
                 {
                     products.Status = "倉庫";
-                    products.LastReturnDate = DateTime.Now;
+                    products.LastReturnDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
                     products.Usable = true;
                 }
                 else
@@ -99,7 +99,7 @@ namespace TE_ManagementSystem.Controllers
                 if (products.Usable)
                 {
                     products.Status = "借出";
-                    products.LastBorrowDate = DateTime.Now;
+                    products.LastBorrowDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
                     products.Usable = false;
                 }
                 else

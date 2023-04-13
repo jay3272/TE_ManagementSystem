@@ -248,26 +248,15 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SupplierPartial.cs" />
-    <Compile Include="Models\ProductPartial.cs" />
-    <Compile Include="Models\MeProductPartial.cs" />
-    <Compile Include="Models\LocationPartial.cs" />
-    <Compile Include="Models\KPNPartial.cs" />
-    <Compile Include="Models\KindProcessPartial.cs" />
-    <Compile Include="Models\KindPartial.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomerPartial.cs" />
-    <Compile Include="Models\EmployeePartial.cs" />
-    <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\Image.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ImageViewModel.cs" />
     <Compile Include="Models\Kind.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
@@ -307,6 +296,20 @@
     <Compile Include="Models\ProductTransaction.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierPartial.cs" />
+    <Compile Include="Models\ProductPartial.cs" />
+    <Compile Include="Models\MeProductPartial.cs" />
+    <Compile Include="Models\LocationPartial.cs" />
+    <Compile Include="Models\KPNPartial.cs" />
+    <Compile Include="Models\KindProcessPartial.cs" />
+    <Compile Include="Models\KindPartial.cs" />
+    <Compile Include="Models\CustomerPartial.cs" />
+    <Compile Include="Models\EmployeePartial.cs" />
+    <Compile Include="Models\Encryption.cs" />
+    <Compile Include="Models\ImageViewModel.cs" />
     <Compile Include="Models\Repo\CustomerRepo.cs" />
     <Compile Include="Models\Repo\ICustomerRepo.cs" />
     <Compile Include="Models\Repo\SupplierRepo.cs" />
@@ -329,9 +332,6 @@
     <Compile Include="Models\Repo\PORepo.cs" />
     <Compile Include="Models\Repo\MeProductRepo.cs" />
     <Compile Include="Models\Repo\ProductRepo.cs" />
-    <Compile Include="Models\Supplier.cs">
-      <DependentUpon>ManagementContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

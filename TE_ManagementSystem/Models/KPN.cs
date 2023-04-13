@@ -14,7 +14,7 @@ namespace TE_ManagementSystem.Models
     
     public partial class KPN
     {
-        public string ID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Spare1 { get; set; }
         public string Spare2 { get; set; }

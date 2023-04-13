@@ -28,6 +28,9 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Number,Spare1,Spare2,Spare3,Spare4,Spare5")] Kind kind)
         {
+            int maxId = db.Kinds.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            maxId += 1;
+            kind.ID = maxId;
             db.Kinds.Add(kind);
 
             db.SaveChanges();

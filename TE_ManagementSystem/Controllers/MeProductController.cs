@@ -294,7 +294,7 @@ namespace TE_ManagementSystem.Controllers
 
             foreach (var item in kpnData)
             {
-                mutiplekpn.text = item.ID;
+                mutiplekpn.text = item.ID.ToString();
                 mutiplekpn.value = item.Name;
                 mutiplekpns.Add(mutiplekpn);
             }
@@ -319,8 +319,7 @@ namespace TE_ManagementSystem.Controllers
                 });
             }
 
-            //string jsonmutiplekpns = JsonSerializer.Serialize(mutiplekpns);
-            string jsonmutiplekpns = "{ text: '1', value: 'KPN001' },{ text: '2', value: 'KPN002' },{ text: '3', value: 'KPN003' },{ text: '4', value: 'KPN004' },{ text: '5', value: 'KPN005' }";
+            string jsonmutiplekpns = JsonSerializer.Serialize(mutiplekpns);
 
             ViewBag.listKind = selectKindListItems;
             ViewBag.listSupplier = selectSupplierListItems;

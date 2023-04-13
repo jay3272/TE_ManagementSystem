@@ -27,7 +27,7 @@ namespace TE_ManagementSystem.Models
         public int LocationID { get; set; }
         public int EngID { get; set; }
         public Nullable<System.DateTime> StockDate { get; set; }
-        public string Life { get; set; }
+        public Nullable<int> Life { get; set; }
         public Nullable<System.DateTime> LastBorrowDate { get; set; }
         public Nullable<System.DateTime> LastReturnDate { get; set; }
         public Nullable<System.DateTime> UseLastDate { get; set; }

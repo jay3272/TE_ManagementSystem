@@ -28,6 +28,10 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,RackPosition,Status,Spare1,Spare2,Spare3,Spare4,Spare5")] Location location)
         {
+            int maxId = db.Locations.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            maxId += 1;
+            location.ID = maxId;
+            location.Status = true;
             db.Locations.Add(location);
 
             db.SaveChanges();
