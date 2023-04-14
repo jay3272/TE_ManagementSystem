@@ -14,6 +14,7 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: LabelRule
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(LabelRuleRepo.ListAllLabelRule());

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using TE_ManagementSystem.Models;
 
 namespace TE_ManagementSystem.Controllers
@@ -11,6 +12,7 @@ namespace TE_ManagementSystem.Controllers
     {
         private ManagementContextEntities db = new ManagementContextEntities();
         // GET: UserManagement
+        [AllowAnonymous]
         public ActionResult Login()
         {
             Session.Clear();
@@ -20,6 +22,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Employee emp)
         {
@@ -29,6 +32,7 @@ namespace TE_ManagementSystem.Controllers
             Employee user = db.Employees.SingleOrDefault(usr => ((usr.Opid == emp.Opid) && (usr.Password == emp.Password)));
             if (user != null)
             {
+                FormsAuthentication.RedirectFromLoginPage(user.RankID.ToString(), true);
                 Session.Add("CurrentUser", user);
                 return RedirectToAction("Index", "Home");
             }

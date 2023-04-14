@@ -11,29 +11,29 @@ namespace TE_ManagementSystem.Models
     {
         public class EmployeeMetadata
         {
-            [Required(ErrorMessage = "Opid is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "工號")]
             public string Opid { get; set; }
-            [Required(ErrorMessage = "Name is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "員工姓名")]
             public string Name { get; set; }
-            [Required(ErrorMessage = "Email is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
-            [Required(ErrorMessage = "Rank is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "權限")]
-            [RegularExpression(@"^[1-5]$", ErrorMessage = "Your rank must be at only 1 number long and range 1~5")]
+            [RegularExpression(@"^[1-4]$", ErrorMessage = "Your rank must be at only 1 number long and range 1~4")]
             public byte RankID { get; set; }
-            [Required(ErrorMessage = "Department is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "部門")]
             public int DepartmentID { get; set; }
-            [Required(ErrorMessage = "IsActive is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "在職狀態")]
             public bool IsActive { get; set; }
-            [Required(ErrorMessage = "Password is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "Password")]
             [DataType(DataType.Password)]
-            [RegularExpression(@"(?=.*\d)(?=.*[A-Za-z]).{6,}", ErrorMessage = "Your password must be at least 6 characters long and contain at least 1 letter and 1 number")]
+            [RegularExpression(@"^[0-9A-Za-z]{4}$", ErrorMessage = "Your password must be 4 characters long")]
             public string Password { get; set; }
         }
     }

@@ -14,17 +14,20 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Kind
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(KindRepo.ListAllKind());
         }
 
+        [Authorize(Users = "1,2,3")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Users = "1,2,3")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Number,Spare1,Spare2,Spare3,Spare4,Spare5")] Kind kind)
         {

@@ -10,6 +10,7 @@ namespace TE_ManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View();

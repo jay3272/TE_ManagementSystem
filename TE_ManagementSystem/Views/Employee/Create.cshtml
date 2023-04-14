@@ -47,6 +47,7 @@
                                 @Html.LabelFor(model => model.Password, new { @class = "control-label", @style = "color:black" })
 
                                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                                <input type="checkbox" onclick="showPsw()">Show Password
                                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
                             </div>
@@ -185,5 +186,13 @@
         return defer.promise();
     }
 
+    function showPsw() {
+        var x = document.getElementById("Password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
 </script>
 

@@ -17,12 +17,14 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Product
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(ProductRepo.ListAllProductUpdateDue());
         }
 
         // GET:Resume
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Resume(string id)
         {
             if (id == string.Empty)
@@ -36,6 +38,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
             var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
@@ -92,6 +95,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5")] Product Product)
         {
@@ -150,6 +154,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         //GET: Product/Edit
+        [Authorize(Users = "1")]
         public ActionResult Edit(string id)
         {
             if (id == null)

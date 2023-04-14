@@ -14,17 +14,20 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: KindProcess
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(KindProcessRepo.ListAllKindProcess());
         }
 
+        [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Number,Spare1,Spare2,Spare3,Spare4,Spare5")] KindProcess kindProcess)
         {

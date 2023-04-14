@@ -14,15 +14,17 @@ namespace TE_ManagementSystem.Controllers
     {
         IPORepo PORepo = new PORepo();
 
-        private ManagementContextEntities db = new ManagementContextEntities(); 
+        private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: PO
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(PORepo.ListAllProductTransaction());
         }
 
         // GET: PO/Create
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Create(bool IsReturn)
         {
             int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
@@ -64,6 +66,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Users = "1,2,3,4")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Opid,ProductID,IsReturn,IsToFix,BorrowDay,RegisterDate")] ProductTransaction productTransaction, bool IsReturn)
         {

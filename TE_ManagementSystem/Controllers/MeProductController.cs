@@ -17,11 +17,13 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: MeProduct
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(MeProductRepo.ListAllMeProduct());
         }
 
+        [Authorize(Users = "1,2,3")]
         public ActionResult Create()
         {
             this.loaddefault();
@@ -45,6 +47,7 @@ namespace TE_ManagementSystem.Controllers
         //}
 
         [HttpPost]
+        [Authorize(Users = "1,2,3")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte")] MeProduct meProduct)
         {

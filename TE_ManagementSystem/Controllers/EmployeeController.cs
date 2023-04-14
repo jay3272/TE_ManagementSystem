@@ -14,11 +14,13 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Employee
+        [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
             return View(EmployeeRepo.ListAllEmployee());
         }
 
+        [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
             this.loaddefault();
@@ -26,6 +28,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Password")] Employee employee)
         {
@@ -60,10 +63,9 @@ namespace TE_ManagementSystem.Controllers
 
             var dictRank = new Dictionary<string, string>();
             dictRank.Add("1", "Admin");
-            dictRank.Add("2", "Director");
-            dictRank.Add("3", "Supervisor");
-            dictRank.Add("4", "Engineer");
-            dictRank.Add("5", "Guest");
+            dictRank.Add("2", "Supervisor");
+            dictRank.Add("3", "Engineer");
+            dictRank.Add("4", "Guest");
 
             foreach (KeyValuePair<string, string> item in dictRank)
             {
