@@ -12,12 +12,17 @@ namespace TE_ManagementSystem.Models
         public class CustomerMetadata
         {
             public int ID { get; set; }
-            [Required(ErrorMessage = "Name is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "客戶姓名")]
             public string Name { get; set; }
-            [Required(ErrorMessage = "Customer Code is required.")]
+            [Required(ErrorMessage = "required.")]
             [Display(Name = "客戶代碼")]
             public string CustCode { get; set; }
+            public string Spare1 { get; set; }
+            public string Spare2 { get; set; }
+            public string Spare3 { get; set; }
+            public string Spare4 { get; set; }
+            public string Spare5 { get; set; }
         }
     }
 }

@@ -54,7 +54,7 @@ namespace TE_ManagementSystem.Controllers
             int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
 
-            if (images.Title == meProduct.Image)
+            if (meProduct.Image != "empty")
             {
                 meProduct.ImageByte = images.ImageByte;
             }

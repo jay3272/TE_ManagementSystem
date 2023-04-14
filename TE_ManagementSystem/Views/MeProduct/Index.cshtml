@@ -30,9 +30,9 @@
                             <th>
                                 治具名稱
                             </th>
-                            <th>
+                            @*<th>
                                 圖片
-                            </th>
+                            </th>*@
                             <th>
                                 製程種類
                             </th>
@@ -73,9 +73,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ProdName)
                                 </td>
-                                <td>
+                                @*<td>
                                     <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
-                                </td>
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.KindProcess.Name)
                                 </td>

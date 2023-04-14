@@ -59,9 +59,9 @@
                             <th>
                                 RFID
                             </th>
-                            <th>
+                            @*<th>
                                 圖片
-                            </th>
+                            </th>*@
                             <th>
                                 狀態
                             </th>
@@ -131,9 +131,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.RFID)
                                 </td>
-                                <td>
+                                @*<td>
                                     <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.MeProduct.ID + " class="img-responsive" thimbnail"="">
-                                </td>
+                                </td>*@
                                 <td>
 
                                     @if (item.Status == "借出")
