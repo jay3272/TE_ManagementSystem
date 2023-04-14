@@ -41,8 +41,18 @@ namespace TE_ManagementSystem.Controllers
                 TempData["message"] = "Password is not valid";
                 return RedirectToAction("Login", "UserManagement");
             }
-    
-    }
+
+        }
+
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            Session.Abandon();
+
+            return RedirectToAction("Login", "UserManagement");
+        }
 
     }
 

@@ -17,7 +17,6 @@ namespace TE_ManagementSystem.Models
             [Required(ErrorMessage = "required.")]
             [Display(Name = "員工姓名")]
             public string Name { get; set; }
-            [Required(ErrorMessage = "required.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
             [Required(ErrorMessage = "required.")]

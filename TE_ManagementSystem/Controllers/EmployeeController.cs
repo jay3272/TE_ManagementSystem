@@ -34,7 +34,14 @@ namespace TE_ManagementSystem.Controllers
         {
             employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
             employee.IsActive = true;
-            employee.Email = employee.Email + "@tailyn.com.tw";
+            if (employee.Email == string.Empty)
+            {
+                employee.Email = "NA";
+            }
+            else
+            {
+                employee.Email = employee.Email + "@tailyn.com.tw";
+            }
 
             db.Employees.Add(employee);
 
