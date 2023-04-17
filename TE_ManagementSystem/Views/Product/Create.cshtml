@@ -57,12 +57,12 @@
                                 </div>
 
                                 @*<div class="form-group">
-                                    @Html.LabelFor(model => model.Usable, new { @class = "control-label", @style = "color:black" })
+                                        @Html.LabelFor(model => model.Usable, new { @class = "control-label", @style = "color:black" })
 
-                                    @Html.CheckBoxFor(model => model.Usable, new { @checked = "checked" })
-                                    @Html.ValidationMessageFor(model => model.Usable, "", new { @class = "text-danger" })
+                                        @Html.CheckBoxFor(model => model.Usable, new { @checked = "checked" })
+                                        @Html.ValidationMessageFor(model => model.Usable, "", new { @class = "text-danger" })
 
-                                </div>*@
+                                    </div>*@
 
                                 <div class="form-group">
                                     @Html.Label("治具室", new { @class = "control-label", @style = "color:black" })
@@ -140,86 +140,74 @@
                             未匯入治具列表
                         </div>
                         <div class="card-body">
+
                             <div class="table-responsive">
-                                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                治具名稱
-                                            </th>
-                                            @*<th>
-                                                圖片
-                                            </th>*@
-                                            <th>
-                                                種類
-                                            </th>
-                                            <th>
-                                                客戶
-                                            </th>
-                                            <th>
-                                                供應商
-                                            </th>
-                                            <th>
-                                                數量
-                                            </th>
-                                            <th>
-                                                Shift Time
-                                            </th>
-                                            <th>
-                                                有鉛
-                                            </th>
-                                            <th>
-                                                料號
-                                            </th>
-                                            <th>
-                                                備註
-                                            </th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.MeProducts)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @item.ProdName
-                                                </td>
-                                                @*<td>
-                                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
-                                                </td>*@
-                                                <td>
-                                                    @item.Kind.Name
-                                                </td>
-                                                <td>
-                                                    @item.Customer.Name
-                                                </td>
-                                                <td>
-                                                    @item.Supplier.Name
-                                                </td>
-                                                <td>
-                                                    @item.Quantity
-                                                </td>
-                                                <td>
-                                                    @item.ShiftTime
-                                                </td>
-                                                <td>
-                                                    @item.Pb
-                                                </td>
-                                                <td>
-                                                    @item.ComList
-                                                </td>
-                                                <td>
-                                                    @item.Spare1
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 144px;">治具名稱</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 224px;">種類</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 102px;">客戶</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 43px;">供應商</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 96px;">數量</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Shift Time</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">有鉛</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">料號</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">備註</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach (var item in ViewBag.MeProducts)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @item.ProdName
+                                                            </td>
+                                                            @*<td>
+                                                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
+                                                                </td>*@
+                                                            <td>
+                                                                @item.Kind.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.Customer.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.Supplier.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.Quantity
+                                                            </td>
+                                                            <td>
+                                                                @item.ShiftTime
+                                                            </td>
+                                                            <td>
+                                                                @item.Pb
+                                                            </td>
+                                                            <td>
+                                                                @item.ComList
+                                                            </td>
+                                                            <td>
+                                                                @item.Spare1
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
-
                 </div>
+
 
             </section>
 
@@ -345,3 +333,5 @@
     }
 
 </script>
+
+
