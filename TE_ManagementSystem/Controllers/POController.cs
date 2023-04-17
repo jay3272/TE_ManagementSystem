@@ -30,7 +30,7 @@ namespace TE_ManagementSystem.Controllers
             int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
             maxId += 1;
             ViewBag.SuggestedNewPoId = maxId;
-            ViewBag.MeProducts = db.MeProducts;
+            //ViewBag.MeProducts = db.MeProducts;
             ViewBag.IsReturn = IsReturn;
 
             if (IsReturn)
@@ -39,13 +39,14 @@ namespace TE_ManagementSystem.Controllers
                 ViewBag.PoBtn = "歸還";
             }
             else
-            {
+            {                
                 ViewBag.PoTitle = "借出頁面";
                 ViewBag.PoBtn = "借出";
             }
 
 
-            var productData = db.Products;
+            IProductRepo ProductRepo = new ProductRepo();
+            var productData = ProductRepo.ListAllProductInStock();
 
             List<SelectListItem> selectProductListItems = new List<SelectListItem>();
 
@@ -53,12 +54,13 @@ namespace TE_ManagementSystem.Controllers
             {
                 selectProductListItems.Add(new SelectListItem()
                 {
-                    Text = item.MeProduct.ComList + "/" + item.MeProduct.ProdName + "/" + item.NumberID,
+                    Text = item.MeProduct.ProdName + "/" + item.NumberID,
                     Value = item.NumberID,
                     Selected = false
                 });
             }
 
+            ViewBag.Products = productData;
             ViewBag.listProduct = selectProductListItems;
 
 

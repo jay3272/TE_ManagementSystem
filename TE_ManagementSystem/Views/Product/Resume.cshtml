@@ -5,128 +5,69 @@
     Layout = "~/Views/Shared/_Layout_index.cshtml";
 }
 
-<div>
 
-    <div class="row align-items-center justify-content-between pt-3">
-        <div class="col-auto mb-3">
-            <h1 class="card-title">
-                "Resume - "
-            </h1>
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills float-right">
+                <li class="nav-item">
+
+                </li>
+                <li class="nav-item">
+
+                </li>
+                <li class="nav-item">
+
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="jumbotron" style="width: 350px;">
+        <p></p>
+        <img class="card-img-top" src="/Product/DisplayingImage?imgID= + @Html.DisplayFor(model =>model.MeProduct.ID)" alt="Card image cap">
+    </div>
+
+    <div class="row marketing">
+        <div class="col-lg-6">
+        </div>
+        <div class="col-lg-6">
         </div>
     </div>
 
+    <div class="row" style="">
+        <div class="col-sm-4   ">
+            <h3>
+                <ul class="list-group" style="">
+                </ul>治具資訊
+            </h3><ul class="list-group" style="">
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>編號:</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>名稱:</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-weight: bolder; font-size: 12px; white-space: nowrap;">狀態</span><br></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b><span style="font-weight: bolder;">逾期</span></b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>位置</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>種類:</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>數量</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>鉛</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>Shift Time</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>年限</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>入庫日</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;">最後借出日</div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>最後歸還日</b></span></div></li>
+            </ul>
+        </div><div class="col-sm-4 col-5">
+            <h3>客戶機種</h3><ul class="list-group" style="">
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>客戶</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>料號</b></span></div></li>
 
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MeProduct.Kind.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MeProduct.Kind.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MeProduct.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MeProduct.Image)
-        </dd>
-
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
+            </ul><h3>供應商</h3><ul class="list-group" style="">
+                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>供應商</b></span></div></li>
+        </div><div class="col-sm-4">
+            <div class="container" style=""><h1 style="">借用紀錄</h1><div class="m-5">Container</div></div><ul class="list-group" style="">
+            </ul>
         </div>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MeProduct.Pb)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MeProduct.Pb)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StockDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StockDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Life)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Life)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MeProduct.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MeProduct.Quantity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastBorrowDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastBorrowDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastReturnDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastReturnDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UseLastDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UseLastDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usable)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usable)
-        </dd>
-
-    </dl>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.NumberID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+

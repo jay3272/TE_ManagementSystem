@@ -35,6 +35,11 @@ namespace TE_ManagementSystem.Models.Repo
             return db.Products;
         }
 
+        public IQueryable<Product> ListAllProductInStock()
+        {
+            return db.Products.DefaultIfEmpty().Where(p => p.Usable == true);
+        }
+
         public IQueryable<Product> ListAllProductUpdateDue()
         {
             DateTime dateTimeNow = DateTime.Now;

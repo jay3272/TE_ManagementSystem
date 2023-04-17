@@ -34,73 +34,200 @@
     <div class="row">
         <!-- left column -->
         <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="box box-primary">
-                @*<div class="box-header with-border">
-                        <h3 class="box-title">Create New Product</h3>
-                    </div>*@
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    <form role="form">
-                        <div class="box-body">
+
+            <section class="layout">
+
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    @*<div class="box-header with-border">
+                            <h3 class="box-title">Create New Product</h3>
+                        </div>*@
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <form role="form">
+                            <div class="box-body">
 
 
-                            @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <input type="text" autocomplete="off" class="form-control" id="NewPoId" value=@ViewBag.SuggestedNewPoId readonly="readonly" />
-                                </div>
-                            </div>*@
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Opid, "Opid", htmlAttributes: new { @class = "control-label" })
-                                <div class="col-md-12">
-                                    <input type="text" name="Opid" id="Opid" />
-                                    @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger", style = "width:Auto" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.Label("儲物ID", new { @class = "control-label" })
-
-                                <div class="ui-widget">
-                                    <select id="combobox" name="ProductID">
-                                        <option value=""></option>
-                                        @foreach (var item in ViewBag.listProduct)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            @if (!@ViewBag.IsReturn)
-                            {
+                                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <input type="text" autocomplete="off" class="form-control" id="NewPoId" value=@ViewBag.SuggestedNewPoId readonly="readonly" />
+                                        </div>
+                                    </div>*@
 
                                 <div class="form-group">
-                                    @Html.Label("修護", new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.Opid, "Opid", htmlAttributes: new { @class = "control-label" })
+                                    <div class="col-md-12">
+                                        <input type="text" name="Opid" id="Opid" />
+                                        @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger", style = "width:Auto" })
+                                    </div>
+                                </div>
 
-                                    @Html.EditorFor(model => model.IsToFix)
-                                    @Html.ValidationMessageFor(model => model.IsToFix, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label("儲物ID", new { @class = "control-label" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox" name="ProductID">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listProduct)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
 
                                 </div>
 
-                            }
+                                <div class="form-group">
+                                    @if (!@ViewBag.IsReturn)
+                                    {
+                                        <div class="form-group">
+                                            @Html.Label("修護", new { @class = "control-label" })
 
-                        </div>
+                                            @Html.EditorFor(model => model.IsToFix)
+                                            @Html.ValidationMessageFor(model => model.IsToFix, "", new { @class = "text-danger" })
 
-                        <div class="box-footer">
-                            <input type="submit" value="@ViewBag.PoBtn" id="CreateProduct" class="btn btn-primary" />
-                            @Html.ActionLink("回清單", "Index")
-                        </div>
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+
+                            <div class="box-footer">
+                                <input type="submit" value="@ViewBag.PoBtn" id="CreateProduct" class="btn btn-primary" />
+                                @Html.ActionLink("回清單", "Index")
+                            </div>
 
 
-                    </form>
-                }
-            </div>
+                        </form>
+                    }
+                </div>
+
+                <div class="container-fluid">
+
+                    <div class="form-group">
+
+                        @if (!@ViewBag.IsReturn)
+                        {
+                            <div class="card shadow mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-table me-1"></i>
+                                    治具列表
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="table-responsive">
+                                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 85px;">治具編號</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">RFID</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">狀態</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具室位置</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">儲位</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具名稱</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具種類</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">供應商</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">客戶</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">料號</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">數量</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Shift Time</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">有鉛</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">入庫日期</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">年限</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">最後借出日期</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">最後歸還日期</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">最後使用日期</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">履歷</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @foreach (var item in ViewBag.Products)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @item.NumberID
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.RFID
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Status
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Location.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Location.RackPosition
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.ProdName
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.Kind.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.Supplier.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.Customer.Name
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.ComList
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.Quantity
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.ShiftTime
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.MeProduct.Pb
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.StockDate
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.Life
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.LastBorrowDate
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.LastReturnDate
+                                                                    </td>
+                                                                    <td>
+                                                                        @item.UseLastDate
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.ActionLink("Link", "Resume", new { id = item.NumberID })
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </section>
+
         </div>
     </div>
 </section>

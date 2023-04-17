@@ -172,5 +172,19 @@ namespace TE_ManagementSystem.Controllers
 
         }
 
+        public ActionResult DisplayingImage(int imgid)
+        {
+            ManagementContextEntities db = new ManagementContextEntities();
+            var img = db.MeProducts.SingleOrDefault(x => x.ID == imgid);
+            byte[] imageBuff = { 136, 12 };
+            if (!(img.ImageByte is null))
+            {
+                ImageViewModel imageViewModel = new ImageViewModel();
+                imageBuff = imageViewModel.CreateThumbnailImage(300, 300, img.ImageByte, true);
+            }
+
+            return File(imageBuff, "image/png");
+        }
+
     }
 }

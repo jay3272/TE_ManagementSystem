@@ -10,6 +10,8 @@ namespace TE_ManagementSystem.Models.Repo
     {
         //列出所以Product清單
         IQueryable<Product> ListAllProduct();
+        //列出所有未借出Product清單
+        IQueryable<Product> ListAllProductInStock();
 
         //列出所以Product清單
         IQueryable<Product> ListAllProductUpdateDue();
