@@ -39,7 +39,7 @@ namespace TE_ManagementSystem.Controllers
                 ViewBag.PoBtn = "歸還";
             }
             else
-            {                
+            {
                 ViewBag.PoTitle = "借出頁面";
                 ViewBag.PoBtn = "借出";
             }
@@ -155,6 +155,24 @@ namespace TE_ManagementSystem.Controllers
             //    return RedirectToAction("Index");
             //}
             //return View(productTransaction);
+        }
+
+        public ActionResult ViewImage(string text)
+        {
+            byte[] imageBuff = { 136, 12 };
+            if (text == "")
+            {
+                //跳出錯誤訊息
+            }
+            var img = db.Products.SingleOrDefault(x => x.NumberID == text);
+            if (!(img.MeProduct.ImageByte is null))
+            {
+                ImageViewModel imageViewModel = new ImageViewModel();
+                imageBuff = imageViewModel.CreateThumbnailImage(200, 200, img.MeProduct.ImageByte, true);
+            }
+
+            return Json(new { base64imgage = Convert.ToBase64String(imageBuff) }
+          , JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -95,6 +95,10 @@
                                     {
                                         @Html.EditorFor(model => model.ProductID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
                                         @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+                                        <p></p>
+                                        <a href="#" class="btn btn-sm btn-danger" onclick="onViewImage()">View Image</a>
+                                        <p></p>
+                                        <div class="col-md-4 thumbnail" id="DisplayImage"></div>
                                     }
                                 </div>
 
@@ -133,6 +137,7 @@
                                                             <tr role="row">
                                                                 <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 85px;">治具編號</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">RFID</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">圖片</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">狀態</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具室位置</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">儲位</th>
@@ -162,6 +167,9 @@
                                                                     </td>
                                                                     <td>
                                                                         @item.RFID
+                                                                    </td>
+                                                                    <td>
+                                                                        <img src="/PO/DisplayingImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
                                                                     </td>
                                                                     <td>
                                                                         @item.Status
@@ -237,3 +245,21 @@
     </div>
 </section>
 
+<script>
+    function onViewImage() {
+        const numberElement = document.getElementById("ProductID");
+        var text = numberElement.value;
+        $.ajax({
+            type: "POST",
+            url: "ViewImage",
+            data: "text=" + text,
+            success: function (data) {
+                var imag = "<img "
+                    + "src='" + "data:image/png;base64,"
+                    + data.base64imgage + "'/>";
+                $("#DisplayImage").html(imag);
+                //$("#DisplayImage").append('<img src="' + data + '"class=img-responsive  thimbnail"/>');
+            }
+        })
+    }
+</script>
