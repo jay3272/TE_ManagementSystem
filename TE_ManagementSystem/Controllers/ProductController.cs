@@ -14,6 +14,7 @@ namespace TE_ManagementSystem.Controllers
         IProductRepo ProductRepo = new ProductRepo();
         IMeProductRepo MeProductRepo = new MeProductRepo();
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
+        IPORepo PORepo = new PORepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Product
@@ -31,6 +32,8 @@ namespace TE_ManagementSystem.Controllers
             {
 
             }
+            var pohistory = PORepo.GetProductTransactionById(id);
+            ViewBag.PoHistory = pohistory;
 
             return View(ProductRepo.LinkToResume(id));
 

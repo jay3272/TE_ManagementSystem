@@ -23,7 +23,7 @@
         </nav>
     </div>
 
-    <div class="jumbotron" style="width: 350px;">
+    <div class="jumbotron" style="width: 500px;">
         <p></p>
         <img class="card-img-top" src="/Product/DisplayingImage?imgID= + @Html.DisplayFor(model =>model.MeProduct.ID)" alt="Card image cap">
     </div>
@@ -41,31 +41,149 @@
                 <ul class="list-group" style="">
                 </ul>治具資訊
             </h3><ul class="list-group" style="">
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>編號:</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>名稱:</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-weight: bolder; font-size: 12px; white-space: nowrap;">狀態</span><br></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b><span style="font-weight: bolder;">逾期</span></b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>位置</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>種類:</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>數量</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>鉛</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>Shift Time</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>年限</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>入庫日</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;">最後借出日</div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>最後歸還日</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>編號:@Html.DisplayFor(model => model.NumberID)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>名稱:@Html.DisplayFor(model => model.MeProduct.ProdName)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>狀態:@Html.DisplayFor(model => model.Status)</b></span><br></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>逾期:@Html.DisplayFor(model => model.Overdue)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>位置:@Html.DisplayFor(model => model.Location.Name)_@Html.DisplayFor(model => model.Location.RackPosition)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>種類:@Html.DisplayFor(model => model.MeProduct.Kind.Name)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>數量:@Html.DisplayFor(model => model.MeProduct.Quantity)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>鉛:@Html.DisplayFor(model => model.MeProduct.Pb)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>Shift Time:@Html.DisplayFor(model => model.MeProduct.ShiftTime)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>年限:@Html.DisplayFor(model => model.Life)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>入庫日:@Html.DisplayFor(model => model.StockDate)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>最後借出日:@Html.DisplayFor(model => model.LastBorrowDate)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>最後歸還日:@Html.DisplayFor(model => model.LastReturnDate)</b></span></div></li>
             </ul>
         </div><div class="col-sm-4 col-5">
             <h3>客戶機種</h3><ul class="list-group" style="">
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>客戶</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>料號</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>客戶:@Html.DisplayFor(model => model.MeProduct.Customer.Name)</b></span></div></li>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>料號:@Html.DisplayFor(model => model.MeProduct.ComList)</b></span></div></li>
 
             </ul><h3>供應商</h3><ul class="list-group" style="">
-                <li class="list-group-item"><div style="text-align: center;"><span style="font-size: 12px; white-space: nowrap;"><b>供應商</b></span></div></li>
-        </div><div class="col-sm-4">
-            <div class="container" style=""><h1 style="">借用紀錄</h1><div class="m-5">Container</div></div><ul class="list-group" style="">
-            </ul>
+                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>供應商:@Html.DisplayFor(model => model.MeProduct.Supplier.Name)</b></span></div></li>
         </div>
+
+        <p></p> <p></p>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                借用歸還紀錄表
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    部門
+                                </th>
+                                <th>
+                                    員工
+                                </th>
+                                <th>
+                                    治具編號
+                                </th>
+                                <th>
+                                    治具名稱
+                                </th>
+                                <th>
+                                    種類
+                                </th>
+                                <th>
+                                    治具室
+                                </th>
+                                <th>
+                                    儲位
+                                </th>
+                                <th>
+                                    料號
+                                </th>
+                                <th>
+                                    狀態
+                                </th>
+                                <th>
+                                    歸還狀態
+                                </th>
+                                <th>
+                                    修護
+                                </th>
+                                <th>
+                                    借用天數
+                                </th>
+                                <th>
+                                    登記時間
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.PoHistory)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Employee.Department.Name
+                                    </td>
+                                    <td>
+                                        @item.Employee.Name
+                                    </td>
+                                    <td>
+                                        @item.Product.NumberID
+                                    </td>
+                                    <td>
+                                        @item.Product.MeProduct.ProdName
+                                    </td>
+                                    <td>
+                                        @item.Product.MeProduct.Kind.Name
+                                    </td>
+                                    <td>
+                                        @item.Product.Location.Name
+                                    </td>
+                                    <td>
+                                        @item.Product.Location.RackPosition
+                                    </td>
+                                    <td>
+                                        @item.Product.MeProduct.ComList
+                                    </td>
+                                    <td>
+                                        @if (item.IsReturn)
+                                        {
+                                            <span>倉庫</span>
+                                        }
+                                        else
+                                        {
+                                            <div class="onLend">
+                                                <span>借出</span>
+                                            </div>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @item.IsReturn
+                                    </td>
+                                    <td>
+                                        @item.IsToFix
+                                    </td>
+                                    <td>
+                                        @item.BorrowDay
+                                    </td>
+                                    <td>
+                                        @item.RegisterDate
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

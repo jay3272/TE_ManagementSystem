@@ -26,9 +26,9 @@ namespace TE_ManagementSystem.Models.Repo
             throw new NotImplementedException();
         }
 
-        public ProductTransaction GetProductTransactionById(int id)
+        public IQueryable<ProductTransaction> GetProductTransactionById(string id)
         {
-            throw new NotImplementedException();
+            return db.ProductTransactions.DefaultIfEmpty().Where(p => p.Product.NumberID == id);
         }
 
         public IQueryable<ProductTransaction> ListAllProductTransaction()

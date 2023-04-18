@@ -12,7 +12,7 @@ namespace TE_ManagementSystem.Models.Repo
         IQueryable<ProductTransaction> ListAllProductTransaction();
 
         //列出某個Product Transaction紀錄
-        ProductTransaction GetProductTransactionById(int id);
+        IQueryable<ProductTransaction> GetProductTransactionById(string id);
 
         //搜尋
         IQueryable<ProductTransaction> GetProductsTransactionByName(string name);

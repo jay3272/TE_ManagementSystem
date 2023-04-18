@@ -68,21 +68,21 @@
                                 <div class="form-group">
                                     @Html.Label("儲物ID", new { @class = "control-label" })
 
-                                    <div class="ui-widget">
-                                        <select id="combobox" name="ProductID">
-                                            <option value=""></option>
-                                            @foreach (var item in ViewBag.listProduct)
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        </select>
-                                    </div>
-
                                 </div>
 
                                 <div class="form-group">
                                     @if (!@ViewBag.IsReturn)
                                     {
+                                        <div class="ui-widget">
+                                            <select id="combobox" name="ProductID">
+                                                <option value=""></option>
+                                                @foreach (var item in ViewBag.listProduct)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>
+
                                         <div class="form-group">
                                             @Html.Label("修護", new { @class = "control-label" })
 
@@ -90,6 +90,11 @@
                                             @Html.ValidationMessageFor(model => model.IsToFix, "", new { @class = "text-danger" })
 
                                         </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.EditorFor(model => model.ProductID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                                        @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
                                     }
                                 </div>
 
