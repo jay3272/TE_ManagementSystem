@@ -34,6 +34,30 @@ namespace TE_ManagementSystem.Controllers
             {
                 FormsAuthentication.RedirectFromLoginPage(user.RankID.ToString(), true);
                 Session.Add("CurrentUser", user);
+
+                Session.Add("UsrName", user.Name);
+
+                int irank = user.RankID;
+
+                switch (irank)
+                {
+                    case 1:
+                        Session.Add("UsrRank", "Admin");
+                        break;
+                    case 2:
+                        Session.Add("UsrRank", "Supervisor");
+                        break;
+                    case 3:
+                        Session.Add("UsrRank", "Engineer");
+                        break;
+                    case 4:
+                        Session.Add("UsrRank", "Guest");
+                        break;
+                    default:
+                        Session.Add("UsrRank", "default");
+                        break;
+                }
+
                 return RedirectToAction("Index", "Home");
             }
             else

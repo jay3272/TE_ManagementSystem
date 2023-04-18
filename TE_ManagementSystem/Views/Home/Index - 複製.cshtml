@@ -1,0 +1,49 @@
+﻿@*@{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout_index.cshtml";
+    }*@
+
+@*<h2>Index</h2>*@
+
+
+@*<h1 id="reactdiv"></h1>
+
+    <script src="~/Scripts/react/react.min.js"></script>
+    <script src="@Url.Content("~/Scripts/JS/test/App.jsx")"></script>
+    <link href="~/Content/style2.css" rel="stylesheet" />*@
+
+
+@model TE_ManagementSystem.Models.ImageViewModel
+
+<br />
+<br />
+
+<div class="container">
+    <div class="col-md-4">
+        <input type="file" id="SelectImage" /><br />
+        <a href="#" class="btn btn-sm btn-danger" onclick="UploadImage()">Upload</a>
+    </div>
+
+    <div class="col-md-4 thumbnail" id="UploadedImage"></div>
+</div>
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+<script src="~/lib/jquery/jquery.min.js"></script>
+
+<script>
+    var UploadImage = function () {
+        var file = $("#SelectImage").get(0).files;
+        var data = new FormData;
+        data.append("ImageFile", file[0]);
+        $.ajax({
+            type: "POST",
+            url: "/Home/ImageUpload",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (imgID) {
+                $("#UploadedImage").append('<img src="/Home/DisplayingImage?imgID=' + imgID + '"class=img-responsive  thimbnail"/>');
+            }
+        })
+    }
+
+</script>
