@@ -157,6 +157,20 @@ namespace TE_ManagementSystem.Controllers
             //return View(productTransaction);
         }
 
+        public ActionResult DisplayingImage(string imgid)
+        {
+            ManagementContextEntities db = new ManagementContextEntities();
+            var img = db.Products.SingleOrDefault(p => p.NumberID == imgid.Trim());
+            byte[] imageBuff = { 136, 12 };
+            if (!(img.MeProduct.ImageByte is null))
+            {
+                ImageViewModel imageViewModel = new ImageViewModel();
+                imageBuff = imageViewModel.CreateThumbnailImage(50, 50, img.MeProduct.ImageByte, true);
+            }
+
+            return File(imageBuff, "image/png");
+        }
+
         public ActionResult ViewImage(string text)
         {
             byte[] imageBuff = { 136, 12 };
@@ -164,7 +178,7 @@ namespace TE_ManagementSystem.Controllers
             {
                 //跳出錯誤訊息
             }
-            var img = db.Products.SingleOrDefault(x => x.NumberID == text);
+            var img = db.Products.SingleOrDefault(x => x.NumberID == text.Trim());
             if (!(img.MeProduct.ImageByte is null))
             {
                 ImageViewModel imageViewModel = new ImageViewModel();
