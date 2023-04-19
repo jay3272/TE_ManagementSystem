@@ -102,43 +102,51 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5")] Product Product)
         {
-            const int cNumberSeries = 5;
-            string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
-            Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room,Product.Rack);
-            Product.Usable = true;
-
-            //取label規則+1補0
-            string labelHeader = labelRuleNumber.Substring(0, 3);
-            string slabelNumber;
-            int labelNumber;
-            int.TryParse(labelRuleNumber.Substring(3, cNumberSeries), out labelNumber);
-            labelNumber += 1;
-            slabelNumber = labelNumber.ToString().PadLeft(cNumberSeries, '0');
-            Product.NumberID = labelHeader + slabelNumber;
-            //回填DB
-            if (LabelRuleRepo.UpdateLabelRuleNumber(Product.EngID, Product.NumberID))
+            try
             {
+                const int cNumberSeries = 5;
+                string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
+                Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room, Product.Rack);
+                Product.Usable = true;
 
-                int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-                maxId += 1;
-                Product.ID = maxId;
-                Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-
-                if (Product.Usable)
+                //取label規則+1補0
+                string labelHeader = labelRuleNumber.Substring(0, 3);
+                string slabelNumber;
+                int labelNumber;
+                int.TryParse(labelRuleNumber.Substring(3, cNumberSeries), out labelNumber);
+                labelNumber += 1;
+                slabelNumber = labelNumber.ToString().PadLeft(cNumberSeries, '0');
+                Product.NumberID = labelHeader + slabelNumber;
+                //回填DB
+                if (LabelRuleRepo.UpdateLabelRuleNumber(Product.EngID, Product.NumberID))
                 {
-                    Product.Status = "倉庫";
-                }
-                else
-                {
-                    Product.Status = "借出";
-                }
 
-                db.Products.Add(Product);
+                    int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                    maxId += 1;
+                    Product.ID = maxId;
+                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
-                db.SaveChanges();
+                    if (Product.Usable)
+                    {
+                        Product.Status = "倉庫";
+                    }
+                    else
+                    {
+                        Product.Status = "借出";
+                    }
 
-                if (MeProductRepo.UpdateMeProductStock(Product.EngID))
-                {
+                    db.Products.Add(Product);
+
+                    db.SaveChanges();
+
+                    if (MeProductRepo.UpdateMeProductStock(Product.EngID))
+                    {
+
+                    }
+                    else
+                    {
+                        //更新失敗
+                    }
 
                 }
                 else
@@ -146,14 +154,13 @@ namespace TE_ManagementSystem.Controllers
                     //更新失敗
                 }
 
+
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                //更新失敗
+                return Json(new { ReturnStatus = "error" });
             }
-
-
-            return RedirectToAction("Index");
         }
 
         //GET: Product/Edit

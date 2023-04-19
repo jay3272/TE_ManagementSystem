@@ -30,13 +30,20 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Email,Phone,Address,Spare2,Spare3,Spare4,Spare5")] Supplier supplier)
         {
-            int maxId = db.Suppliers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            supplier.ID = maxId;
-            db.Suppliers.Add(supplier);
+            try
+            {
+                int maxId = db.Suppliers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                supplier.ID = maxId;
+                db.Suppliers.Add(supplier);
 
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error" });
+            }
         }
 
     }

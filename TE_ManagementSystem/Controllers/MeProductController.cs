@@ -51,69 +51,75 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte")] MeProduct meProduct)
         {
-            int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
+            try
+            {
+                int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
 
-            if (meProduct.Image != "empty")
-            {
-                meProduct.ImageByte = images.ImageByte;
-            }
-            else
-            {
-                TempData["ErrMessage"] = "請確認有上傳圖片!";
-                this.loaddefault();
-                return View();
-            }
-
-            maxId += 1;
-            meProduct.ID = maxId;
-            meProduct.IsStock = false;
-            meProduct.IsReturnMe = false;
-            if (meProduct.Test == "empty")
-            {
-                meProduct.ComList = "empty";
-            }
-            else
-            {
-                List<Mutiplekpn> mutiplekpns = JsonSerializer.Deserialize<List<Mutiplekpn>>(meProduct.Test);
-                foreach (var item in mutiplekpns)
+                if (meProduct.Image != "empty")
                 {
-                    meProduct.ComList += item.value + ",";
+                    meProduct.ImageByte = images.ImageByte;
                 }
+                else
+                {
+                    TempData["ErrMessage"] = "請確認有上傳圖片!";
+                    return Json(new { ReturnStatus = "error" });
+                }
+
+                maxId += 1;
+                meProduct.ID = maxId;
+                meProduct.IsStock = false;
+                meProduct.IsReturnMe = false;
+                if (meProduct.Test == "empty")
+                {
+                    meProduct.ComList = "empty";
+                }
+                else
+                {
+                    List<Mutiplekpn> mutiplekpns = JsonSerializer.Deserialize<List<Mutiplekpn>>(meProduct.Test);
+                    foreach (var item in mutiplekpns)
+                    {
+                        meProduct.ComList += item.value + ",";
+                    }
+                }
+
+                //meProduct.ComList = JsonSerialize(meProduct.Test);
+
+                db.MeProducts.Add(meProduct);
+
+                LabelRule labelRule = new LabelRule();
+                int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
+                maxlabelRuleId +=1;
+                labelRule.ID = maxlabelRuleId;
+                labelRule.KindID = meProduct.KindID;
+                labelRule.ProcessKindID = meProduct.KindProcessID;
+
+                var chkRepeat = db.LabelRules.Where
+                (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
+
+                if (chkRepeat is null)
+                {
+                    var kindProcessess = db.KindProcesses.Where
+                    (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
+
+                    var kinds = db.Kinds.Where
+                    (k => k.ID == labelRule.KindID).FirstOrDefault();
+
+                    labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
+                    db.LabelRules.Add(labelRule);
+                }
+                else
+                {
+                    //已有此規則不需建立新的
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-
-            //meProduct.ComList = JsonSerialize(meProduct.Test);
-
-            db.MeProducts.Add(meProduct);
-
-            LabelRule labelRule = new LabelRule();
-            int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
-            maxlabelRuleId +=1;
-            labelRule.ID = maxlabelRuleId;
-            labelRule.KindID = meProduct.KindID;
-            labelRule.ProcessKindID = meProduct.KindProcessID;
-
-            var chkRepeat = db.LabelRules.Where
-            (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
-
-            if (chkRepeat is null)
+            catch (Exception ex)
             {
-                var kindProcessess = db.KindProcesses.Where
-                (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
-
-                var kinds = db.Kinds.Where
-                (k => k.ID == labelRule.KindID).FirstOrDefault();
-
-                labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
-                db.LabelRules.Add(labelRule);
+                return Json(new { ReturnStatus = "error" });
             }
-            else
-            {
-                //已有此規則不需建立新的
-            }
-
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         public JsonResult ImageUpload(ImageViewModel model)

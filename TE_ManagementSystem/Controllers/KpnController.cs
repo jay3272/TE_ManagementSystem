@@ -31,13 +31,20 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Spare1,Spare2,Spare3,Spare4,Spare5")] KPN kpn)
         {
-            int maxId = db.KPNs.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            kpn.ID = maxId;
-            db.KPNs.Add(kpn);
+            try
+            {
+                int maxId = db.KPNs.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                kpn.ID = maxId;
+                db.KPNs.Add(kpn);
 
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error" });
+            }
         }
 
     }

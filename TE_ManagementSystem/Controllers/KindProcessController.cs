@@ -31,13 +31,20 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Number,Spare1,Spare2,Spare3,Spare4,Spare5")] KindProcess kindProcess)
         {
-            int maxId = db.KindProcesses.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            kindProcess.ID = maxId;
-            db.KindProcesses.Add(kindProcess);
+            try
+            {
+                int maxId = db.KindProcesses.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                kindProcess.ID = maxId;
+                db.KindProcesses.Add(kindProcess);
 
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error" });
+            }
         }
 
     }

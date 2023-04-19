@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Content/custom/supplierMePO.js"></script>
+@*<script src="~/Content/custom/supplierMePO.js"></script>*@
 <script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link href="../Content/style2.css" rel="stylesheet" />
@@ -42,7 +42,7 @@
                     @*<div class="box-header with-border">
                             <h3 class="box-title">Create New Product</h3>
                         </div>*@
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Create", "PO", FormMethod.Post, new { id = "frmPO", enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
                         <form role="form">
@@ -263,3 +263,90 @@
         })
     }
 </script>
+
+
+<script type="text/javascript">
+
+    var postUrl = '@Url.Action("Create", "PO", new { IsReturn = @ViewBag.IsReturn })';
+
+    $(function () {
+        $('#CreateProduct').click(function (e) {
+            e.preventDefault();
+            CreateItem();
+        });
+    });
+
+    function CreateItem() {
+        var question = "確認送出?";
+        ConfirmCreate(question).then(function (answer) {
+            var ans = (String(answer) === "true");
+            if (ans) {
+                var data = $('#frmPO').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    data: data,
+                    success: function (response) {
+                        if (response.ReturnStatus == "error") {
+                            AlertCreate("請確認輸入訊息完整或資料重複 !");
+                        } else {
+                            window.location.href = "index";
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function ConfirmCreate(question) {
+        var defer = $.Deferred();
+        $('<div id="id="divCreateClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Confirm Create',
+                buttons: {
+                    "Yes": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+    function AlertCreate(question) {
+        var defer = $.Deferred();
+        $('<div style="color: red" id="id="divCreateErrorClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Error',
+                buttons: {
+                    "OK": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+</script>
+

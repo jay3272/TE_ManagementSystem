@@ -27,44 +27,51 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4")]
         public ActionResult Create(bool IsReturn)
         {
-            int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            ViewBag.SuggestedNewPoId = maxId;
-            //ViewBag.MeProducts = db.MeProducts;
-            ViewBag.IsReturn = IsReturn;
-
-            if (IsReturn)
+            try
             {
-                ViewBag.PoTitle = "歸還頁面";
-                ViewBag.PoBtn = "歸還";
-            }
-            else
-            {
-                ViewBag.PoTitle = "借出頁面";
-                ViewBag.PoBtn = "借出";
-            }
+                int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                ViewBag.SuggestedNewPoId = maxId;
+                //ViewBag.MeProducts = db.MeProducts;
+                ViewBag.IsReturn = IsReturn;
 
-
-            IProductRepo ProductRepo = new ProductRepo();
-            var productData = ProductRepo.ListAllProductInStock();
-
-            List<SelectListItem> selectProductListItems = new List<SelectListItem>();
-
-            foreach (var item in productData)
-            {
-                selectProductListItems.Add(new SelectListItem()
+                if (IsReturn)
                 {
-                    Text = item.MeProduct.ProdName + "/" + item.NumberID,
-                    Value = item.NumberID,
-                    Selected = false
-                });
+                    ViewBag.PoTitle = "歸還頁面";
+                    ViewBag.PoBtn = "歸還";
+                }
+                else
+                {
+                    ViewBag.PoTitle = "借出頁面";
+                    ViewBag.PoBtn = "借出";
+                }
+
+
+                IProductRepo ProductRepo = new ProductRepo();
+                var productData = ProductRepo.ListAllProductInStock();
+
+                List<SelectListItem> selectProductListItems = new List<SelectListItem>();
+
+                foreach (var item in productData)
+                {
+                    selectProductListItems.Add(new SelectListItem()
+                    {
+                        Text = item.MeProduct.ProdName + "/" + item.NumberID,
+                        Value = item.NumberID,
+                        Selected = false
+                    });
+                }
+
+                ViewBag.Products = productData;
+                ViewBag.listProduct = selectProductListItems;
+
+
+                return View();
             }
-
-            ViewBag.Products = productData;
-            ViewBag.listProduct = selectProductListItems;
-
-
-            return View();
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error" });
+            }
         }
 
         [HttpPost]
@@ -72,51 +79,58 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Opid,ProductID,IsReturn,IsToFix,BorrowDay,RegisterDate")] ProductTransaction productTransaction, bool IsReturn)
         {
-            int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            productTransaction.ID = maxId;
-            productTransaction.IsReturn = IsReturn;
-            productTransaction.RegisterDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-            db.ProductTransactions.Add(productTransaction);
-
-            var products = db.Products.Where
-            (m => m.NumberID == productTransaction.ProductID).FirstOrDefault();
-
-            productTransaction.BorrowDay = products.MeProduct.ShiftTime;
-
-            // 更新
-            if (IsReturn)
+            try
             {
-                if (!products.Usable)
+                int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                productTransaction.ID = maxId;
+                productTransaction.IsReturn = IsReturn;
+                productTransaction.RegisterDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                db.ProductTransactions.Add(productTransaction);
+
+                var products = db.Products.Where
+                (m => m.NumberID == productTransaction.ProductID).FirstOrDefault();
+
+                productTransaction.BorrowDay = products.MeProduct.ShiftTime;
+
+                // 更新
+                if (IsReturn)
                 {
-                    products.Status = "倉庫";
-                    products.LastReturnDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-                    products.Usable = true;
+                    if (!products.Usable)
+                    {
+                        products.Status = "倉庫";
+                        products.LastReturnDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                        products.Usable = true;
+                    }
+                    else
+                    {
+                        TempData["message"] = products.NumberID + ",已在儲室!";
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
-                    TempData["message"] = products.NumberID + ",已在儲室!";
-                    return RedirectToAction("Index");
+                    if (products.Usable)
+                    {
+                        products.Status = "借出";
+                        products.LastBorrowDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                        products.Usable = false;
+                    }
+                    else
+                    {
+                        TempData["message"] = products.NumberID + ",已借出!";
+                        return RedirectToAction("Index");
+                    }
+
                 }
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                if (products.Usable)
-                {
-                    products.Status = "借出";
-                    products.LastBorrowDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
-                    products.Usable = false;
-                }
-                else
-                {
-                    TempData["message"] = products.NumberID + ",已借出!";
-                    return RedirectToAction("Index");
-                }
-
+                return Json(new { ReturnStatus = "error" });
             }
-
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         //GET: PO/Edit
