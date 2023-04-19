@@ -32,21 +32,28 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Password")] Employee employee)
         {
-            employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
-            employee.IsActive = true;
-            if (employee.Email == string.Empty)
+            try
             {
-                employee.Email = "NA";
+                employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
+                employee.IsActive = true;
+                if (employee.Email == string.Empty)
+                {
+                    employee.Email = "NA";
+                }
+                else
+                {
+                    employee.Email = employee.Email + "@tailyn.com.tw";
+                }
+
+                db.Employees.Add(employee);
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                employee.Email = employee.Email + "@tailyn.com.tw";
+                return Json(new { ReturnStatus = "error" });
             }
-
-            db.Employees.Add(employee);
-
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         private void loaddefault()

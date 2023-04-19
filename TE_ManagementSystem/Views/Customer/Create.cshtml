@@ -5,17 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Content/custom/supplierMePO.js"></script>
-<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+@*<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>*@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<link href="../Content/style2.css" rel="stylesheet" />
+@*<link href="../Content/style2.css" rel="stylesheet" />*@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script src="~/Content/custom/supplierMePO.js"></script>
+@*<script src="~/Content/custom/supplierMePO.js"></script>*@
 
-<link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
-<script src="../Content/jquery.ui.checkList.js"></script>
+@*<link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
+    <script src="../Content/jquery.ui.checkList.js"></script>*@
 
 <section class="content">
     <div class="row">
@@ -56,7 +55,6 @@
                             @Html.ActionLink("Back to List", "Index")
                         </div>
 
-
                     </form>
                 }
             </div>
@@ -85,9 +83,9 @@
                     type: "POST",
                     url: postUrl,
                     data: data,
-                    success: function (data, textStatus) {
-                        if (data.redirect) {
-                            window.location.href = "index";
+                    success: function (response) {
+                        if (response.ReturnStatus == "error") {
+                            AlertCreate("請確認輸入訊息是否完整或資料重複 !");
                         } else {
                             window.location.href = "index";
                         }
@@ -113,6 +111,29 @@
                     },
                     "No": function () {
                         defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+    function AlertCreate(question) {
+        var defer = $.Deferred();
+        $('<div style="color: red" id="id="divCreateErrorClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Error',
+                buttons: {
+                    "OK": function () {
+                        defer.resolve("true");
                         $(this).dialog("close");
                     }
                 },

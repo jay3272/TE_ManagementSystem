@@ -31,14 +31,21 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,CustCode,Spare1,Spare2,Spare3,Spare4,Spare5")] Customer customer)
         {
-            int maxId = db.Customers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            customer.ID = maxId;
+            try
+            {
+                int maxId = db.Customers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                customer.ID = maxId;
 
-            db.Customers.Add(customer);
+                db.Customers.Add(customer);
 
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error" }); ;
+            }
         }
 
     }
