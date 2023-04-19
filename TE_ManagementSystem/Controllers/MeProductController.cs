@@ -70,7 +70,7 @@ namespace TE_ManagementSystem.Controllers
 
                 maxId += 1;
                 meProduct.ID = maxId;
-                meProduct.MeStockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                meProduct.MeStockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ff"));
                 meProduct.IsStock = false;
                 meProduct.IsReturnMe = false;
                 if (meProduct.Test == "empty")

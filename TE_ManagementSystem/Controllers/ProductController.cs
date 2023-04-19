@@ -126,7 +126,7 @@ namespace TE_ManagementSystem.Controllers
                     int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                     maxId += 1;
                     Product.ID = maxId;
-                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ff"));
 
                     if (Product.Usable)
                     {
