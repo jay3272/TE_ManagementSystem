@@ -132,6 +132,7 @@
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
           <Property Name="Test" Type="varchar" MaxLength="100" />
           <Property Name="ImageByte" Type="image" />
+          <Property Name="MeStockDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -547,6 +548,7 @@
           <NavigationProperty Name="KindProcess" Relationship="Self.FK_Product_KindProcess" FromRole="MeProduct" ToRole="KindProcess" />
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_Eng" FromRole="MeProduct" ToRole="Product" />
           <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier" FromRole="MeProduct" ToRole="Supplier" />
+          <Property Name="MeStockDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -939,6 +941,7 @@
           <EntitySetMapping Name="MeProducts">
             <EntityTypeMapping TypeName="ManagementContextModel.MeProduct">
               <MappingFragment StoreEntitySet="MeProduct">
+                <ScalarProperty Name="MeStockDate" ColumnName="MeStockDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ProdName" ColumnName="ProdName" />
                 <ScalarProperty Name="KindID" ColumnName="KindID" />

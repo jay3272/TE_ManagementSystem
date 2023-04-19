@@ -38,6 +38,8 @@
     <!-- Page Heading -->
     @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
     <!-- DataTales Example -->
+    <p><a href="/Product/Create">新增</a></p>
+
     <div class="card shadow mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
@@ -48,11 +50,14 @@
                 <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th colspan="6">info</th>
-                            <th colspan="10">ME info</th>
+                            <th colspan="7">info</th>
+                            <th colspan="9">ME info</th>
                             <th colspan="8">else</th>
                         </tr>
                         <tr>
+                            <th>
+                                入庫日期
+                            </th>
                             <th>
                                 治具編號
                             </th>
@@ -99,9 +104,6 @@
                                 有鉛
                             </th>
                             <th>
-                                入庫日期
-                            </th>
-                            <th>
                                 年限
                             </th>
                             <th>
@@ -125,6 +127,9 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StockDate)
+                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.NumberID)
                                 </td>
@@ -204,9 +209,6 @@
                                     @Html.DisplayFor(modelItem => item.MeProduct.Pb)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.StockDate)
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.Life)
                                 </td>
                                 <td>
@@ -240,6 +242,7 @@
     $(document).ready(function () {
         $('#dataTable').DataTable({
             pagingType: 'full_numbers',
+            order: [[0, 'desc']],
         });
     });
 

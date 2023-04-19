@@ -17,6 +17,8 @@
     <!-- Page Heading -->
     @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
     <!-- DataTales Example -->
+    <p><a href="/MeProduct/Create">新增</a></p>
+
     <div class="card shadow mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
@@ -28,11 +30,14 @@
                     <thead>
                         <tr>
                             <th>
+                                匯入日期
+                            </th>
+                            <th>
                                 治具名稱
                             </th>
                             @*<th>
-                                圖片
-                            </th>*@
+                                    圖片
+                                </th>*@
                             <th>
                                 製程種類
                             </th>
@@ -71,11 +76,14 @@
                         {
                             <tr>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.MeStockDate)
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.ProdName)
                                 </td>
                                 @*<td>
-                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
-                                </td>*@
+                                        <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
+                                    </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.KindProcess.Name)
                                 </td>
@@ -125,6 +133,7 @@
     $(document).ready(function () {
         $('#dataTable').DataTable({
             pagingType: 'full_numbers',
+            order: [[0, 'desc']],
         });
     });
 

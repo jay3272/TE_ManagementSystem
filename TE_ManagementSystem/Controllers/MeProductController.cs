@@ -49,7 +49,7 @@ namespace TE_ManagementSystem.Controllers
         [HttpPost]
         [Authorize(Users = "1,2,3")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte")] MeProduct meProduct)
+        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte,MeStockDate")] MeProduct meProduct)
         {
             try
             {
@@ -70,6 +70,7 @@ namespace TE_ManagementSystem.Controllers
 
                 maxId += 1;
                 meProduct.ID = maxId;
+                meProduct.MeStockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
                 meProduct.IsStock = false;
                 meProduct.IsReturnMe = false;
                 if (meProduct.Test == "empty")
