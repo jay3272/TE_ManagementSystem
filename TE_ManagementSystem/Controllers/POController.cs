@@ -81,6 +81,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(productTransaction)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 productTransaction.ID = maxId;
@@ -192,15 +194,30 @@ namespace TE_ManagementSystem.Controllers
             {
                 //跳出錯誤訊息
             }
-            var img = db.Products.SingleOrDefault(x => x.NumberID == text.Trim());
-            if (!(img.MeProduct.ImageByte is null))
+            else
             {
-                ImageViewModel imageViewModel = new ImageViewModel();
-                imageBuff = imageViewModel.CreateThumbnailImage(200, 200, img.MeProduct.ImageByte, true);
+                var img = db.Products.SingleOrDefault(x => x.NumberID == text.Trim());
+                if (!(img.MeProduct.ImageByte is null))
+                {
+                    ImageViewModel imageViewModel = new ImageViewModel();
+                    imageBuff = imageViewModel.CreateThumbnailImage(200, 200, img.MeProduct.ImageByte, true);
+                }
+                else
+                {
+                    return Json(new { ReturnStatus = "error" });
+                }
             }
 
             return Json(new { base64imgage = Convert.ToBase64String(imageBuff) }
           , JsonRequestBehavior.AllowGet);
+        }
+
+        private bool CheckInputErr(ProductTransaction productTransaction)
+        {
+            if (productTransaction.ProductID == null || productTransaction.ProductID == string.Empty) { return true; };
+            if (productTransaction.Opid == null) { return true; };
+
+            return false;
         }
 
     }

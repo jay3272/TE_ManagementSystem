@@ -33,6 +33,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(location)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.Locations.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 location.ID = maxId;
@@ -46,6 +48,14 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(Location location)
+        {
+            if (location.Name == null || location.Name == string.Empty) { return true; };
+            if (location.RackPosition == null || location.RackPosition == string.Empty) { return true; };
+
+            return false;
         }
 
     }

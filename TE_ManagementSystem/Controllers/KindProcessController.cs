@@ -33,6 +33,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(kindProcess)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.KindProcesses.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kindProcess.ID = maxId;
@@ -45,6 +47,14 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(KindProcess kindProcess)
+        {
+            if (kindProcess.Name == null || kindProcess.Name == string.Empty) { return true; };
+            if (kindProcess.Number == null || kindProcess.Number == string.Empty) { return true; };
+
+            return false;
         }
 
     }

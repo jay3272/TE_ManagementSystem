@@ -32,6 +32,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(supplier)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.Suppliers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 supplier.ID = maxId;
@@ -44,6 +46,16 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(Supplier supplier)
+        {
+            if (supplier.Name == null || supplier.Name == string.Empty) { return true; };
+            if (supplier.Email == null || supplier.Email == string.Empty) { return true; };
+            if (supplier.Phone == null || supplier.Phone == string.Empty) { return true; };
+            if (supplier.Address == null || supplier.Address == string.Empty) { return true; };
+
+            return false;
         }
 
     }

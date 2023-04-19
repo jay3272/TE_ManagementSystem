@@ -33,6 +33,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(customer)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.Customers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 customer.ID = maxId;
@@ -44,8 +46,16 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error" }); ;
+                return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(Customer customer)
+        {
+            if (customer.Name == null || customer.Name == string.Empty) { return true; };
+            if (customer.CustCode == null || customer.CustCode == string.Empty) { return true; };
+
+            return false;
         }
 
     }

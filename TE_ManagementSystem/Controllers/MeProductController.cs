@@ -53,6 +53,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
 
@@ -339,6 +341,18 @@ namespace TE_ManagementSystem.Controllers
 
         }
 
+        private bool CheckInputErr(MeProduct meProduct)
+        {
+            if (meProduct.ProdName == null || meProduct.ProdName == string.Empty) { return true; };
+            if (meProduct.KindID == 0) { return true; };
+            if (meProduct.KindProcessID == 0) { return true; };
+            if (meProduct.Opid == null) { return true; };
+            if (meProduct.SupplierID == 0) { return true; };
+            if (meProduct.CustomerID == 0) { return true; };
+            if (meProduct.Image == "empty") { return true; };
+
+            return false;
+        }
 
     }
 }

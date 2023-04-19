@@ -104,6 +104,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error" }); }
+
                 const int cNumberSeries = 5;
                 string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
                 Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room, Product.Rack);
@@ -146,12 +148,14 @@ namespace TE_ManagementSystem.Controllers
                     else
                     {
                         //更新失敗
+                        return Json(new { ReturnStatus = "error" });
                     }
 
                 }
                 else
                 {
                     //更新失敗
+                    return Json(new { ReturnStatus = "error" });
                 }
 
 
@@ -194,6 +198,15 @@ namespace TE_ManagementSystem.Controllers
             }
 
             return File(imageBuff, "image/png");
+        }
+
+        private bool CheckInputErr(Product Product)
+        {
+            if (Product.NumberID == null || Product.NumberID == string.Empty) { return true; };
+            if (Product.Room == null || Product.Room == string.Empty) { return true; };
+            if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
+
+            return false;
         }
 
     }

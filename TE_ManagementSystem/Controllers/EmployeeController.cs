@@ -34,9 +34,11 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error" }); }
+
                 employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
                 employee.IsActive = true;
-                if (employee.Email == string.Empty)
+                if (employee.Email == null)
                 {
                     employee.Email = "NA";
                 }
@@ -54,6 +56,16 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(Employee employee)
+        {
+            if (employee.Opid == null || employee.Opid == string.Empty) { return true; };
+            if (employee.Name == null || employee.Name == string.Empty) { return true; };
+            if (employee.RankID == 0) { return true; };
+            if (employee.DepartmentID == 0) { return true; };
+
+            return false;
         }
 
         private void loaddefault()

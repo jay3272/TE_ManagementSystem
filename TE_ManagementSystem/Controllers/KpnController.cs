@@ -33,6 +33,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(kpn)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.KPNs.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kpn.ID = maxId;
@@ -45,6 +47,13 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(KPN kpn)
+        {
+            if (kpn.Name == null || kpn.Name == string.Empty) { return true; };
+
+            return false;
         }
 
     }

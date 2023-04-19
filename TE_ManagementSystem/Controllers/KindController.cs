@@ -33,6 +33,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                if (this.CheckInputErr(kind)) { return Json(new { ReturnStatus = "error" }); }
+
                 int maxId = db.Kinds.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kind.ID = maxId;
@@ -45,6 +47,14 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error" });
             }
+        }
+
+        private bool CheckInputErr(Kind kind)
+        {
+            if (kind.Name == null || kind.Name == string.Empty) { return true; };
+            if (kind.Number == null || kind.Number == string.Empty) { return true; };
+
+            return false;
         }
 
     }
