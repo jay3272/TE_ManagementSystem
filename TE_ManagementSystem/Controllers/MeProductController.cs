@@ -54,7 +54,7 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error" }); }
-
+                if (MeProductRepo.CheckNameRepeat(meProduct.ProdName)) { return Json(new { ReturnStatus = "error" }); }
                 int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
 

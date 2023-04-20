@@ -32,6 +32,27 @@ namespace TE_ManagementSystem.Models.Repo
             return record;
         }
 
+        public bool CheckNameRepeat(string name)
+        {
+            try
+            {
+                int count = db.MeProducts.Where(p => p.ProdName == name).Count();
+
+                if (count >0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }                
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public bool UpdateMeProductStock(int id)
         {
             try
