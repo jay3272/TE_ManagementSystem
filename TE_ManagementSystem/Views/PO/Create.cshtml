@@ -96,6 +96,8 @@
                                             @Html.ValidationMessageFor(model => model.IsToFix, "", new { @class = "text-danger" })
 
                                         </div>
+
+                                        <button type="button" id="fill">確認填入</button>
                                     }
                                     else
                                     {
@@ -109,8 +111,6 @@
                                 </div>
 
                             </div>
-
-                            <button type="button" id="fill">確認填入</button>
 
                             <div class="box-footer">
                                 <input type="submit" value="@ViewBag.PoBtn" id="CreateProduct" class="btn btn-primary" />
@@ -332,7 +332,7 @@
                     data: data,
                     success: function (response) {
                         if (response.ReturnStatus == "error") {
-                            AlertCreate("請確認輸入訊息完整或資料重複 !");
+                            AlertCreate(response.ReturnData); //"請確認輸入訊息完整或資料重複 !"
                         } else {
                             window.location.href = "index";
                         }

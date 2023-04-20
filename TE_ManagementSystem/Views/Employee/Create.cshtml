@@ -147,7 +147,7 @@
                         data: data,
                         success: function (response) {
                             if (response.ReturnStatus == "error") {
-                                AlertCreate("請確認輸入訊息完整或資料重複 !");
+                                AlertCreate(response.ReturnData);
                             } else {
                                 window.location.href = "index";
                             }

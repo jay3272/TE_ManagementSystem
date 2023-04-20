@@ -53,8 +53,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error" }); }
-                if (MeProductRepo.CheckNameRepeat(meProduct.ProdName)) { return Json(new { ReturnStatus = "error" }); }
+                if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                if (MeProductRepo.CheckNameRepeat(meProduct.ProdName)) { return Json(new { ReturnStatus = "error", ReturnData = "治具名稱重複 !" }); }
                 int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
 
@@ -64,8 +64,8 @@ namespace TE_ManagementSystem.Controllers
                 }
                 else
                 {
-                    TempData["ErrMessage"] = "請確認有上傳圖片!";
-                    return Json(new { ReturnStatus = "error" });
+                    //TempData["ErrMessage"] = "請確認有上傳圖片!";
+                    return Json(new { ReturnStatus = "error", ReturnData = "請確認有上傳圖片 !" });
                 }
 
                 maxId += 1;
@@ -121,7 +121,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error" });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
             }
         }
 

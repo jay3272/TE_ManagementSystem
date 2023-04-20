@@ -34,7 +34,7 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error" }); }
+                if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
                 employee.IsActive = true;
@@ -54,7 +54,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error" });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
             }
         }
 

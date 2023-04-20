@@ -104,7 +104,7 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error" }); }
+                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 Product.EngID = MeProductRepo.GetMeProductIdByName(Product.Spare5);
 
                 const int cNumberSeries = 5;
@@ -149,14 +149,14 @@ namespace TE_ManagementSystem.Controllers
                     else
                     {
                         //更新失敗
-                        return Json(new { ReturnStatus = "error" });
+                        return Json(new { ReturnStatus = "error", ReturnData = "更新到倉庫狀態異常 !" });
                     }
 
                 }
                 else
                 {
                     //更新失敗
-                    return Json(new { ReturnStatus = "error" });
+                    return Json(new { ReturnStatus = "error", ReturnData = "更新治具編碼規則異常 !" });
                 }
 
 
@@ -164,7 +164,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error" });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
             }
         }
 

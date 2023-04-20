@@ -70,7 +70,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error" });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
             }
         }
 
@@ -81,7 +81,7 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(productTransaction)) { return Json(new { ReturnStatus = "error" }); }
+                if (this.CheckInputErr(productTransaction)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
@@ -106,8 +106,8 @@ namespace TE_ManagementSystem.Controllers
                     }
                     else
                     {
-                        TempData["message"] = products.NumberID + ",已在儲室!";
-                        return RedirectToAction("Index");
+                        //TempData["message"] = products.NumberID + ",已在儲室!";
+                        return Json(new { ReturnStatus = "error", ReturnData = products.NumberID + ",已在儲室!" });
                     }
                 }
                 else
@@ -131,7 +131,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error" });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
             }
         }
 
@@ -204,7 +204,7 @@ namespace TE_ManagementSystem.Controllers
                 }
                 else
                 {
-                    return Json(new { ReturnStatus = "error" });
+                    return Json(new { ReturnStatus = "error", ReturnData = "請確認有選擇圖片 !" });
                 }
             }
 
