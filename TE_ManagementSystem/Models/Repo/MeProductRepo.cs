@@ -53,9 +53,14 @@ namespace TE_ManagementSystem.Models.Repo
             return db.MeProducts.Find(id);
         }
 
-        public MeProduct GetMeProductsByName(string name)
+        public IQueryable<MeProduct> GetMeProductsByName(string name)
         {
-            return db.MeProducts.Find(name);
+            return db.MeProducts.Where(x => x.ProdName == name);
+        }
+
+        public int GetMeProductIdByName(string name)
+        {
+            return db.MeProducts.Where(x => x.ProdName == name).FirstOrDefault().ID;
         }
 
         public IQueryable<MeProduct> ListAllMeProduct()

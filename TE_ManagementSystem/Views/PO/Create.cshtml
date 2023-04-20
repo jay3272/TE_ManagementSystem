@@ -14,6 +14,10 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="~/Content/custom/supplierMePO.js"></script>
 
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.2/css/select.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
+
 
 <h2>@ViewBag.PoTitle</h2>
 
@@ -73,15 +77,17 @@
                                 <div class="form-group">
                                     @if (!@ViewBag.IsReturn)
                                     {
-                                        <div class="ui-widget">
-                                            <select id="combobox" name="ProductID">
-                                                <option value=""></option>
-                                                @foreach (var item in ViewBag.listProduct)
-                                                {
-                                                    <option value="@item.Value">@item.Text</option>
-                                                }
-                                            </select>
-                                        </div>
+                                        @*<div class="ui-widget">
+                                                <select id="combobox" name="ProductID">
+                                                    <option value=""></option>
+                                                    @foreach (var item in ViewBag.listProduct)
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                </select>
+                                            </div>*@
+                                        @Html.EditorFor(model => model.ProductID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+
 
                                         <div class="form-group">
                                             @Html.Label("修護", new { @class = "control-label" })
@@ -104,6 +110,8 @@
 
                             </div>
 
+                            <button type="button" id="fill">確認填入</button>
+
                             <div class="box-footer">
                                 <input type="submit" value="@ViewBag.PoBtn" id="CreateProduct" class="btn btn-primary" />
                                 @Html.ActionLink("回清單", "Index")
@@ -121,10 +129,12 @@
                         @if (!@ViewBag.IsReturn)
                         {
                             <div class="card shadow mb-4">
+
                                 <div class="card-header">
                                     <i class="fas fa-table me-1"></i>
                                     治具列表
                                 </div>
+
                                 <div class="card-body">
 
                                     <div class="table-responsive">
@@ -135,6 +145,7 @@
 
                                                         <thead>
                                                             <tr role="row">
+                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 2px;"></th>
                                                                 <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 85px;">治具編號</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">RFID</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">圖片</th>
@@ -162,6 +173,8 @@
                                                             @foreach (var item in ViewBag.Products)
                                                             {
                                                                 <tr>
+                                                                    <td>
+                                                                    </td>
                                                                     <td>
                                                                         @item.NumberID
                                                                     </td>
@@ -233,6 +246,7 @@
 
                                 </div>
                             </div>
+
                         }
 
                     </div>
@@ -264,6 +278,36 @@
     }
 </script>
 
+<script>
+    var table;
+    $(document).ready(function () {
+        table = $('#dataTable').DataTable({
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [[1, 'asc']],
+        });
+    });
+
+    $('#fill').click(function () {
+        if (!this.checked) {
+            var tableData = table.rows('.selected').data();
+            var tmpData = tableData[0][1]
+            //$.each(tableData, function (i, val) {
+            //    tmpData = tableData[i];
+            //    alert(tmpData);
+            //});
+            $("#ProductID").val(tmpData);
+        }
+    });
+
+</script>
 
 <script type="text/javascript">
 

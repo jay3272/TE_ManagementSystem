@@ -18,7 +18,10 @@ namespace TE_ManagementSystem.Models.Repo
         MeProduct GetMeProductById(int id);
 
         //搜尋
-        MeProduct GetMeProductsByName(string name);
+        IQueryable<MeProduct> GetMeProductsByName(string name);
+
+        //更新
+        int GetMeProductIdByName(string name);
 
         //更新
         bool UpdateMeProductStock(int id);

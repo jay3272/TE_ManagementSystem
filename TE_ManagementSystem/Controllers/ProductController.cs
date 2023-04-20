@@ -105,6 +105,7 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error" }); }
+                Product.EngID = MeProductRepo.GetMeProductIdByName(Product.Spare5);
 
                 const int cNumberSeries = 5;
                 string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
@@ -126,7 +127,7 @@ namespace TE_ManagementSystem.Controllers
                     int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                     maxId += 1;
                     Product.ID = maxId;
-                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ff"));
+                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     if (Product.Usable)
                     {
@@ -202,7 +203,7 @@ namespace TE_ManagementSystem.Controllers
 
         private bool CheckInputErr(Product Product)
         {
-            if (Product.NumberID == null || Product.NumberID == string.Empty) { return true; };
+            if (Product.Spare5 == null || Product.Spare5 == string.Empty) { return true; };
             if (Product.Room == null || Product.Room == string.Empty) { return true; };
             if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
 
