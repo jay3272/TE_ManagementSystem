@@ -7225,6 +7225,7 @@
     <Content Include="Content\custom\supplierPOPR.js" />
     <Content Include="Content\custom\supplierPOPR1.js" />
     <Content Include="Content\custom\treeView.css" />
+    <Content Include="Content\Img\image-icon.png" />
     <Content Include="Content\Img\Tailyn.png" />
     <Content Include="Content\Img\TailynLogo.png" />
     <Content Include="Content\Img\TailynLogo128.png" />

@@ -125,7 +125,7 @@ namespace TE_ManagementSystem.Controllers
             }
         }
 
-        public JsonResult ImageUpload(ImageViewModel model)
+        public ActionResult ImageUpload(ImageViewModel model)
         {
             ManagementContextEntities db = new ManagementContextEntities();
 
@@ -143,8 +143,13 @@ namespace TE_ManagementSystem.Controllers
                 images.ImageByte = imagebyte;
                 //images.ImagePath = "/UploadImage/" + file.FileName;
                 db.SaveChanges();
+
             }
-            return Json(imgId, JsonRequestBehavior.AllowGet);
+            //ImageViewModel imageViewModel = new ImageViewModel();
+            //byte[] imageBuff = imageViewModel.CreateThumbnailImage(100, 100, images.ImageByte, true);
+            //return File(imageBuff, "image/png");
+            return View();
+            //return Json(imgId, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DisplayingImage(int imgid)

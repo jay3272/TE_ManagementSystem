@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30330.147
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TE_ManagementSystem", "TE_ManagementSystem\TE_ManagementSystem.csproj", "{EF5E25A5-6E1B-4E0F-B46A-29F0EEEF5E47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LineBotService", "LineBotService\LineBotService.csproj", "{D605BD2A-E48C-4965-BE01-D21B5EA17268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineBotService", "LineBotService\LineBotService.csproj", "{D605BD2A-E48C-4965-BE01-D21B5EA17268}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAIGPT", "OpenAIGPT\OpenAIGPT.csproj", "{CF0E8306-06F1-49B8-9BD7-FB460C4ECB5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D605BD2A-E48C-4965-BE01-D21B5EA17268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D605BD2A-E48C-4965-BE01-D21B5EA17268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D605BD2A-E48C-4965-BE01-D21B5EA17268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF0E8306-06F1-49B8-9BD7-FB460C4ECB5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF0E8306-06F1-49B8-9BD7-FB460C4ECB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF0E8306-06F1-49B8-9BD7-FB460C4ECB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF0E8306-06F1-49B8-9BD7-FB460C4ECB5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
