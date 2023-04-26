@@ -138,78 +138,106 @@ namespace TE_ManagementSystem.Controllers
         //GET: PO/Edit
         public ActionResult Edit(int id)
         {
-            if (id <= 0)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id <= 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                ProductTransaction productTransaction = db.ProductTransactions.Find(id);
+
+                if (productTransaction == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(productTransaction);
             }
-
-            ProductTransaction productTransaction = db.ProductTransactions.Find(id);
-
-            if (productTransaction == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
             }
-            return View(productTransaction);
-
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Opid,ProductID,CustomerID,Kpn,BorrowReturn,BorrowDay,RegisterDate,Overdue")] ProductTransaction productTransaction)
         {
-            var productTransactions = db.ProductTransactions.Where
-                (m => m.ID == productTransaction.ID).FirstOrDefault();
+            try
+            {
 
-            productTransactions.Product.MeProduct.ComList = productTransaction.Product.MeProduct.ComList;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                var productTransactions = db.ProductTransactions.Where
+                    (m => m.ID == productTransaction.ID).FirstOrDefault();
 
-            //if (ModelState.IsValid)
-            //{
-            //    db.Entry(productTransaction).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-            //return View(productTransaction);
+                productTransactions.Product.MeProduct.ComList = productTransaction.Product.MeProduct.ComList;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+
+                //if (ModelState.IsValid)
+                //{
+                //    db.Entry(productTransaction).State = EntityState.Modified;
+                //    db.SaveChanges();
+                //    return RedirectToAction("Index");
+                //}
+                //return View(productTransaction);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+            }
         }
 
         public ActionResult DisplayingImage(string imgid)
         {
-            ManagementContextEntities db = new ManagementContextEntities();
-            var img = db.Products.SingleOrDefault(p => p.NumberID == imgid.Trim());
-            byte[] imageBuff = { 136, 12 };
-            if (!(img.MeProduct.ImageByte is null))
+            try
             {
-                ImageViewModel imageViewModel = new ImageViewModel();
-                imageBuff = imageViewModel.CreateThumbnailImage(50, 50, img.MeProduct.ImageByte, true);
-            }
+                ManagementContextEntities db = new ManagementContextEntities();
+                var img = db.Products.SingleOrDefault(p => p.NumberID == imgid.Trim());
+                byte[] imageBuff = { 136, 12 };
+                if (!(img.MeProduct.ImageByte is null))
+                {
+                    ImageViewModel imageViewModel = new ImageViewModel();
+                    imageBuff = imageViewModel.CreateThumbnailImage(50, 50, img.MeProduct.ImageByte, true);
+                }
 
-            return File(imageBuff, "image/png");
+                return File(imageBuff, "image/png");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "DisplayingImage(), ex:" + ex });
+            }
         }
 
         public ActionResult ViewImage(string text)
         {
-            byte[] imageBuff = { 136, 12 };
-            if (text == "")
+            try
             {
-                //跳出錯誤訊息
-            }
-            else
-            {
-                var img = db.Products.SingleOrDefault(x => x.NumberID == text.Trim());
-                if (!(img.MeProduct.ImageByte is null))
+                byte[] imageBuff = { 136, 12 };
+                if (text == "")
                 {
-                    ImageViewModel imageViewModel = new ImageViewModel();
-                    imageBuff = imageViewModel.CreateThumbnailImage(200, 200, img.MeProduct.ImageByte, true);
+                    //跳出錯誤訊息
                 }
                 else
                 {
-                    return Json(new { ReturnStatus = "error", ReturnData = "請確認有選擇圖片 !" });
+                    var img = db.Products.SingleOrDefault(x => x.NumberID == text.Trim());
+                    if (!(img.MeProduct.ImageByte is null))
+                    {
+                        ImageViewModel imageViewModel = new ImageViewModel();
+                        imageBuff = imageViewModel.CreateThumbnailImage(200, 200, img.MeProduct.ImageByte, true);
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "請確認有選擇圖片 !" });
+                    }
                 }
-            }
 
-            return Json(new { base64imgage = Convert.ToBase64String(imageBuff) }
-          , JsonRequestBehavior.AllowGet);
+                return Json(new { base64imgage = Convert.ToBase64String(imageBuff) }
+              , JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "ViewImage(), ex:" + ex });
+            }
         }
 
         private bool CheckInputErr(ProductTransaction productTransaction)

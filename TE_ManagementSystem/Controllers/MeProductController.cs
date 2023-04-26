@@ -127,54 +127,75 @@ namespace TE_ManagementSystem.Controllers
 
         public ActionResult ImageUpload(ImageViewModel model)
         {
-            ManagementContextEntities db = new ManagementContextEntities();
-
-            int imgId = 0;
-            var images = db.Images.Where(m => m.ID == imgId).FirstOrDefault();
-
-            var file = model.ImageFile;
-            byte[] imagebyte = null;
-            if (file != null)
+            try
             {
-                //file.SaveAs(Server.MapPath("/UploadImage/"+file.FileName));
-                BinaryReader reader = new BinaryReader(file.InputStream);
-                imagebyte = reader.ReadBytes(file.ContentLength);
-                images.Title = file.FileName;
-                images.ImageByte = imagebyte;
-                //images.ImagePath = "/UploadImage/" + file.FileName;
-                db.SaveChanges();
+                ManagementContextEntities db = new ManagementContextEntities();
 
+                int imgId = 0;
+                var images = db.Images.Where(m => m.ID == imgId).FirstOrDefault();
+
+                var file = model.ImageFile;
+                byte[] imagebyte = null;
+                if (file != null)
+                {
+                    //file.SaveAs(Server.MapPath("/UploadImage/"+file.FileName));
+                    BinaryReader reader = new BinaryReader(file.InputStream);
+                    imagebyte = reader.ReadBytes(file.ContentLength);
+                    images.Title = file.FileName;
+                    images.ImageByte = imagebyte;
+                    //images.ImagePath = "/UploadImage/" + file.FileName;
+                    db.SaveChanges();
+
+                }
+                //ImageViewModel imageViewModel = new ImageViewModel();
+                //byte[] imageBuff = imageViewModel.CreateThumbnailImage(100, 100, images.ImageByte, true);
+                //return File(imageBuff, "image/png");
+                return View();
+                //return Json(imgId, JsonRequestBehavior.AllowGet);
             }
-            //ImageViewModel imageViewModel = new ImageViewModel();
-            //byte[] imageBuff = imageViewModel.CreateThumbnailImage(100, 100, images.ImageByte, true);
-            //return File(imageBuff, "image/png");
-            return View();
-            //return Json(imgId, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "ImageUpload(), ex:" + ex });
+            }
         }
 
         public ActionResult DisplayingImage(int imgid)
         {
-            ManagementContextEntities db = new ManagementContextEntities();
-            var img = db.Images.SingleOrDefault(x => x.ID == imgid);
+            try
+            {
+                ManagementContextEntities db = new ManagementContextEntities();
+                var img = db.Images.SingleOrDefault(x => x.ID == imgid);
 
-            ImageViewModel imageViewModel = new ImageViewModel();
-            byte[] imageBuff = imageViewModel.CreateThumbnailImage(100, 100, img.ImageByte, true);
+                ImageViewModel imageViewModel = new ImageViewModel();
+                byte[] imageBuff = imageViewModel.CreateThumbnailImage(100, 100, img.ImageByte, true);
 
-            return File(imageBuff, "image/png");
+                return File(imageBuff, "image/png");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "DisplayingImage(), ex:" + ex });
+            }
         }
 
         public ActionResult DisplayingIndexImage(int imgid)
         {
-            ManagementContextEntities db = new ManagementContextEntities();
-            var img = db.MeProducts.SingleOrDefault(x => x.ID == imgid);
-            byte[] imageBuff = { 136, 12 };
-            if (!(img.ImageByte is null))
+            try
             {
-                ImageViewModel imageViewModel = new ImageViewModel();
-                imageBuff = imageViewModel.CreateThumbnailImage(50, 50, img.ImageByte, true);
-            }
+                ManagementContextEntities db = new ManagementContextEntities();
+                var img = db.MeProducts.SingleOrDefault(x => x.ID == imgid);
+                byte[] imageBuff = { 136, 12 };
+                if (!(img.ImageByte is null))
+                {
+                    ImageViewModel imageViewModel = new ImageViewModel();
+                    imageBuff = imageViewModel.CreateThumbnailImage(50, 50, img.ImageByte, true);
+                }
 
-            return File(imageBuff, "image/png");
+                return File(imageBuff, "image/png");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "DisplayingIndexImage(), ex:" + ex });
+            }
         }
 
         //public ActionResult upload()

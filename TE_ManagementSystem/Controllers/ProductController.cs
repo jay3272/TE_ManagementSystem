@@ -117,9 +117,17 @@ namespace TE_ManagementSystem.Controllers
                 string slabelNumber;
                 int labelNumber;
                 int.TryParse(labelRuleNumber.Substring(3, cNumberSeries), out labelNumber);
-                labelNumber += 1;
-                slabelNumber = labelNumber.ToString().PadLeft(cNumberSeries, '0');
-                Product.NumberID = labelHeader + slabelNumber;
+                if (labelNumber < 99999)
+                {
+                    labelNumber += 1;
+                    slabelNumber = labelNumber.ToString().PadLeft(cNumberSeries, '0');
+                    Product.NumberID = labelHeader + slabelNumber;
+                }
+                else
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "編碼超過99999 !" });
+                }
+
                 //回填DB
                 if (LabelRuleRepo.UpdateLabelRuleNumber(Product.EngID, Product.NumberID))
                 {
@@ -172,33 +180,47 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1")]
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Product product = db.Products.Find(id);
+
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
+
             }
-
-            Product product = db.Products.Find(id);
-
-            if (product == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
             }
-            return View(product);
-
         }
 
         public ActionResult DisplayingImage(int imgid)
         {
-            ManagementContextEntities db = new ManagementContextEntities();
-            var img = db.MeProducts.SingleOrDefault(x => x.ID == imgid);
-            byte[] imageBuff = { 136, 12 };
-            if (!(img.ImageByte is null))
+            try
             {
-                ImageViewModel imageViewModel = new ImageViewModel();
-                imageBuff = imageViewModel.CreateThumbnailImage(300, 300, img.ImageByte, true);
-            }
+                ManagementContextEntities db = new ManagementContextEntities();
+                var img = db.MeProducts.SingleOrDefault(x => x.ID == imgid);
+                byte[] imageBuff = { 136, 12 };
+                if (!(img.ImageByte is null))
+                {
+                    ImageViewModel imageViewModel = new ImageViewModel();
+                    imageBuff = imageViewModel.CreateThumbnailImage(300, 300, img.ImageByte, true);
+                }
 
-            return File(imageBuff, "image/png");
+                return File(imageBuff, "image/png");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "DisplayingImage(), ex:" + ex });
+            }
         }
 
         private bool CheckInputErr(Product Product)

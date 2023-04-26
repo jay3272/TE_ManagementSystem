@@ -3,8 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <style>
+        .chat-window {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background-color: #fff;
+            border: 1px solid #000;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .chat-window-minimized {
+            width: 100px;
+            height: 30px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
         /* Chatbox */
         .chatbox {
             display: flex;
@@ -127,33 +145,154 @@
                 background-color: #574fff;
             }
 
+        .chat-header {
+            background-color: #574fff;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: move;
+            user-select: none;
+        }
 
+        .chat-title {
+            float: left;
+        }
+
+        .chat-buttons {
+            float: right;
+        }
+
+            .chat-buttons button {
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                margin-left: 5px;
+                cursor: pointer;
+                outline: none;
+                user-select: none;
+            }
+
+        .minimize-button {
+            width: 30px;
+            padding: 10px;
+        }
     </style>
 
 </head>
 <body>
 
+    <div class="chat-window" id="chat-window">
 
-    <div class="chatbox">
-        <div class="chatlog">
-            <div class="message received">
-                <div class="user-photo"></div>
-                <p class="text">Hi there! How can I help you today?</p>
+        <div class="chatbox">
+            <div class="chat-header">
+                <div class="chat-title">chat</div>
+                <div class="chat-buttons">
+                    <button class="minimize-button">-</button>
+                    <button class="close-button">x</button>
+                </div>
             </div>
-            <div class="message sent">
-                <p class="text">Hi! I'm having some trouble with my account.</p>
+
+            <div class="chatlog">
+                <div class="message received">
+                    <div class="user-photo"></div>
+                    <p class="text">Hi there! How can I help you today?</p>
+                </div>
+                <div class="message sent">
+                    <p class="text">Hi! I'm having some trouble with my account.</p>
+                </div>
+                <div class="message received">
+                    <div class="user-photo"></div>
+                    <p class="text">Sure, what seems to be the problem?</p>
+                </div>
             </div>
-            <div class="message received">
-                <div class="user-photo"></div>
-                <p class="text">Sure, what seems to be the problem?</p>
-            </div>
+            <form class="chat-input">
+                <input type="text" class="message-input" placeholder="Type your message...">
+                <button type="submit" class="send-button">Send</button>
+            </form>
+
         </div>
-        <form class="chat-input">
-            <input type="text" class="message-input" placeholder="Type your message...">
-            <button type="submit" class="send-button">Send</button>
-        </form>
+
     </div>
 
 
 </body>
 </html>
+
+
+<script>
+    // 取得聊天框元素
+    const chatbox = document.querySelector('.chatbox');
+
+    // 取得最小化和關閉按鈕元素
+    const closeButton = chatbox.querySelector('.close-button');
+
+    // 關閉按鈕的點擊事件處理器
+    closeButton.addEventListener('click', () => {
+        chatbox.style.display = 'none';
+    });
+
+    // 當使用者點擊聊天室窗口時，將其縮小到右下角
+    var chatWindow = document.getElementById("chat-window");
+    chatWindow.addEventListener("click", function () {
+        chatWindow.classList.toggle("chat-window-minimized");
+    });
+
+    // 當使用者將滑鼠移動到聊天室窗口上時，將其放大
+    chatWindow.addEventListener("mouseover", function () {
+        if (chatWindow.classList.contains("chat-window-minimized")) {
+            chatWindow.classList.toggle("chat-window-minimized");
+        }
+    });
+</script>
+
+<script>
+    const messageInput = document.querySelector('.message-input');
+    const sendButton = document.querySelector('.send-button');
+    const chatlog = document.querySelector('.chatlog');
+
+    async function sendMessage() {
+        const message = messageInput.value;
+
+        if (!message.trim()) {
+            return;
+        }
+
+        // 發送 POST 請求到後端，傳送訊息並取得回覆對話
+        try {
+            const response = await fetch('/Home/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // 將回傳的對話顯示在聊天室中
+                addMessageToChatLog(message, 'outgoing');
+                addMessageToChatLog(data.reply, 'incoming');
+            } else {
+                console.error(`Failed to send message. Server responded with ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Failed to send message:', error);
+        }
+
+        // 清空訊息輸入框
+        messageInput.value = '';
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+
+    messageInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+
+</script>
