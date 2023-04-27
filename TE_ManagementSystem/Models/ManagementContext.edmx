@@ -124,13 +124,13 @@
           <Property Name="IsReturnMe" Type="bit" Nullable="false" />
           <Property Name="Pb" Type="bit" Nullable="false" />
           <Property Name="Image" Type="varchar" MaxLength="100" />
-          <Property Name="ComList" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ComList" Type="varchar(max)" Nullable="false" />
           <Property Name="Spare1" Type="varchar" MaxLength="100" />
           <Property Name="Spare2" Type="varchar" MaxLength="100" />
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
-          <Property Name="Test" Type="varchar" MaxLength="100" />
+          <Property Name="Test" Type="varchar(max)" />
           <Property Name="ImageByte" Type="image" />
           <Property Name="MeStockDate" Type="datetime" />
         </EntityType>
@@ -534,13 +534,13 @@
           <Property Name="IsReturnMe" Type="Boolean" Nullable="false" />
           <Property Name="Pb" Type="Boolean" Nullable="false" />
           <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ComList" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ComList" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Spare1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Test" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Test" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ImageByte" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Product_Customer" FromRole="MeProduct" ToRole="Customer" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_MeProduct_Opid" FromRole="MeProduct" ToRole="Employee" />

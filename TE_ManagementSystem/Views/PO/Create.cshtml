@@ -97,7 +97,7 @@
 
                                         </div>
 
-                                        <button type="button" id="fill">確認填入</button>
+                                        @*<button type="button" id="fill">確認填入</button>*@
                                     }
                                     else
                                     {
@@ -145,7 +145,6 @@
 
                                                         <thead>
                                                             <tr role="row">
-                                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 2px;"></th>
                                                                 <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 85px;">治具編號</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">RFID</th>
                                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">圖片</th>
@@ -173,8 +172,6 @@
                                                             @foreach (var item in ViewBag.Products)
                                                             {
                                                                 <tr>
-                                                                    <td>
-                                                                    </td>
                                                                     <td>
                                                                         @item.NumberID
                                                                     </td>
@@ -281,31 +278,31 @@
 <script>
     var table;
     $(document).ready(function () {
+        //var events = $('#events');
         table = $('#dataTable').DataTable({
-            columnDefs: [{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: 0
-            }],
-            select: {
-                style: 'os',
-                selector: 'td:first-child'
-            },
-            order: [[1, 'asc']],
+            select: true,
+            order: [[0, 'asc']],
         });
+
+        table
+            .on('select', function (e, dt, type, indexes) {
+                var rowData = table.rows(indexes).data().toArray();
+                //events.prepend('<div><b>' + type + ' selection</b> - ' + JSON.stringify(rowData) + '</div>');
+                $("#ProductID").val(rowData[0][0]);
+            })
     });
 
-    $('#fill').click(function () {
-        if (!this.checked) {
-            var tableData = table.rows('.selected').data();
-            var tmpData = tableData[0][1]
-            //$.each(tableData, function (i, val) {
-            //    tmpData = tableData[i];
-            //    alert(tmpData);
-            //});
-            $("#ProductID").val(tmpData);
-        }
-    });
+    //$('#fill').click(function () {
+    //    if (!this.checked) {
+    //        var tableData = table.rows('.selected').data();
+    //        var tmpData = tableData[0][1]
+    //        //$.each(tableData, function (i, val) {
+    //        //    tmpData = tableData[i];
+    //        //    alert(tmpData);
+    //        //});
+    //        $("#ProductID").val(tmpData);
+    //    }
+    //});
 
 </script>
 

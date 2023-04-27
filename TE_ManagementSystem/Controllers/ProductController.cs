@@ -212,7 +212,7 @@ namespace TE_ManagementSystem.Controllers
                 if (!(img.ImageByte is null))
                 {
                     ImageViewModel imageViewModel = new ImageViewModel();
-                    imageBuff = imageViewModel.CreateThumbnailImage(300, 300, img.ImageByte, true);
+                    imageBuff = imageViewModel.CreateThumbnailImage(600, 400, img.ImageByte, true);
                 }
 
                 return File(imageBuff, "image/png");
