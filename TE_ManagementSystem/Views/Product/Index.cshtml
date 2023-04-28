@@ -52,7 +52,7 @@
                         <tr>
                             <th colspan="7">info</th>
                             <th colspan="9">ME info</th>
-                            <th colspan="8">else</th>
+                            <th colspan="7">else</th>
                         </tr>
                         <tr>
                             <th>
@@ -98,7 +98,7 @@
                                 數量
                             </th>
                             <th>
-                                Shift Time
+                                ShiftTime
                             </th>
                             <th>
                                 有鉛
@@ -115,11 +115,11 @@
                             <th>
                                 最後使用日期
                             </th>
-                            <th>
+                            @*<th>
                                 履歷
-                            </th>
+                            </th>*@
                             <th>
-                                SPARE
+                                備註
                             </th>
                         </tr>
                     </thead>
@@ -131,7 +131,7 @@
                                     @Html.DisplayFor(modelItem => item.StockDate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.NumberID)
+                                    @Html.ActionLink(item.NumberID, "Resume", new { id = item.NumberID })                                    
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.RFID)
@@ -220,9 +220,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UseLastDate)
                                 </td>
-                                <td>
+                                @*<td>
                                     @Html.ActionLink("Link", "Resume", new { id = item.NumberID })
-                                </td>
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spare1)
                                 </td>

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TE_ManagementSystem")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Tailyn Techologies, Inc.")]
 [assembly: AssemblyProduct("TE_ManagementSystem")]
 [assembly: AssemblyCopyright("Copyright (C)  2022 - JayWu Testing Engineering Dept. Tailyn Techologies, Inc.")]
 [assembly: AssemblyTrademark("")]
