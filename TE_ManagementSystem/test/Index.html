@@ -1,4 +1,7 @@
-﻿<!doctype html>
+﻿
+
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -195,17 +198,7 @@
             </div>
 
             <div class="chatlog">
-                <div class="message received">
-                    <div class="user-photo"></div>
-                    <p class="text">Hi there! How can I help you today?</p>
-                </div>
-                <div class="message sent">
-                    <p class="text">Hi! I'm having some trouble with my account.</p>
-                </div>
-                <div class="message received">
-                    <div class="user-photo"></div>
-                    <p class="text">Sure, what seems to be the problem?</p>
-                </div>
+                
             </div>
             <form class="chat-input">
                 <input type="text" class="message-input" placeholder="Type your message...">
@@ -221,78 +214,105 @@
 </html>
 
 
-<script>
-    // 取得聊天框元素
-    const chatbox = document.querySelector('.chatbox');
-
-    // 取得最小化和關閉按鈕元素
-    const closeButton = chatbox.querySelector('.close-button');
-
-    // 關閉按鈕的點擊事件處理器
-    closeButton.addEventListener('click', () => {
-        chatbox.style.display = 'none';
-    });
-
-    // 當使用者點擊聊天室窗口時，將其縮小到右下角
-    var chatWindow = document.getElementById("chat-window");
-    chatWindow.addEventListener("click", function () {
-        chatWindow.classList.toggle("chat-window-minimized");
-    });
-
-    // 當使用者將滑鼠移動到聊天室窗口上時，將其放大
-    chatWindow.addEventListener("mouseover", function () {
-        if (chatWindow.classList.contains("chat-window-minimized")) {
-            chatWindow.classList.toggle("chat-window-minimized");
-        }
-    });
-</script>
 
 <script>
     const messageInput = document.querySelector('.message-input');
     const sendButton = document.querySelector('.send-button');
     const chatlog = document.querySelector('.chatlog');
 
-    async function sendMessage() {
-        const message = messageInput.value;
 
-        if (!message.trim()) {
+    //function sendMessage() {
+
+    //    // 取得訊息文字
+    //    const messageText = messageInput.value.trim();
+
+    //    // 如果訊息文字為空，就不做任何事情
+    //    if (messageText === '') {
+    //        return;
+    //    }
+
+    //    // 建立一個新的訊息元素
+    //    const messageElement = document.createElement('div');
+    //    messageElement.classList.add('message');
+    //    messageElement.classList.add('sent');
+
+    //    // 設定訊息元素的 HTML 內容
+    //    messageElement.innerHTML = '<div class="message sent"><p class="text">' + messageText + '</p></div>';
+
+
+    //    // 將訊息元素加入聊天室中
+    //    chatlog.appendChild(messageElement);
+
+    //    // 捲動聊天室到最下面
+    //    chatlog.scrollTop = chatlog.scrollHeight;
+
+    //    // 清空訊息文字
+    //    messageInput.value = '';
+
+
+    //}
+    sendButton.addEventListener('click', function (e) {
+        e.preventDefault(); // 阻止表單提交
+        // 取得訊息文字
+        const messageText = messageInput.value.trim();
+
+        // 如果訊息文字為空，就不做任何事情
+        if (messageText === '') {
             return;
         }
 
-        // 發送 POST 請求到後端，傳送訊息並取得回覆對話
-        try {
-            const response = await fetch('/Home/sendMessage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message })
-            });
+        // 建立一個新的訊息元素
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.classList.add('sent');
 
-            if (response.ok) {
-                const data = await response.json();
+        // 設定訊息元素的 HTML 內容
+        messageElement.innerHTML = '<div class="message sent"><p class="text">' + messageText + '</p></div>';
 
-                // 將回傳的對話顯示在聊天室中
-                addMessageToChatLog(message, 'outgoing');
-                addMessageToChatLog(data.reply, 'incoming');
-            } else {
-                console.error(`Failed to send message. Server responded with ${response.status}`);
-            }
-        } catch (error) {
-            console.error('Failed to send message:', error);
-        }
 
-        // 清空訊息輸入框
+        // 將訊息元素加入聊天室中
+        chatlog.appendChild(messageElement);
+
+        // 捲動聊天室到最下面
+        chatlog.scrollTop = chatlog.scrollHeight;
+
+        // 清空訊息文字
         messageInput.value = '';
-    }
+        //const formData = new FormData(this);
+        //const xhr = new XMLHttpRequest();
+        //xhr.open('POST', '@Url.Action("Chat","Home")', true);
+        //xhr.onload = function () {
+        //    if (xhr.status === 200) {
+        //        // 成功提交表單，更新聊天記錄等操作
+        //        // 取得訊息文字
+        //        const messageText = messageInput.value.trim();
 
-    sendButton.addEventListener('click', sendMessage);
+        //        // 如果訊息文字為空，就不做任何事情
+        //        if (messageText === '') {
+        //            return;
+        //        }
 
-    messageInput.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            sendMessage();
-        }
+        //        // 建立一個新的訊息元素
+        //        const messageElement = document.createElement('div');
+        //        messageElement.classList.add('message');
+        //        messageElement.classList.add('sent');
+
+        //        // 設定訊息元素的 HTML 內容
+        //        messageElement.innerHTML = '<div class="message sent"><p class="text">' + messageText + '</p></div>';
+
+
+        //        // 將訊息元素加入聊天室中
+        //        chatlog.appendChild(messageElement);
+
+        //        // 捲動聊天室到最下面
+        //        chatlog.scrollTop = chatlog.scrollHeight;
+
+        //        // 清空訊息文字
+        //        messageInput.value = '';
+        //    }
+        };
+        xhr.send(formData); // 發送表單數據
     });
+
 
 </script>

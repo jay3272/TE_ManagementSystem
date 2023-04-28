@@ -58,5 +58,17 @@ namespace TE_ManagementSystem.Controllers
             var img = db.Images.SingleOrDefault(x => x.ID == imgid);
             return File(img.ImageByte, "image/jpg");
         }
+
+        [HttpPost]
+        public ActionResult Chat(FormCollection collection)
+        {
+            string text = collection["text"];
+
+            // 做一些處理，回傳回覆訊息
+            string replyText = "您剛才說了：" + text;
+
+            return Json(new { text = replyText });
+        }
+        
     }
 }
