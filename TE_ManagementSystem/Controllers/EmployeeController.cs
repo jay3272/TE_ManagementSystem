@@ -36,7 +36,7 @@ namespace TE_ManagementSystem.Controllers
             {
                 if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
-                employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
+                //employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
                 employee.IsActive = true;
                 if (employee.Email == null)
                 {

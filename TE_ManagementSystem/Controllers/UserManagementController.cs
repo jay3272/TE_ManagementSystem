@@ -27,7 +27,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Login(Employee emp)
         {
             if (emp.Password == null) { emp.Password = string.Empty; }
-            emp.Password = Encryption.Encrypt(emp.Password, "d3A#");
+            //emp.Password = Encryption.Encrypt(emp.Password, "d3A#");
 
             Employee user = db.Employees.SingleOrDefault(usr => ((usr.Opid == emp.Opid) && (usr.Password == emp.Password)));
             if (user != null)

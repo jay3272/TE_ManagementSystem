@@ -19,7 +19,7 @@ namespace OpenAIGPT.Controllers
             {
                 Model = "text-davinci-003",
                 Prompt = query,
-                MaxTokens = 120
+                MaxTokens = 720
             };
             CompletionResponse completionResponse = new CompletionResponse();
             using (HttpClient httpClient = new HttpClient())
@@ -43,6 +43,14 @@ namespace OpenAIGPT.Controllers
                                     }
                                 }
                             }
+                            else
+                            {
+                                return BadRequest($"HTTP Error: {httpResponse.StatusCode}");
+                            }
+                        }
+                        else
+                        {
+                            return BadRequest("No response from OpenAI API.");
                         }
                         if (completionResponse is not null)
                         {
@@ -50,6 +58,7 @@ namespace OpenAIGPT.Controllers
                             return Ok(completionText);
                             //Console.WriteLine(completionText);
                         }
+
                     }
 
 

@@ -17,8 +17,8 @@
             position: fixed;
             bottom: 0;
             right: 0;
-            width: 400px;
-            height: 400px;
+            width: 800px;
+            height: 800px;
             background-color: #fff;
             border: 1px solid #000;
             overflow: hidden;
@@ -35,8 +35,8 @@
         .chatbox {
             display: flex;
             flex-direction: column;
-            height: 400px;
-            width: 400px;
+            height: 800px;
+            width: 800px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -293,6 +293,8 @@
         txt.setAttribute('class', 'text');
         messageElement.appendChild(txt);
         chatlog.appendChild(messageElement);
+        // 捲動聊天室到最下面
+        chatlog.scrollTop = chatlog.scrollHeight;
 
         // 設定回應的處理函式
         xhr.onreadystatechange = function () {
