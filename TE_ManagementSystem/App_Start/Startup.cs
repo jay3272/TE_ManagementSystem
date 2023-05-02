@@ -16,20 +16,12 @@ namespace TE_ManagementSystem
     {
         public void Configuration(IAppBuilder app)
         {
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-
+            
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/UserManagement/Login"),
-                Provider = new CookieAuthenticationProvider
-                {
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(2800),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
+                Provider = new CookieAuthenticationProvider{}
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

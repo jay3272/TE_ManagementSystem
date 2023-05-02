@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TE_ManagementSystem.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         [Authorize(Users = "1,2,3,4")]
@@ -60,14 +64,27 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Chat(FormCollection collection)
+        public async Task <ActionResult> Chat(FormCollection collection)
         {
             string text = collection["text"];
 
-            // 做一些處理，回傳回覆訊息
-            string replyText = "您剛才說了：" + text;
+            var query = text;
+            var apiUrl = $"https://chatgp.azurewebsites.net/api/Chat/UseChatGPT?query={query}";
 
-            return Json(new { text = replyText });
+            HttpClient httpClient = new HttpClient();
+            var client = httpClient;
+            var response = await client.GetAsync(apiUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return Json(new {text = responseContent});
+            }
+            else
+            {
+                return Json(new { text = "Failed to call API. Status code: " + response.StatusCode });
+            }   
+
         }
         
     }
