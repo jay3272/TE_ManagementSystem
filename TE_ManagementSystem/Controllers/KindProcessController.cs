@@ -8,13 +8,14 @@ using TE_ManagementSystem.Models.Repo;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class KindProcessController : Controller
     {
         IKindProcessRepo KindProcessRepo = new KindProcessRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: KindProcess
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(KindProcessRepo.ListAllKindProcess());

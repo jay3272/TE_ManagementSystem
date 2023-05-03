@@ -8,13 +8,14 @@ using TE_ManagementSystem.Models.Repo;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         IEmployeeRepo EmployeeRepo = new EmployeeRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Employee
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(EmployeeRepo.ListAllEmployee());
@@ -91,7 +92,8 @@ namespace TE_ManagementSystem.Controllers
             dictRank.Add("1", "Admin");
             dictRank.Add("2", "Supervisor");
             dictRank.Add("3", "Engineer");
-            dictRank.Add("4", "Guest");
+            dictRank.Add("4", "Operator");
+            dictRank.Add("5", "Guest");
 
             foreach (KeyValuePair<string, string> item in dictRank)
             {

@@ -9,6 +9,7 @@ using System.Net;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         IProductRepo ProductRepo = new ProductRepo();
@@ -18,7 +19,7 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Product
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(ProductRepo.ListAllProductUpdateDue());

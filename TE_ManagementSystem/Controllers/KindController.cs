@@ -8,26 +8,27 @@ using TE_ManagementSystem.Models.Repo;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class KindController : Controller
     {
         IKindRepo KindRepo = new KindRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Kind
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(KindRepo.ListAllKind());
         }
 
-        [Authorize(Users = "1,2,3")]
+        [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Users = "1,2,3")]
+        [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Number,Spare1,Spare2,Spare3,Spare4,Spare5")] Kind kind)
         {

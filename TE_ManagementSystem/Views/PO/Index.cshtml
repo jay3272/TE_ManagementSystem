@@ -7,9 +7,9 @@
 
 @*<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -66,7 +66,7 @@
                             <th>
                                 登記時間
                             </th>
-                            <th></th>
+                            @*<th></th>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -122,11 +122,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.RegisterDate)
                                 </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                                </td>
+                                @*<td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                    </td>*@
                             </tr>
                         }
                     </tbody>
@@ -137,14 +137,13 @@
 
 </div>
 <!-- /.container-fluid -->
-
 @*@if (TempData["message"] != null)
-{
-    <script type="text/javascript">
-            var message = @Html.Raw(Json.Encode(TempData["message"]));
-            alert(message);
-    </script>
-}*@
+    {
+        <script type="text/javascript">
+                var message = @Html.Raw(Json.Encode(TempData["message"]));
+                alert(message);
+        </script>
+    }*@
 
 <script>
 

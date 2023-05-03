@@ -16,7 +16,7 @@ namespace TE_ManagementSystem.Models
             [Display(Name = "種類名稱")]
             public string Name { get; set; }
             [Required(ErrorMessage = "Number is required.")]
-            [Display(Name = "種類代碼")]
+            [Display(Name = "種類代號")]
             public string Number { get; set; }
         }
     }

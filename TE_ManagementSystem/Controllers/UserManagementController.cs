@@ -51,6 +51,9 @@ namespace TE_ManagementSystem.Controllers
                         Session.Add("UsrRank", "Engineer");
                         break;
                     case 4:
+                        Session.Add("UsrRank", "Operator");
+                        break;
+                    case 5:
                         Session.Add("UsrRank", "Guest");
                         break;
                     default:

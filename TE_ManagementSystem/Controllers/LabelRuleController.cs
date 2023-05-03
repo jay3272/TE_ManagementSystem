@@ -8,13 +8,14 @@ using TE_ManagementSystem.Models.Repo;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class LabelRuleController : Controller
     {
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: LabelRule
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(LabelRuleRepo.ListAllLabelRule());

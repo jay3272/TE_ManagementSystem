@@ -11,13 +11,14 @@ using System.Threading.Tasks;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class MeProductController : Controller
     {
         IMeProductRepo MeProductRepo = new MeProductRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: MeProduct
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(MeProductRepo.ListAllMeProduct());

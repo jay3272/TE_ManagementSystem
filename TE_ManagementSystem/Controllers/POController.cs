@@ -10,6 +10,7 @@ using System.Data.Entity;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class POController : Controller
     {
         IPORepo PORepo = new PORepo();
@@ -17,7 +18,7 @@ namespace TE_ManagementSystem.Controllers
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: PO
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(PORepo.ListAllProductTransaction());

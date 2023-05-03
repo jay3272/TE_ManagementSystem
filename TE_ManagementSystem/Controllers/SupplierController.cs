@@ -8,13 +8,14 @@ using TE_ManagementSystem.Models.Repo;
 
 namespace TE_ManagementSystem.Controllers
 {
+    [Authorize]
     public class SupplierController : Controller
     {
         ISupplierRepo SupplierRepo = new SupplierRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Supplier
-        [Authorize(Users = "1,2,3,4")]
+        [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
             return View(SupplierRepo.ListAllSupplier());
