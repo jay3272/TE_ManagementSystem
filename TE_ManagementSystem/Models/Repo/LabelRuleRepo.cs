@@ -41,12 +41,94 @@ namespace TE_ManagementSystem.Models.Repo
             return labelRule.LabelRule1;
         }
 
+        //public string GetDefaultLabelRule()
+        //{            
+        //    var labelRule = db.LabelRules.Where
+        //    (k => (k.ID == 0)).FirstOrDefault();
+
+        //    return labelRule.LabelRule1;
+        //}
+
         public int GetLocationID(string room, string rack)
         {
             var location = db.Locations.Where
             (x => (x.Name == room && x.RackPosition == rack)).FirstOrDefault();
 
             return location.ID;
+        }
+
+        public bool GenerateLabelRule(int kindId, int processKindID)
+        {
+            LabelRule labelRule = new LabelRule();
+            int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
+            maxlabelRuleId += 1;
+            labelRule.ID = maxlabelRuleId;
+            labelRule.KindID = kindId;
+            labelRule.ProcessKindID = processKindID;
+
+            var chkRepeat = db.LabelRules.Where
+            (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
+
+            if (chkRepeat is null)
+            {
+                var kindProcessess = db.KindProcesses.Where
+                (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
+
+                var kinds = db.Kinds.Where
+                (k => k.ID == labelRule.KindID).FirstOrDefault();
+
+                labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
+                db.LabelRules.Add(labelRule);
+                db.SaveChanges();
+                return true;
+            }
+            else
+            {
+                //已有此規則不需建立新的
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// 給手動匯入資料庫檢查使用
+        /// </summary>
+        /// <param name="engID"></param>
+        /// <returns></returns>
+        public bool GenerateLabelRule(int engID)
+        {
+            MeProduct meProduct = new MeProduct();
+            var meProd = db.MeProducts.Where
+                (m => m.ID == engID).FirstOrDefault();
+
+            LabelRule labelRule = new LabelRule();
+            int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
+            maxlabelRuleId += 1;
+            labelRule.ID = maxlabelRuleId;
+            labelRule.KindID = meProd.KindID;
+            labelRule.ProcessKindID = meProd.KindProcessID;
+
+            var chkRepeat = db.LabelRules.Where
+            (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
+
+            if (chkRepeat is null)
+            {
+                var kindProcessess = db.KindProcesses.Where
+                (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
+
+                var kinds = db.Kinds.Where
+                (k => k.ID == labelRule.KindID).FirstOrDefault();
+
+                labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
+                db.LabelRules.Add(labelRule);
+                db.SaveChanges();
+                return true;
+            }
+            else
+            {
+                //已有此規則不需建立新的
+                return false;
+            }
         }
 
         public IQueryable<LabelRule> ListAllLabelRule()
@@ -104,7 +186,7 @@ namespace TE_ManagementSystem.Models.Repo
 
                 // TODO: 釋出非受控資源 (非受控物件) 並覆寫完成項
                 // TODO: 將大型欄位設為 Null
-                disposedValue=true;
+                disposedValue = true;
             }
         }
 

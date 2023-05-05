@@ -109,9 +109,24 @@ namespace TE_ManagementSystem.Controllers
                 Product.EngID = MeProductRepo.GetMeProductIdByName(Product.Spare5);
 
                 const int cNumberSeries = 5;
-                string labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
-                Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room, Product.Rack);
-                Product.Usable = true;
+                string labelRuleNumber;
+                //判斷待處理治具
+                MeProduct meProduct = new MeProduct();
+                var meProd = db.MeProducts.Where
+                    (m => m.ID == Product.EngID).FirstOrDefault();
+
+                if (meProd.KindID == 0 || meProd.KindProcessID == 0)
+                {
+                    //labelRuleNumber = LabelRuleRepo.GetDefaultLabelRule();
+                    return Json(new { ReturnStatus = "error", ReturnData = "種類與製程種類未分類不允許匯入 !" });
+                }
+                else
+                {
+                    this.LabelRuleRepo.GenerateLabelRule(Product.EngID); 
+                    labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
+                    Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room, Product.Rack);
+                    Product.Usable = true;
+                }
 
                 //取label規則+1補0
                 string labelHeader = labelRuleNumber.Substring(0, 3);

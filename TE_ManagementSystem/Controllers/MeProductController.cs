@@ -15,6 +15,7 @@ namespace TE_ManagementSystem.Controllers
     public class MeProductController : Controller
     {
         IMeProductRepo MeProductRepo = new MeProductRepo();
+        ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: MeProduct
@@ -91,30 +92,13 @@ namespace TE_ManagementSystem.Controllers
 
                 db.MeProducts.Add(meProduct);
 
-                LabelRule labelRule = new LabelRule();
-                int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
-                maxlabelRuleId +=1;
-                labelRule.ID = maxlabelRuleId;
-                labelRule.KindID = meProduct.KindID;
-                labelRule.ProcessKindID = meProduct.KindProcessID;
-
-                var chkRepeat = db.LabelRules.Where
-                (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
-
-                if (chkRepeat is null)
+                if (meProduct.KindID == 0 || meProduct.KindProcessID == 0)
                 {
-                    var kindProcessess = db.KindProcesses.Where
-                    (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
-
-                    var kinds = db.Kinds.Where
-                    (k => k.ID == labelRule.KindID).FirstOrDefault();
-
-                    labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
-                    db.LabelRules.Add(labelRule);
+                    //pass
                 }
                 else
                 {
-                    //已有此規則不需建立新的
+                    this.LabelRuleRepo.GenerateLabelRule(meProduct.KindID, meProduct.KindProcessID);
                 }
 
                 db.SaveChanges();
@@ -166,9 +150,12 @@ namespace TE_ManagementSystem.Controllers
             {
                 ManagementContextEntities db = new ManagementContextEntities();
                 var img = db.Images.SingleOrDefault(x => x.ID == imgid);
-
-                ImageViewModel imageViewModel = new ImageViewModel();
-                byte[] imageBuff = imageViewModel.CreateThumbnailImage(100, 100, img.ImageByte, true);
+                byte[] imageBuff = { 136, 12 };
+                if (!(img.ImageByte is null))
+                {
+                    ImageViewModel imageViewModel = new ImageViewModel();
+                    imageBuff = imageViewModel.CreateThumbnailImage(100, 100, img.ImageByte, true);
+                }                    
 
                 return File(imageBuff, "image/png");
             }
@@ -372,11 +359,11 @@ namespace TE_ManagementSystem.Controllers
         private bool CheckInputErr(MeProduct meProduct)
         {
             if (meProduct.ProdName == null || meProduct.ProdName == string.Empty) { return true; };
-            if (meProduct.KindID == 0) { return true; };
-            if (meProduct.KindProcessID == 0) { return true; };
+            //if (meProduct.KindID == 0) { return true; };
+            //if (meProduct.KindProcessID == 0) { return true; };
             if (meProduct.Opid == null) { return true; };
-            if (meProduct.SupplierID == 0) { return true; };
-            if (meProduct.CustomerID == 0) { return true; };
+            //if (meProduct.SupplierID == 0) { return true; };
+            //if (meProduct.CustomerID == 0) { return true; };
             if (meProduct.Image == "empty") { return true; };
 
             return false;
