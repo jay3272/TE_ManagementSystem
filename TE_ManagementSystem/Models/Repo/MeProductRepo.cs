@@ -57,9 +57,12 @@ namespace TE_ManagementSystem.Models.Repo
         {
             try
             {
-                //var record = db.MeProduct.Find(id);
-                db.MeProducts.Find(id).IsStock = true;
-                //record.IsStock = true;
+
+                var meProduct = db.MeProducts.Where
+                (m => m.ID == id).FirstOrDefault();
+
+                meProduct.IsStock = true;
+                
                 db.SaveChanges();
                 return true;
             }

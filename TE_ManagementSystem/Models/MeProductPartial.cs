@@ -39,7 +39,6 @@ namespace TE_ManagementSystem.Models
             [Required(ErrorMessage = "required.")]
             [Display(Name = "有鉛")]
             public bool Pb { get; set; }
-            [Required(ErrorMessage = "required.")]
             [Display(Name = "圖片")]
             public string Image { get; set; }
             [Required(ErrorMessage = "required.")]

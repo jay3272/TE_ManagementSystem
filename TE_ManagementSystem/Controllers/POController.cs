@@ -94,6 +94,11 @@ namespace TE_ManagementSystem.Controllers
                 var products = db.Products.Where
                 (m => m.NumberID == productTransaction.ProductID).FirstOrDefault();
 
+                if (products == null)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = productTransaction.ProductID + ",不存在於治具編號內!" });
+                }
+
                 productTransaction.BorrowDay = products.MeProduct.ShiftTime;
 
                 // 更新

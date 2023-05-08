@@ -164,8 +164,6 @@ namespace TE_ManagementSystem.Controllers
 
                     db.Products.Add(Product);
 
-                    db.SaveChanges();
-
                     if (MeProductRepo.UpdateMeProductStock(Product.EngID))
                     {
 
@@ -175,6 +173,8 @@ namespace TE_ManagementSystem.Controllers
                         //更新失敗
                         return Json(new { ReturnStatus = "error", ReturnData = "更新到倉庫狀態異常 !" });
                     }
+
+                    db.SaveChanges();
 
                 }
                 else

@@ -159,6 +159,7 @@
                                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具名稱</th>
                                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">匯入日期</th>
                                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">種類</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">製程種類</th>
                                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">客戶</th>
                                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">供應商</th>
                                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">數量</th>
@@ -177,13 +178,16 @@
                                                                 @item.ProdName
                                                             </td>
                                                             @*<td>
-                                                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
-                                                                </td>*@
+            <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
+        </td>*@
                                                             <td>
                                                                 @item.MeStockDate
                                                             </td>
                                                             <td>
                                                                 @item.Kind.Name
+                                                            </td>
+                                                            <td>
+                                                                @item.KindProcess.Name
                                                             </td>
                                                             <td>
                                                                 @item.Customer.Name

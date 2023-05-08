@@ -19,7 +19,7 @@ namespace TE_ManagementSystem.Models.Repo
 
         //取得LabelRule
         String GetLabelRule(int engId);
-        String GetDefaultLabelRule();
+        //String GetDefaultLabelRule();
 
         int GetLocationID(string room, string rack);
 

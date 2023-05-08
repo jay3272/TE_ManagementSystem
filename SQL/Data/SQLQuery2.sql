@@ -1,0 +1,1 @@
+SELECT * FROM ManagementContext.dbo.MeProduct ORDER BY MeStockDate DESC;
