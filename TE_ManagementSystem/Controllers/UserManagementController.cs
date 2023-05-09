@@ -15,8 +15,8 @@ namespace TE_ManagementSystem.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            Session.Clear();
-            Session.Abandon();
+            //Session.Clear();
+            //Session.Abandon();
 
             return View();
         }
