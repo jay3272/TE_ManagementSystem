@@ -36,6 +36,7 @@ namespace TE_ManagementSystem.Controllers
                 Session.Add("CurrentUser", user);
 
                 Session.Add("UsrName", user.Name);
+                Session.Add("UsrOpid", user.Opid);
 
                 int irank = user.RankID;
 

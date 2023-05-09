@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Opid, "工號", htmlAttributes: new { @class = "control-label" })
                                     <div class="col-md-12">
-                                        <input type="text" name="Opid" id="Opid" />
+                                        <input type="text" name="Opid" id="Opid" value="@Session["UsrOpid"]"/>
                                         @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger", style = "width:Auto" })
                                     </div>
                                 </div>
