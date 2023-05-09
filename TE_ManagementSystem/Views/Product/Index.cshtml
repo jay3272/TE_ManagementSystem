@@ -116,10 +116,16 @@
                                 最後使用日期
                             </th>
                             @*<th>
-                                履歷
-                            </th>*@
+                                    履歷
+                                </th>*@
                             <th>
                                 備註
+                            </th>
+                            <th>
+                                更新日期
+                            </th>
+                            <th>
+                                更新(創建)人員
                             </th>
                         </tr>
                     </thead>
@@ -131,7 +137,7 @@
                                     @Html.DisplayFor(modelItem => item.StockDate)
                                 </td>
                                 <td>
-                                    @Html.ActionLink(item.NumberID, "Resume", new { id = item.NumberID })                                    
+                                    @Html.ActionLink(item.NumberID, "Resume", new { id = item.NumberID })
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.RFID)
@@ -221,10 +227,16 @@
                                     @Html.DisplayFor(modelItem => item.UseLastDate)
                                 </td>
                                 @*<td>
-                                    @Html.ActionLink("Link", "Resume", new { id = item.NumberID })
-                                </td>*@
+                                        @Html.ActionLink("Link", "Resume", new { id = item.NumberID })
+                                    </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spare1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateEmployee)
                                 </td>
                             </tr>
                         }

@@ -42,6 +42,8 @@ namespace TE_ManagementSystem.Models
         public string Test { get; set; }
         public byte[] ImageByte { get; set; }
         public Nullable<System.DateTime> MeStockDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string UpdateEmployee { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }

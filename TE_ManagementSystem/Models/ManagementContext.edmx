@@ -17,6 +17,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -29,6 +31,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -41,6 +45,8 @@
           <Property Name="DepartmentID" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -63,6 +69,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="KindProcess">
           <Key>
@@ -71,6 +79,8 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Number" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="KPN">
           <Key>
@@ -83,6 +93,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="LabelRule">
           <Key>
@@ -106,6 +118,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MeProduct">
           <Key>
@@ -133,6 +147,8 @@
           <Property Name="Test" Type="varchar(max)" />
           <Property Name="ImageByte" Type="image" />
           <Property Name="MeStockDate" Type="datetime" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -158,6 +174,8 @@
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
           <Property Name="Room" Type="varchar" MaxLength="100" />
           <Property Name="Rack" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -189,6 +207,8 @@
           <Property Name="Spare3" Type="varchar" MaxLength="100" />
           <Property Name="Spare4" Type="varchar" MaxLength="100" />
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Employee_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
@@ -416,6 +436,8 @@
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_Product_Customer" FromRole="Customer" ToRole="MeProduct" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -429,6 +451,8 @@
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -444,6 +468,8 @@
           <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_MeProduct_Opid" FromRole="Employee" ToRole="MeProduct" />
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Opid" FromRole="Employee" ToRole="ProductTransaction" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -468,6 +494,8 @@
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="LabelRules" Relationship="Self.FK_LabelRule_Kind" FromRole="Kind" ToRole="LabelRule" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_Product_Kind" FromRole="Kind" ToRole="MeProduct" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="KindProcess">
           <Key>
@@ -478,6 +506,8 @@
           <Property Name="Number" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="LabelRules" Relationship="Self.FK_LabelRule_ProcessKind" FromRole="KindProcess" ToRole="LabelRule" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_Product_KindProcess" FromRole="KindProcess" ToRole="MeProduct" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="KPN">
           <Key>
@@ -490,6 +520,8 @@
           <Property Name="Spare3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="LabelRule">
           <Key>
@@ -516,6 +548,8 @@
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_Location" FromRole="Location" ToRole="Product" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="MeProduct">
           <Key>
@@ -549,6 +583,8 @@
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_Eng" FromRole="MeProduct" ToRole="Product" />
           <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier" FromRole="MeProduct" ToRole="Supplier" />
           <Property Name="MeStockDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -577,6 +613,8 @@
           <NavigationProperty Name="Location" Relationship="Self.FK_Product_Location" FromRole="Product" ToRole="Location" />
           <NavigationProperty Name="MeProduct" Relationship="Self.FK_Product_Eng" FromRole="Product" ToRole="MeProduct" />
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Product" FromRole="Product" ToRole="ProductTransaction" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -611,6 +649,8 @@
           <Property Name="Spare4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Spare5" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_Product_Supplier" FromRole="Supplier" ToRole="MeProduct" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Product_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
@@ -830,6 +870,8 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="ManagementContextModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CustCode" ColumnName="CustCode" />
@@ -844,6 +886,8 @@
           <EntitySetMapping Name="Departments">
             <EntityTypeMapping TypeName="ManagementContextModel.Department">
               <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Spare1" ColumnName="Spare1" />
@@ -857,6 +901,8 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="ManagementContextModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="Opid" ColumnName="Opid" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -880,6 +926,8 @@
           <EntitySetMapping Name="Kinds">
             <EntityTypeMapping TypeName="ManagementContextModel.Kind">
               <MappingFragment StoreEntitySet="Kind">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
@@ -894,6 +942,8 @@
           <EntitySetMapping Name="KindProcesses">
             <EntityTypeMapping TypeName="ManagementContextModel.KindProcess">
               <MappingFragment StoreEntitySet="KindProcess">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
@@ -903,6 +953,8 @@
           <EntitySetMapping Name="KPNs">
             <EntityTypeMapping TypeName="ManagementContextModel.KPN">
               <MappingFragment StoreEntitySet="KPN">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Spare1" ColumnName="Spare1" />
@@ -926,6 +978,8 @@
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="ManagementContextModel.Location">
               <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RackPosition" ColumnName="RackPosition" />
@@ -941,6 +995,8 @@
           <EntitySetMapping Name="MeProducts">
             <EntityTypeMapping TypeName="ManagementContextModel.MeProduct">
               <MappingFragment StoreEntitySet="MeProduct">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="MeStockDate" ColumnName="MeStockDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ProdName" ColumnName="ProdName" />
@@ -969,6 +1025,8 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ManagementContextModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NumberID" ColumnName="NumberID" />
                 <ScalarProperty Name="RFID" ColumnName="RFID" />
@@ -1013,6 +1071,8 @@
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="ManagementContextModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

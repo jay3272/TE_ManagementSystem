@@ -18,6 +18,8 @@ namespace TE_ManagementSystem.Models
             [Required(ErrorMessage = "Number is required.")]
             [Display(Name = "製程代號")]
             public string Number { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

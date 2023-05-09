@@ -19,6 +19,8 @@ namespace TE_ManagementSystem.Models
             [Display(Name = "儲位名稱")]
             public string RackPosition { get; set; }
             public bool Status { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

@@ -23,6 +23,13 @@
                         <th>
                             種類名稱
                         </th>
+                        <th>
+                            更新日期
+                        </th>
+                        <th>
+                            更新(創建)人員
+                        </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +41,15 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdateDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdateEmployee)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
                             </td>
                         </tr>
                     }

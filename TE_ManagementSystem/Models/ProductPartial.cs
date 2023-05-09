@@ -31,6 +31,8 @@ namespace TE_ManagementSystem.Models
             [Display(Name = "可借用")]
             public bool Usable { get; set; }
             public bool Overdue { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

@@ -46,6 +46,8 @@ namespace TE_ManagementSystem.Models
             public string ComList { get; set; }
             [Display(Name = "備註")]
             public string Spare1 { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

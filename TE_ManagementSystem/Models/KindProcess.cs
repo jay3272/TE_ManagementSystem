@@ -24,6 +24,8 @@ namespace TE_ManagementSystem.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string UpdateEmployee { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LabelRule> LabelRules { get; set; }

@@ -28,6 +28,8 @@ namespace TE_ManagementSystem.Models
         public int DepartmentID { get; set; }
         public bool IsActive { get; set; }
         public string Password { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string UpdateEmployee { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

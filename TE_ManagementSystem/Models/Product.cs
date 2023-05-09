@@ -40,6 +40,8 @@ namespace TE_ManagementSystem.Models
         public string Spare5 { get; set; }
         public string Room { get; set; }
         public string Rack { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string UpdateEmployee { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual MeProduct MeProduct { get; set; }

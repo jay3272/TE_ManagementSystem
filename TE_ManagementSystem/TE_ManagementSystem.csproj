@@ -10332,6 +10332,14 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\UserManagement\Logout.cshtml" />
     <Content Include="Views\Home\Index - 複製.cshtml" />
+    <Content Include="Views\MeProduct\Edit.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Kind\Edit.cshtml" />
+    <Content Include="Views\KindProcess\Edit.cshtml" />
+    <Content Include="Views\Kpn\Edit.cshtml" />
+    <Content Include="Views\Location\Edit.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Employee\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

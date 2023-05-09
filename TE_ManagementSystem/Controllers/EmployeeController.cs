@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Castle.Core.Resource;
+using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -31,13 +33,14 @@ namespace TE_ManagementSystem.Controllers
         [HttpPost]
         [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Password")] Employee employee)
+        public ActionResult Create([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Password,UpdateEmployee")] Employee employee)
         {
             try
             {
                 if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 //employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
+                employee.UpdateEmployee = Session["UsrName"].ToString();
                 employee.IsActive = true;
                 if (employee.Email == null)
                 {
@@ -49,6 +52,48 @@ namespace TE_ManagementSystem.Controllers
                 }
 
                 db.Employees.Add(employee);
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+            }
+        }
+
+        [Authorize(Users = "1,2")]
+        public ActionResult Edit(string Opid)
+        {
+            try
+            {
+                var model = db.Employees.Where(x => x.Opid == Opid).FirstOrDefault();
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Users = "1,2")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Opid,Name,Email,RankID,DepartmentID,IsActive,Password,UpdateDate,UpdateEmployee")] Employee employee)
+        {
+            try
+            {
+                if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                var model = db.Employees.Where(x => x.Opid == employee.Opid).FirstOrDefault();
+                model.Name = employee.Name;
+                model.Email = employee.Email;
+                model.RankID = employee.RankID;
+                model.DepartmentID = employee.DepartmentID;
+                model.IsActive = employee.IsActive;
+                model.Password = employee.Password;
+                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                model.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

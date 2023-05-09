@@ -34,6 +34,8 @@ namespace TE_ManagementSystem.Models
             [DataType(DataType.Password)]
             [RegularExpression(@"^[0-9A-Za-z]{4}$", ErrorMessage = "Your password must be 4 characters long")]
             public string Password { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

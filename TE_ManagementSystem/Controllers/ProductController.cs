@@ -101,7 +101,7 @@ namespace TE_ManagementSystem.Controllers
         [HttpPost]
         [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5")] Product Product)
+        public ActionResult Create([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee")] Product Product)
         {
             try
             {
@@ -151,6 +151,8 @@ namespace TE_ManagementSystem.Controllers
                     int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                     maxId += 1;
                     Product.ID = maxId;
+                    Product.UpdateEmployee = Session["UsrName"].ToString();
+
                     Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     if (Product.Usable)
@@ -193,7 +195,7 @@ namespace TE_ManagementSystem.Controllers
         }
 
         //GET: Product/Edit
-        [Authorize(Users = "1")]
+        [Authorize(Users = "1,2")]
         public ActionResult Edit(string id)
         {
             try
@@ -215,6 +217,27 @@ namespace TE_ManagementSystem.Controllers
             catch (Exception ex)
             {
                 return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Users = "1,2")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateDate,UpdateEmployee")] Product Product)
+        {
+            try
+            {
+                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+
+                Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                Product.UpdateEmployee = Session["UsrName"].ToString();
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
             }
         }
 

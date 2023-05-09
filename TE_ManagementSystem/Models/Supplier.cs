@@ -29,6 +29,8 @@ namespace TE_ManagementSystem.Models
         public string Spare3 { get; set; }
         public string Spare4 { get; set; }
         public string Spare5 { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public string UpdateEmployee { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MeProduct> MeProducts { get; set; }

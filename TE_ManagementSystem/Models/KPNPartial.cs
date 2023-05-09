@@ -15,6 +15,8 @@ namespace TE_ManagementSystem.Models
             [Required(ErrorMessage = "Name is required.")]
             [Display(Name = "料號")]
             public string Name { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

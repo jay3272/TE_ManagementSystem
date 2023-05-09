@@ -36,8 +36,8 @@
                                 治具名稱
                             </th>
                             @*<th>
-                                圖片
-                            </th>*@
+                                    圖片
+                                </th>*@
                             <th>
                                 製程種類
                             </th>
@@ -68,6 +68,12 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Spare1)
                             </th>
+                            <th>
+                                更新日期
+                            </th>
+                            <th>
+                                更新(創建)人員
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -82,8 +88,8 @@
                                     @Html.DisplayFor(modelItem => item.ProdName)
                                 </td>
                                 @*<td>
-                                    <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
-                                </td>*@
+                                        <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
+                                    </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.KindProcess.Name)
                                 </td>
@@ -115,7 +121,13 @@
                                     @Html.DisplayFor(modelItem => item.Spare1)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Update", "Update", new { id = item.ID })
+                                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateEmployee)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
                                 </td>
                             </tr>
                         }

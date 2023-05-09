@@ -51,7 +51,7 @@ namespace TE_ManagementSystem.Controllers
         [HttpPost]
         [Authorize(Users = "1,2,3")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte,MeStockDate")] MeProduct meProduct)
+        public ActionResult Create([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte,MeStockDate,UpdateEmployee")] MeProduct meProduct)
         {
             try
             {
@@ -72,6 +72,7 @@ namespace TE_ManagementSystem.Controllers
 
                 maxId += 1;
                 meProduct.ID = maxId;
+                meProduct.UpdateEmployee = Session["UsrName"].ToString();
                 meProduct.MeStockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 meProduct.IsStock = false;
                 meProduct.IsReturnMe = false;
@@ -100,6 +101,42 @@ namespace TE_ManagementSystem.Controllers
                 {
                     this.LabelRuleRepo.GenerateLabelRule(meProduct.KindID, meProduct.KindProcessID);
                 }
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+            }
+        }
+
+        [Authorize(Users = "1,2,3")]
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                var model = db.MeProducts.Where(x => x.ID == id).FirstOrDefault();
+                
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Users = "1,2,3")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ID,ProdName,KindID,KindProcessID,CustomerID,SupplierID,Opid,Quantity,ShiftTime,Pb,Image,ComList,Spare1,Spare2,Spare3,Spare4,Spare5,Test,ImageByte,MeStockDate,UpdateDate,UpdateEmployee")] MeProduct meProduct)
+        {
+            try
+            {
+                if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+
+                meProduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                meProduct.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -24,6 +24,8 @@ namespace TE_ManagementSystem.Models
             [Required(ErrorMessage = "required.")]
             [Display(Name = "Address")]
             public string Address { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
         }
     }
 }

@@ -23,6 +23,9 @@ namespace TE_ManagementSystem.Models
             public string Spare3 { get; set; }
             public string Spare4 { get; set; }
             public string Spare5 { get; set; }
+            [Display(Name = "更新人員")]
+            public string UpdateEmployee { get; set; }
+
         }
     }
 }
