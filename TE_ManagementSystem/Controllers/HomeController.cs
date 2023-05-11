@@ -8,16 +8,33 @@ using System.Web.Mvc;
 using TE_ManagementSystem.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Data;
+using System.Reflection;
+using System.Data.SqlClient;
 
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : ProjectBase
     {
         [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
+            // 記錄方法名稱
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+            //呼叫資料庫
+            //DataTable dt = this.CallDatabase();
+
+            // 回傳 Model
+            //Hashtable outModel = new Hashtable(); //測試 Model
+            //outModel.Add("Result", dt);
+
+            //return View(outModel);
+
             return View();
+
         }
 
         public ActionResult About()
@@ -86,6 +103,43 @@ namespace TE_ManagementSystem.Controllers
             }   
 
         }
-        
+
+        /// <summary>
+        /// 呼叫資料庫
+        /// </summary>
+        private DataTable CallDatabase()
+        {
+            // 記錄方法名稱
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+            string connStr = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["ManagementContext1"].ConnectionString;
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connStr;
+            conn.Open();
+            string sql = "select Opid from dbo.Employee where Opid = @UsrOpid "; //測試用 sql
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = sql;
+            cmd.Connection = conn;
+            cmd.Parameters.AddWithValue("@UsrOpid", Session["UsrOpid"]);
+
+            // 在執行 SQL 之前先記錄指令
+            string sqlLog = sql;
+            foreach (SqlParameter param in cmd.Parameters)
+            {
+                sqlLog = sqlLog.Replace(param.ParameterName.ToString(), "'" + param.Value.ToString() + "'");
+            }
+            this.logUtil.AppendMessage("SQL", sqlLog);
+
+            SqlDataAdapter adpt = new SqlDataAdapter();
+            adpt.SelectCommand = cmd;
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            DataTable dt = ds.Tables[0];
+            // 省略...
+            conn.Close();
+
+            return dt;
+        }
+
     }
 }
