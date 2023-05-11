@@ -20,7 +20,7 @@ namespace TE_ManagementSystem.Controllers
         // GET: PO
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
-        {
+        {            
             return View(PORepo.ListAllProductTransaction());
         }
 
@@ -142,56 +142,56 @@ namespace TE_ManagementSystem.Controllers
         }
 
         //GET: PO/Edit
-        public ActionResult Edit(int id)
-        {
-            try
-            {
-                if (id <= 0)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+        //public ActionResult Edit(int id)
+        //{
+        //    try
+        //    {
+        //        if (id <= 0)
+        //        {
+        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //        }
 
-                ProductTransaction productTransaction = db.ProductTransactions.Find(id);
+        //        ProductTransaction productTransaction = db.ProductTransactions.Find(id);
 
-                if (productTransaction == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(productTransaction);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
-            }
-        }
+        //        if (productTransaction == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        return View(productTransaction);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+        //    }
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Opid,ProductID,CustomerID,Kpn,BorrowReturn,BorrowDay,RegisterDate,Overdue")] ProductTransaction productTransaction)
-        {
-            try
-            {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "ID,Opid,ProductID,CustomerID,Kpn,BorrowReturn,BorrowDay,RegisterDate,Overdue")] ProductTransaction productTransaction)
+        //{
+        //    try
+        //    {
 
-                var productTransactions = db.ProductTransactions.Where
-                    (m => m.ID == productTransaction.ID).FirstOrDefault();
+        //        var productTransactions = db.ProductTransactions.Where
+        //            (m => m.ID == productTransaction.ID).FirstOrDefault();
 
-                productTransactions.Product.MeProduct.ComList = productTransaction.Product.MeProduct.ComList;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+        //        productTransactions.Product.MeProduct.ComList = productTransaction.Product.MeProduct.ComList;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
 
-                //if (ModelState.IsValid)
-                //{
-                //    db.Entry(productTransaction).State = EntityState.Modified;
-                //    db.SaveChanges();
-                //    return RedirectToAction("Index");
-                //}
-                //return View(productTransaction);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
-            }
-        }
+        //        //if (ModelState.IsValid)
+        //        //{
+        //        //    db.Entry(productTransaction).State = EntityState.Modified;
+        //        //    db.SaveChanges();
+        //        //    return RedirectToAction("Index");
+        //        //}
+        //        //return View(productTransaction);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+        //    }
+        //}
 
         public ActionResult DisplayingImage(string imgid)
         {

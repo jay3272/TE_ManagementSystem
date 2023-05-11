@@ -10304,7 +10304,6 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\PO\Create.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\PO\Edit.cshtml" />
     <Content Include="Views\MeProduct\Index.cshtml" />
     <Content Include="Views\MeProduct\Create.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
@@ -10334,9 +10333,6 @@
     <Content Include="Views\Home\Index - 複製.cshtml" />
     <Content Include="Views\MeProduct\Edit.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
-    <Content Include="Views\Kind\Edit.cshtml" />
-    <Content Include="Views\KindProcess\Edit.cshtml" />
-    <Content Include="Views\Kpn\Edit.cshtml" />
     <Content Include="Views\Location\Edit.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
