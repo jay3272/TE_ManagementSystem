@@ -7,11 +7,12 @@ using TE_ManagementSystem.Models.Repo;
 using TE_ManagementSystem.Models;
 using System.Net;
 using System.Data.Entity;
+using System.Reflection;
 
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class POController : Controller
+    public class POController : ProjectBase
     {
         IPORepo PORepo = new PORepo();
 
@@ -20,7 +21,8 @@ namespace TE_ManagementSystem.Controllers
         // GET: PO
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
-        {            
+        {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View(PORepo.ListAllProductTransaction());
         }
 
@@ -28,6 +30,8 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4")]
         public ActionResult Create(bool IsReturn)
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
             try
             {
                 int maxId = db.ProductTransactions.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
@@ -133,6 +137,7 @@ namespace TE_ManagementSystem.Controllers
                 }
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod(products.Status);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

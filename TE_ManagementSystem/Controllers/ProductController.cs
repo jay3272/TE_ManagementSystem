@@ -6,11 +6,12 @@ using System.Web.Mvc;
 using TE_ManagementSystem.Models;
 using TE_ManagementSystem.Models.Repo;
 using System.Net;
+using System.Reflection;
 
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class ProductController : Controller
+    public class ProductController : ProjectBase
     {
         IProductRepo ProductRepo = new ProductRepo();
         IMeProductRepo MeProductRepo = new MeProductRepo();
@@ -22,6 +23,7 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View(ProductRepo.ListAllProductUpdateDue());
         }
 
@@ -29,6 +31,8 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4")]
         public ActionResult Resume(string id)
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
             if (id == string.Empty)
             {
 
@@ -45,6 +49,8 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
             var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
 
             int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
@@ -185,7 +191,7 @@ namespace TE_ManagementSystem.Controllers
                     return Json(new { ReturnStatus = "error", ReturnData = "更新治具編碼規則異常 !" });
                 }
 
-
+                this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -198,6 +204,8 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2")]
         public ActionResult Edit(string id)
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
             try
             {
                 if (id == null)
@@ -233,6 +241,7 @@ namespace TE_ManagementSystem.Controllers
                 Product.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Update");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

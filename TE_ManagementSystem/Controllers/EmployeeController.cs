@@ -3,6 +3,7 @@ using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using TE_ManagementSystem.Models;
@@ -11,7 +12,7 @@ using TE_ManagementSystem.Models.Repo;
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class EmployeeController : Controller
+    public class EmployeeController : ProjectBase
     {
         IEmployeeRepo EmployeeRepo = new EmployeeRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
@@ -20,12 +21,14 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View(EmployeeRepo.ListAllEmployee());
         }
 
         [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             this.loaddefault();
             return View();
         }
@@ -54,6 +57,7 @@ namespace TE_ManagementSystem.Controllers
                 db.Employees.Add(employee);
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -67,6 +71,7 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
                 var model = db.Employees.Where(x => x.Opid == Opid).FirstOrDefault();
 
                 return View(model);
@@ -96,6 +101,7 @@ namespace TE_ManagementSystem.Controllers
                 model.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Update");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

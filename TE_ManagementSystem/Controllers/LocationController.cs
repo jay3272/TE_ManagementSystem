@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using TE_ManagementSystem.Models;
@@ -9,7 +10,7 @@ using TE_ManagementSystem.Models.Repo;
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class LocationController : Controller
+    public class LocationController : ProjectBase
     {
         ILocationRepo LocationRepo = new LocationRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
@@ -18,12 +19,14 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View(LocationRepo.ListAllLocation());
         }
 
         [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View();
         }
 
@@ -45,6 +48,7 @@ namespace TE_ManagementSystem.Controllers
                 db.Locations.Add(location);
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -58,6 +62,7 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
                 var model = db.Locations.Where(x => x.ID == id).FirstOrDefault();
 
                 return View(model);
@@ -81,6 +86,7 @@ namespace TE_ManagementSystem.Controllers
                 location.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Update");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

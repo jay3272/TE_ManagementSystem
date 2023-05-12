@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using TE_ManagementSystem.Models;
@@ -9,7 +10,7 @@ using TE_ManagementSystem.Models.Repo;
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class KindController : Controller
+    public class KindController : ProjectBase
     {
         IKindRepo KindRepo = new KindRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
@@ -18,12 +19,14 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View(KindRepo.ListAllKind());
         }
 
         [Authorize(Users = "1,2")]
         public ActionResult Create()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View();
         }
 
@@ -44,6 +47,7 @@ namespace TE_ManagementSystem.Controllers
                 db.Kinds.Add(kind);
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -60,7 +60,7 @@ namespace TE_ManagementSystem.Controllers
             // 登入者帳號
             if (Session["UsrOpid"] != null && Session["UsrOpid"].ToString() != "")
             {
-                this.logUtil.AppendMessage("登入帳號", Session["UsrOpid"].ToString());
+                this.logUtil.AppendMessage("登入帳號", Session["UsrOpid"].ToString() + Session["UsrName"].ToString());
             }
 
             base.OnActionExecuting(filterContext);
@@ -73,10 +73,10 @@ namespace TE_ManagementSystem.Controllers
         protected override void OnResultExecuting(ResultExecutingContext filterContext)
         {
             // 自動記錄輸出 Model
-            if (((System.Web.Mvc.ViewResultBase)filterContext.Result).Model != null)
-            {
-                this.logUtil.AppendMessage("輸出 Model", JsonConvert.SerializeObject(((System.Web.Mvc.ViewResultBase)filterContext.Result).Model));
-            }
+            //if (((System.Web.Mvc.ViewResultBase)filterContext.Result).Model != null)
+            //{
+            //    this.logUtil.AppendMessage("輸出 Model", JsonConvert.SerializeObject(((System.Web.Mvc.ViewResultBase)filterContext.Result).Model));
+            //}
 
             this.logUtil.OutputLog(); //輸出Log
             base.OnResultExecuting(filterContext);

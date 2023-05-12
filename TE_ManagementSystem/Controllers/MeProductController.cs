@@ -8,11 +8,12 @@ using TE_ManagementSystem.Models.Repo;
 using System.Text.Json;
 using System.IO;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace TE_ManagementSystem.Controllers
 {
     [Authorize]
-    public class MeProductController : Controller
+    public class MeProductController : ProjectBase
     {
         IMeProductRepo MeProductRepo = new MeProductRepo();
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
@@ -22,12 +23,14 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4,5")]
         public ActionResult Index()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             return View(MeProductRepo.ListAllMeProduct());
         }
 
         [Authorize(Users = "1,2,3")]
         public ActionResult Create()
         {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
             this.loaddefault();
             return View();
         }
@@ -103,6 +106,7 @@ namespace TE_ManagementSystem.Controllers
                 }
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -139,6 +143,7 @@ namespace TE_ManagementSystem.Controllers
                 meProduct.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
+                this.logUtil.AppendMethod("Save Update");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -21,7 +21,6 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2,3,4")]
         public ActionResult Index()
         {
-            // 記錄方法名稱
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
             //呼叫資料庫
