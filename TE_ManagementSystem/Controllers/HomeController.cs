@@ -23,15 +23,6 @@ namespace TE_ManagementSystem.Controllers
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            //呼叫資料庫
-            //DataTable dt = this.CallDatabase();
-
-            // 回傳 Model
-            //Hashtable outModel = new Hashtable(); //測試 Model
-            //outModel.Add("Result", dt);
-
-            //return View(outModel);
-
             return View();
 
         }
@@ -94,6 +85,8 @@ namespace TE_ManagementSystem.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
+                this.logUtil.AppendMethod(responseContent);
+
                 return Json(new {text = responseContent});
             }
             else
@@ -103,42 +96,42 @@ namespace TE_ManagementSystem.Controllers
 
         }
 
-        /// <summary>
-        /// 呼叫資料庫
-        /// </summary>
-        private DataTable CallDatabase()
-        {
-            // 記錄方法名稱
-            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ///// <summary>
+        ///// 呼叫資料庫
+        ///// </summary>
+        //private DataTable CallDatabase()
+        //{
+        //    // 記錄方法名稱
+        //    this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            string connStr = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["ManagementContext1"].ConnectionString;
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = connStr;
-            conn.Open();
-            string sql = "select Opid from dbo.Employee where Opid = @UsrOpid "; //測試用 sql
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql;
-            cmd.Connection = conn;
-            cmd.Parameters.AddWithValue("@UsrOpid", Session["UsrOpid"]);
+        //    string connStr = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["ManagementContext1"].ConnectionString;
+        //    SqlConnection conn = new SqlConnection();
+        //    conn.ConnectionString = connStr;
+        //    conn.Open();
+        //    string sql = "select Opid from dbo.Employee where Opid = @UsrOpid "; //測試用 sql
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.CommandText = sql;
+        //    cmd.Connection = conn;
+        //    cmd.Parameters.AddWithValue("@UsrOpid", Session["UsrOpid"]);
 
-            // 在執行 SQL 之前先記錄指令
-            string sqlLog = sql;
-            foreach (SqlParameter param in cmd.Parameters)
-            {
-                sqlLog = sqlLog.Replace(param.ParameterName.ToString(), "'" + param.Value.ToString() + "'");
-            }
-            this.logUtil.AppendMessage("SQL", sqlLog);
+        //    // 在執行 SQL 之前先記錄指令
+        //    string sqlLog = sql;
+        //    foreach (SqlParameter param in cmd.Parameters)
+        //    {
+        //        sqlLog = sqlLog.Replace(param.ParameterName.ToString(), "'" + param.Value.ToString() + "'");
+        //    }
+        //    this.logUtil.AppendMessage("SQL", sqlLog);
 
-            SqlDataAdapter adpt = new SqlDataAdapter();
-            adpt.SelectCommand = cmd;
-            DataSet ds = new DataSet();
-            adpt.Fill(ds);
-            DataTable dt = ds.Tables[0];
-            // 省略...
-            conn.Close();
+        //    SqlDataAdapter adpt = new SqlDataAdapter();
+        //    adpt.SelectCommand = cmd;
+        //    DataSet ds = new DataSet();
+        //    adpt.Fill(ds);
+        //    DataTable dt = ds.Tables[0];
+        //    // 省略...
+        //    conn.Close();
 
-            return dt;
-        }
+        //    return dt;
+        //}
 
     }
 }

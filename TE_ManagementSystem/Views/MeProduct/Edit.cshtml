@@ -2,146 +2,613 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout_index.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+@*<script src="~/Content/custom/supplierMePO.js"></script>*@
+<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link href="../Content/style2.css" rel="stylesheet" />
 
-@using (Html.BeginForm())
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="~/Content/custom/supplierMePO.js"></script>
+
+<link href="~/Content/checkList.css" rel="stylesheet" />
+<script src="~/Content/jquery.ui.checkList.js"></script>
+<link href="~/Template/theme.min.css" rel="stylesheet" />
+
+<style>
+    .image-preview-wrapper {
+        display: block;
+        max-width: 310px;
+        max-height: 310px;
+        width: 100%;
+        border: 2px solid #cccccc;
+        margin: 0 auto;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .spinner-wrapper {
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .opacity-1 {
+        opacity: 1;
+    }
+</style>
+
+
+@using (Html.BeginForm("Edit", "MeProduct", FormMethod.Post, new { id = "frmMeProduct", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>MeProduct</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProdName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
+    <form role="form" class="mb-9">
+        <div class="row g-3 flex-between-end mb-5">
+            <div class="col-auto">
+                <h2 class="mb-2">更新ME治具</h2>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.KindID, "KindID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.KindID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.KindID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div class="row g-5">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.KindProcessID, "KindProcessID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.KindProcessID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.KindProcessID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="box-body">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SupplierID, "SupplierID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SupplierID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProdName, new { @class = "control-label", @style = "color:black" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Opid, "Opid", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Opid, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control", style = "width:Auto", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Quantity, new { @class = "control-label", @style = "color:black" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ShiftTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ShiftTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity", Value = 1, min = 1, max = 300, style = "width:Auto" } })
+                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsStock, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsStock)
-                    @Html.ValidationMessageFor(model => model.IsStock, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ShiftTime, new { @class = "control-label", @style = "color:black" })
+
+                            @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control", @id = "shiftTime", Value = 10, min = 1, max = 300, style = "width:Auto" } })
+                            @Html.ValidationMessageFor(model => model.ShiftTime, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Pb, new { @class = "control-label", @style = "color:black" })
+
+                            @Html.EditorFor(model => model.Pb)
+                            @Html.ValidationMessageFor(model => model.Pb, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ComList, new { @class = "control-label", @style = "color:black" })
+
+                            <div id='myCheckList'></div>
+
+                            @Html.TextBoxFor(model => model.Test, new { id = "Test", Value = "empty", Type = "hidden" })
+
+                            <script>
+                                $(function () {
+                                    var items = [{ text: '0', value: 'default' }];
+
+                                    $.get("/MeProduct/PostMethod2",
+                                        function (response) {
+                                            items = response;
+                                            console.log(items);
+
+                                            $('#myCheckList').checkList({
+                                                listItems: items,
+                                                onChange: selChange
+                                            });
+
+                                        }
+                                    );
+
+                                    function selChange() {
+                                        var selection = $('#myCheckList').checkList('getSelection');
+
+                                        $("#Test").val(JSON.stringify(selection));
+
+                                    }
+                                });
+
+                            </script>
+
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsReturnMe, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsReturnMe)
-                    @Html.ValidationMessageFor(model => model.IsReturnMe, "", new { @class = "text-danger" })
+            <!-- right column -->
+            <div class="col-md-5">
+
+                <div class="row g-2">
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Opid, new { @class = "control-label", @style = "color:black" })
+
+                                <div class="ui-widget">
+                                    <select id="combobox3" name="Opid">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listOpid)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SupplierID, new { @class = "control-label", @style = "color:black" })
+
+                                <div class="ui-widget">
+                                    <select id="combobox2" name="SupplierID">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listSupplier)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })
+
+                                <div class="ui-widget">
+                                    <select id="combobox1" name="CustomerID">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listCustomer)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Spare1, new { @class = "control-label", @style = "color:black" })
+
+                                @Html.EditorFor(model => model.Spare1)
+                                @Html.ValidationMessageFor(model => model.Spare1, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            @Html.LabelFor(model => model.Image, new { @class = "control-label", @style = "color:black" })
+
+                            <div class="container">
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(model => model.Image, new { id = "Image", Value = "empty", Type = "hidden" })
+
+                                </div>
+
+                                <div class="container p-5">
+
+                                    <label class="text-center mb-5 image-preview-wrapper" for="file-uploader">
+                                        <img src="~/Content/Img/image-icon.png" alt="image-placehoder" class="img-thumbnail" data-target="image-preview">
+                                        <div class="spinner-wrapper position-absolute" data-target="spinner">
+                                            <div class="spinner-border text-secondary" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </label>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 mx-auto">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" data-target="file-uploader" id="file-uploader" accept=".jpg,.png" required>
+                                                <label class="custom-file-label" for="customFile">Choose Image</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Pb, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Pb)
-                    @Html.ValidationMessageFor(model => model.Pb, "", new { @class = "text-danger" })
+                <div class="container">
+                    <br />
+                    <input type="submit" value="Save" id="EditProduct" class="btn btn-primary" />
+                    @Html.ActionLink("Discard", "Index")
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ComList, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ComList, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MeStockDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MeStockDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MeStockDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+    </form>
 }
+
+
+<script>
+
+    //$(function () {
+    $('#file-uploader').on("change", function (e) {
+        var file = $("#file-uploader").get(0).files;
+        var data = new FormData;
+        data.append("ImageFile", file[0]);
+        $("#Image").val($("#file-uploader").get(0).files[0].name);
+        $.ajax({
+            type: "POST",
+            url: "/MeProduct/ImageUpload",
+            data: data,
+            contentType: false,
+            processData: false,
+            //dataType: 'text',
+            timestamp: new Date().getTime(),
+            //success: function (response) {
+            //    //var uint8Array = new Uint8Array(response);
+            //    //var binaryString = '';
+            //    //for (var i = 0; i < uint8Array.length; i++) {
+            //    //    binaryString += String.fromCharCode(uint8Array[i]);
+            //    //}
+            //    //var base64String = btoa(binaryString);
+
+            //    $("#UploadedImage").html("");
+            //    //$("#UploadedImage").attr('src', 'data:image/png;base64,' + response);
+            //    $("#UploadedImage").append('<img src="data:image/png;base64,' + response + '"class=img-responsive  thimbnail"/>');
+
+
+            //}
+        })
+    })
+
+    //})
+
+
+    //const imgInput = document.getElementById('SelectImage');
+    //imgInput.onchange = () => {
+    //    var file = $("#SelectImage").get(0).files;
+    //    var data = new FormData;
+    //    data.append("ImageFile", file[0]);
+    //    //$("#viewImg").remove();
+    //    //$("#UploadedImage").append('<img src="/MeProduct/DisplayingImage?imgID=0' + '"id=viewImg class=img-responsive  thimbnail"/>');
+
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/MeProduct/ImageUpload",
+    //        data: data,
+    //        contentType: false,
+    //        processData: false,
+    //        success: function (imgID) {
+    //            $("#UploadedImage").html("");
+    //            $("#UploadedImage").append('<img src="/MeProduct/DisplayingImage?imgID=' + imgID + '"class=img-responsive  thimbnail"/>');
+    //            $("#Image").val($("#SelectImage").get(0).files[0].name);
+    //        }
+    //    })
+    //}
+
+</script>
+
+@if (TempData["ErrMessage"] != null)
+{
+    <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["ErrMessage"]));
+            alert(message);
+    </script>
+}
+
+<script type="text/javascript">
+
+    var postUrl = '@Url.Action("Edit", "MeProduct")';
+
+    $(function () {
+        $('#EditProduct').click(function (e) {
+            e.preventDefault();
+            CreateItem();
+        });
+    });
+
+    function CreateItem() {
+        var question = "確認更新匯入該項?";
+        ConfirmCreate(question).then(function (answer) {
+            var ans = (String(answer) === "true");
+            if (ans) {
+                var data = $('#frmMeProduct').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    data: data,
+                    success: function (response) {
+                        if (response.ReturnStatus == "error") {
+                            AlertCreate(response.ReturnData);
+                        } else {
+                            window.location.href = "index";
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function ConfirmCreate(question) {
+        var defer = $.Deferred();
+        $('<div id="id="divCreateClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Confirm Update',
+                buttons: {
+                    "Yes": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+    function AlertCreate(question) {
+        var defer = $.Deferred();
+        $('<div style="color: red" id="id="divCreateErrorClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Error',
+                buttons: {
+                    "OK": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+</script>
+
+<script>
+    const imagePreview = document.querySelector('[data-target="image-preview"]');
+    const spinner = document.querySelector('[data-target="spinner"]');
+    const fileUploader = document.querySelector('[data-target="file-uploader"]');
+    fileUploader.addEventListener("change", handleFileUpload);
+
+    async function handleFileUpload(e) {
+        try {
+            const file = e.target.files[0];
+            setUploading(true);
+            if (!file) return;
+
+            const beforeUploadCheck = await beforeUpload(file);
+            if (!beforeUploadCheck.isValid) throw beforeUploadCheck.errorMessages;
+
+            const arrayBuffer = await getArrayBuffer(file);
+            const response = await uploadFileAJAX(arrayBuffer);
+
+            alert("Image Uploaded Success");
+            showPreviewImage(file);
+        } catch (error) {
+            alert(error);
+            console.log("Catch Error: ", error);
+        } finally {
+            e.target.value = '';
+            setUploading(false);
+        }
+    }
+
+    function showPreviewImage(fileObj) {
+        const image = URL.createObjectURL(fileObj);
+        imagePreview.src = image;
+    }
+
+    function getArrayBuffer(fileObj) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                resolve(reader.result);
+            });
+
+            reader.addEventListener("error", () => {
+                reject("error occurred in getArrayBuffer");
+            });
+
+            reader.readAsArrayBuffer(fileObj);
+        });
+    }
+
+    function uploadFileAJAX(arrayBuffer) {
+        return fetch("https://jsonplaceholder.typicode.com/posts/", {
+            headers: {
+                version: 1,
+                "content-type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({
+                imageId: 1,
+                icon: Array.from(new Uint8Array(arrayBuffer))
+            })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw res.statusText;
+                }
+                return res.json();
+            })
+            .then(data => data)
+            .catch(err => console.log("err", err));
+    }
+
+    function beforeUpload(fileObject) {
+        return new Promise(resolve => {
+            const validFileTypes = ["image/jpeg", "image/png"];
+            const isValidFileType = validFileTypes.includes(fileObject.type);
+            let errorMessages = [];
+
+            if (!isValidFileType) {
+                errorMessages.push("You can only upload JPG or PNG file!");
+            }
+
+            const isValidFileSize = fileObject.size / 1024 / 1024 < 2;
+            if (!isValidFileSize) {
+                errorMessages.push("Image must smaller than 2MB!");
+            }
+
+            resolve({
+                isValid: isValidFileType && isValidFileSize,
+                errorMessages: errorMessages.join("\n")
+            });
+        });
+    }
+
+    function setUploading(isUploading) {
+        if (isUploading === true) {
+            spinner.classList.add("opacity-1");
+        } else {
+            spinner.classList.remove("opacity-1");
+        }
+    }
+</script>
+
+
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>MeProduct</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProdName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })
+
+                <div class="ui-widget">
+                    <select id="combobox1" name="CustomerID">
+                        <option value=""></option>
+                        @foreach (var item in ViewBag.listCustomer)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SupplierID, "SupplierID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SupplierID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Opid, "Opid", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Opid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ShiftTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ShiftTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Pb, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Pb)
+                        @Html.ValidationMessageFor(model => model.Pb, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ComList, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ComList, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }*@
 
 <div>
     @Html.ActionLink("Back to List", "Index")

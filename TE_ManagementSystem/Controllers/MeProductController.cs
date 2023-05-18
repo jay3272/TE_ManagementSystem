@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
+using Castle.Core.Resource;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -121,7 +122,8 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 var model = db.MeProducts.Where(x => x.ID == id).FirstOrDefault();
-                
+                this.loaddefault();
+
                 return View(model);
             }
             catch (Exception ex)
@@ -138,9 +140,36 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                var model = db.MeProducts.Where(x => x.ID == meProduct.ID).FirstOrDefault();
 
-                meProduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                meProduct.UpdateEmployee = Session["UsrName"].ToString();
+                var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
+
+                if (meProduct.Image != "empty")
+                {
+                    model.ImageByte = images.ImageByte;
+                }
+                else
+                {
+                    //TempData["ErrMessage"] = "請確認有上傳圖片!";
+                    return Json(new { ReturnStatus = "error", ReturnData = "請確認有上傳圖片 !" });
+                }
+
+                if (meProduct.Test == "empty")
+                {
+                    model.ComList = "empty";
+                }
+                else
+                {
+                    model.ComList = String.Empty;
+                    List<Mutiplekpn> mutiplekpns = JsonSerializer.Deserialize<List<Mutiplekpn>>(meProduct.Test);
+                    foreach (var item in mutiplekpns)
+                    {
+                        model.ComList += item.value + ",";
+                    }
+                }
+
+                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                model.UpdateEmployee = Session["UsrName"].ToString();
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");
