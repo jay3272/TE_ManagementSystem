@@ -10310,7 +10310,6 @@
     <Content Include="Views\MeProduct\Index.cshtml" />
     <Content Include="Views\MeProduct\Create.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout_index.cshtml" />
     <Content Include="Views\Shared\_Layout_vuetest.cshtml" />
     <Content Include="Views\MeProduct\Vue.cshtml" />
@@ -10340,7 +10339,8 @@
     <Content Include="Views\Supplier\Edit.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Views\Kpn\Edit.cshtml" />
-    <Content Include="Views\Home\Index - chat.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Index - 複製chat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

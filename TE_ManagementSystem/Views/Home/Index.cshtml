@@ -6,4 +6,346 @@
 <h2>Index</h2>
 
 
+<!--<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        .chat-window {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 800px;
+            height: 800px;
+            background-color: #fff;
+            border: 1px solid #000;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .chat-window-minimized {
+            width: 100px;
+            height: 30px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        /* Chatbox */
+        .chatbox {
+            display: flex;
+            flex-direction: column;
+            height: 800px;
+            width: 800px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        /* Chatlog */
+        .chatlog {
+            display: grid;
+            grid-auto-rows: min-content;
+            grid-gap: 10px;
+            grid-template-columns: auto 1fr;
+            height: 100%;
+            padding: 10px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            font-size: 8px;
+        }
+
+        /* Message */
+        .message {
+            display: flex;
+            align-items: flex-end;
+            max-height: 100px;
+            overflow-wrap: break-word;
+        }
+
+            /* Received message */
+            .message.received {
+                grid-template-areas:
+                    "photo text";
+            }
+
+                .message.received .user-photo {
+                    grid-area: photo;
+                    background-image: url("https://i.pravatar.cc/40?img=10");
+                    background-size: cover;
+                    border-radius: 50%;
+                    height: 40px;
+                    width: 40px;
+                    margin-right: 10px;
+                }
+
+                .message.received .text {
+                    grid-area: text;
+                    background-color: #f4f4f4;
+                    border-radius: 10px 10px 0 10px;
+                    padding: 1px;
+                    max-width: 50%;
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                    margin-top: 1px;
+                }
+
+            /* Sent message */
+            .message.sent {
+                justify-content: space-between;
+                grid-template-areas:
+                    "text photo";
+            }
+
+                .message.sent .text {
+                    grid-area: text;
+                    background-color: #6c63ff;
+                    color: #fff;
+                    border-radius: 10px 10px 0 10px;
+                    padding: 10px;
+                    max-width: 50%;
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                    margin-top: 1px;
+                    margin-left: 1px;
+                }
+
+                .message.sent .user-photo {
+                    grid-area: photo;
+                    background-image: url("https://i.pravatar.cc/40?img=10");
+                    background-size: cover;
+                    border-radius: 50%;
+                    height: 40px;
+                    width: 40px;
+                    margin-left: 10px;
+                }
+
+        /* Chat input */
+        .chat-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #eee;
+            margin-right: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+            .message-input:focus {
+                border-color: #6c63ff;
+            }
+
+        .send-button {
+            background-color: #6c63ff;
+            color: #fff;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+            .send-button:hover {
+                background-color: #574fff;
+            }
+
+        .chat-header {
+            background-color: #574fff;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .chat-title {
+            float: left;
+        }
+
+        .chat-buttons {
+            float: right;
+        }
+
+            .chat-buttons button {
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                margin-left: 5px;
+                cursor: pointer;
+                outline: none;
+                user-select: none;
+            }
+
+        .minimize-button {
+            width: 30px;
+            padding: 10px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="chat-window" id="chat-window">
+
+        <div class="chatbox">
+            <div class="chat-header">
+                <div class="chat-title">chat</div>
+                <div class="chat-buttons">
+                    <button class="minimize-button">-</button>
+                    <button class="close-button">x</button>
+                </div>
+            </div>
+
+            <div class="chatlog">-->
+                @*<div class="message received">
+                        <div class="user-photo"></div>
+                        <p class="text">Hi there! How can I help you today?</p>
+                    </div>
+                    <div class="message sent">
+                        <p class="text">Hi! I'm having some trouble with my account.</p>
+                    </div>
+                    <div class="message received">
+                        <div class="user-photo"></div>
+                        <p class="text">Sure, what seems to be the problem?</p>
+                    </div>*@
+            <!--</div>
+            <form class="chat-input">
+                <input type="text" class="message-input" placeholder="Type your message...">
+                <button onclick="sendMessage()" type="submit" class="send-button">Send</button>
+            </form>
+
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+
+
+<script>
+    // 取得聊天框元素
+    //const chatbox = document.querySelector('.chatbox');
+
+    // 取得最小化和關閉按鈕元素
+    //const closeButton = chatbox.querySelector('.close-button');
+
+    // 關閉按鈕的點擊事件處理器
+    //closeButton.addEventListener('click', () => {
+    //    //chatbox.style.display = 'none';
+    //});
+
+    //// 當使用者點擊聊天室窗口時，將其縮小到右下角
+    //var chatWindow = document.getElementById("chat-window");
+    //chatWindow.addEventListener("click", function () {
+    //    chatWindow.classList.toggle("chat-window-minimized");
+    //});
+
+    //// 當使用者將滑鼠移動到聊天室窗口上時，將其放大
+    //chatWindow.addEventListener("mouseover", function () {
+    //    if (chatWindow.classList.contains("chat-window-minimized")) {
+    //        chatWindow.classList.toggle("chat-window-minimized");
+    //    }
+    //});
+</script>
+
+<script>
+    const messageInput = document.querySelector('.message-input');
+    const sendButton = document.querySelector('.send-button');
+    const chatlog = document.querySelector('.chatlog');
+
+    sendButton.addEventListener('submit', sendMessage);
+
+    messageInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+
+        // 取得訊息文字
+        const messageText = messageInput.value.trim();
+
+        // 如果訊息文字為空，就不做任何事情
+        if (messageText === '') {
+            return;
+        }
+
+        // 建立一個新的 XMLHttpRequest 物件
+        const xhr = new XMLHttpRequest();
+
+        //// 設定要送出的資料
+        const data = new FormData();
+        data.append('text', messageText);
+
+        var messageElement = document.createElement('div');
+        messageElement.setAttribute('class', 'message sent');
+        var txt = document.createElement('p');
+        txt.textContent = messageText;
+        txt.setAttribute('class', 'text');
+        messageElement.appendChild(txt);
+        chatlog.appendChild(messageElement);
+        // 捲動聊天室到最下面
+        chatlog.scrollTop = chatlog.scrollHeight;
+
+        // 設定回應的處理函式
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 接收到回應，處理回應內容
+                const response = JSON.parse(xhr.responseText);
+                // 模擬回覆訊息
+                const replyMessage = {
+                    user: 'chatbot',
+                    text: 'GPT：' + response.text
+                };
+
+                var messageElement = document.createElement('div');
+                messageElement.setAttribute('class', 'message sent');
+                var txt = document.createElement('p');
+                txt.textContent = replyMessage.text;
+                txt.setAttribute('class', 'text');
+                messageElement.appendChild(txt);
+                chatlog.appendChild(messageElement);
+
+                //// 在聊天室中顯示回覆訊息
+                //// 建立一個新的訊息元素
+                //const messageElement = document.createElement('div');
+                //messageElement.classList.add('message');
+
+                //// 設定訊息元素的 HTML 內容
+                //messageElement.innerHTML =
+                //    '<div class="message sent">${replyMessage.user}</div>< div class="message received" > ${ replyMessage.text }</div > ';
+
+                // 將訊息元素加入聊天室中
+                //chatlog.appendChild(messageElement);
+
+                // 捲動聊天室到最下面
+                chatlog.scrollTop = chatlog.scrollHeight;
+
+            }
+        };
+
+        // 設定要送出的請求
+        xhr.open('POST', '/Home/Chat', true);
+        xhr.send(data);
+
+         //清空訊息文字
+        messageInput.value = '';
+
+    }
+
+</script>-->

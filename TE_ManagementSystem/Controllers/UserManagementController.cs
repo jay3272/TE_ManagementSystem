@@ -62,7 +62,7 @@ namespace TE_ManagementSystem.Controllers
                         break;
                 }
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Product");
             }
             else
             {

@@ -6,7 +6,7 @@
 <h2>Index</h2>
 
 
-<!doctype html>
+<!--<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -53,12 +53,15 @@
             padding: 10px;
             overflow-y: auto;
             scrollbar-width: thin;
+            font-size: 8px;
         }
 
         /* Message */
         .message {
             display: flex;
             align-items: flex-end;
+            max-height: 100px;
+            overflow-wrap: break-word;
         }
 
             /* Received message */
@@ -81,14 +84,15 @@
                     grid-area: text;
                     background-color: #f4f4f4;
                     border-radius: 10px 10px 0 10px;
-                    padding: 10px;
-                    max-width: 70%;
+                    padding: 1px;
+                    max-width: 50%;
                     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                    margin-top: 1px;
                 }
 
             /* Sent message */
             .message.sent {
-                justify-content: flex-end;
+                justify-content: space-between;
                 grid-template-areas:
                     "text photo";
             }
@@ -97,10 +101,12 @@
                     grid-area: text;
                     background-color: #6c63ff;
                     color: #fff;
-                    border-radius: 10px 10px 10px 0;
+                    border-radius: 10px 10px 0 10px;
                     padding: 10px;
-                    max-width: 70%;
+                    max-width: 50%;
                     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                    margin-top: 1px;
+                    margin-left: 1px;
                 }
 
                 .message.sent .user-photo {
@@ -202,7 +208,7 @@
                 </div>
             </div>
 
-            <div class="chatlog">
+            <div class="chatlog">-->
                 @*<div class="message received">
                         <div class="user-photo"></div>
                         <p class="text">Hi there! How can I help you today?</p>
@@ -214,7 +220,7 @@
                         <div class="user-photo"></div>
                         <p class="text">Sure, what seems to be the problem?</p>
                     </div>*@
-            </div>
+            <!--</div>
             <form class="chat-input">
                 <input type="text" class="message-input" placeholder="Type your message...">
                 <button onclick="sendMessage()" type="submit" class="send-button">Send</button>
@@ -342,4 +348,4 @@
 
     }
 
-</script>
+</script>-->

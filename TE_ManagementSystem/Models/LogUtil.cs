@@ -73,15 +73,22 @@ namespace TE_ManagementSystem.Models
 
                     string logFile = LogPath + DateTime.Now.ToString("yyyyMMdd") + ".htm";
 
-                    //寫入檔案
-                    StreamWriter writer = new StreamWriter(logFile, true, Encoding.GetEncoding("UTF-8"));
-                    foreach (string message in this.MessageContent)
+                    try
                     {
-                        writer.WriteLine(message.Replace("\n", "<br>") + "<br>");
+                        //寫入檔案
+                        StreamWriter writer = new StreamWriter(logFile, true, Encoding.GetEncoding("UTF-8"));
+                        foreach (string message in this.MessageContent)
+                        {
+                            writer.WriteLine(message.Replace("\n", "<br>") + "<br>");
+                        }
+                        writer.WriteLine("<hr>");
+                        writer.Flush();
+                        writer.Close();
                     }
-                    writer.WriteLine("<hr>");
-                    writer.Flush();
-                    writer.Close();
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
                 if (type == "DB")
                 {
