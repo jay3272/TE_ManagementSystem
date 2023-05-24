@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -40,7 +41,7 @@ namespace TE_ManagementSystem.Models.Repo
             return db.Products.DefaultIfEmpty().Where(p => p.Usable == true);
         }
 
-        public IQueryable<Product> ListAllProductUpdateDue()
+        public List<Product> ListAllProductUpdateDue()
         {
             DateTime dateTimeNow = DateTime.Now;
             DateTime dateTimeLastLend;
@@ -65,7 +66,20 @@ namespace TE_ManagementSystem.Models.Repo
             }
 
             db.SaveChanges();
-            return db.Products;
+
+            DbSet<Product> productSet = db.Products;
+            List<Product> productsList = new List<Product>();
+
+            foreach (var el in productSet)
+            {
+                productsList.Add(new Product() { ID=el.ID, NumberID=el.NumberID, RFID=el.RFID, Status=el.Status, LocationID=el.LocationID
+                    , EngID=el.EngID, StockDate=el.StockDate, Life=el.Life, LastBorrowDate=el.LastBorrowDate, LastReturnDate=el.LastReturnDate
+                    , UseLastDate=el.UseLastDate, Usable=el.Usable, Overdue=el.Overdue, Spare1=el.Spare1, Spare2=el.Spare2, Spare3=el.Spare3, Spare4=el.Spare4, Spare5=el.Spare5
+                    , UpdateDate=el.UpdateDate, UpdateEmployee=el.UpdateEmployee
+                });
+            }
+
+            return productsList;
         }
 
         public Product LinkToResume(string id)

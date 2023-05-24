@@ -7,6 +7,10 @@ using TE_ManagementSystem.Models;
 using TE_ManagementSystem.Models.Repo;
 using System.Net;
 using System.Reflection;
+using PagedList;
+using PagedList.Mvc;
+using System.Linq.Dynamic;
+using Newtonsoft.Json;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -24,7 +28,10 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Index()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            return View(ProductRepo.ListAllProductUpdateDue());
+            //return View(ProductRepo.ListAllProductUpdateDue());
+            //List<Product> products = db.Products.ToList();
+            //return View(db.Products.Where(x => x.NumberID.StartsWith(search) || search==null).ToList().ToPagedList(i ?? 1, 10));
+            return View();
         }
 
         // GET:Resume
@@ -269,6 +276,34 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error", ReturnData = "DisplayingImage(), ex:" + ex });
             }
+        }
+
+        [HttpPost]
+        public ActionResult GetList()
+        {
+            //server side parameter
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            List<Product> productsList = new List<Product>();
+            productsList = ProductRepo.ListAllProductUpdateDue().ToList<Product>();
+            int totalrows = productsList.Count;
+            //filter
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                productsList = productsList
+                    .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())).ToList<Product>();
+            }
+            int totalrowsafterfiltering = productsList.Count;
+            //sorting
+            productsList = productsList.OrderBy(sortColumnName + " " + sortDirection).ToList<Product>();
+            //paging
+            productsList = productsList.Skip(start).Take(length).ToList<Product>();
+
+            return Json(new { data = productsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         private bool CheckInputErr(Product Product)

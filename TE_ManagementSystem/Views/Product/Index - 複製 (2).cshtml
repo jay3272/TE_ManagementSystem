@@ -1,0 +1,300 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+@*<div class="card-header">
+        <div class="row flex-between-end">
+            <div class="col-auto align-self-center">
+                <h5 class="mb-0" data-anchor="data-anchor" id="table-example">新增儲物<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#table-example" style="padding-left: 0.375em;"></a></h5>
+                <p>
+                    @Html.ActionLink("Create New", "Create")
+                </p>
+            </div>
+        </div>
+    </div>*@
+
+<style>
+
+    .overdue {
+        background-color: red;
+        color: white;
+    }
+
+    .notOverdue {
+        color: royalblue;
+    }
+
+    .inStore {
+        color: lightgreen;
+    }
+</style>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
+    <!-- DataTales Example -->
+    <p><a href="/Product/Create">新增</a></p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            治具查詢表
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th colspan="7">info</th>
+                            <th colspan="9">ME info</th>
+                            <th colspan="7">else</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                入庫日期
+                            </th>
+                            <th>
+                                治具編號
+                            </th>
+                            <th>
+                                RFID
+                            </th>
+                            @*<th>
+                                    圖片
+                                </th>*@
+                            <th>
+                                狀態
+                            </th>
+                            <th>
+                                逾期
+                            </th>
+                            <th>
+                                治具室位置
+                            </th>
+                            <th>
+                                儲位
+                            </th>
+                            <th>
+                                治具名稱
+                            </th>
+                            <th>
+                                治具種類
+                            </th>
+                            <th>
+                                供應商
+                            </th>
+                            <th>
+                                客戶
+                            </th>
+                            <th>
+                                料號
+                            </th>
+                            <th>
+                                數量
+                            </th>
+                            <th>
+                                ShiftTime
+                            </th>
+                            <th>
+                                有鉛
+                            </th>
+                            <th>
+                                年限
+                            </th>
+                            <th>
+                                最後借出日期
+                            </th>
+                            <th>
+                                最後歸還日期
+                            </th>
+                            <th>
+                                最後使用日期
+                            </th>
+                            @*<th>
+                                    履歷
+                                </th>*@
+                            <th>
+                                備註
+                            </th>
+                            <th>
+                                更新日期
+                            </th>
+                            <th>
+                                更新(創建)人員
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StockDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.NumberID, "Resume", new { id = item.NumberID })
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RFID)
+                                </td>
+                                @*<td>
+                                        <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.MeProduct.ID + " class="img-responsive" thimbnail"="">
+                                    </td>*@
+                                <td>
+
+                                    @if (item.Status == "借出")
+                                    {
+                                        <div class="onLend">
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    }
+
+                                </td>
+                                <td>
+
+                                    @if (item.Status == "借出")
+                                    {
+                                        if (item.Overdue)
+                                        {
+                                            <div class="overdue">
+                                                逾期
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="notOverdue">
+                                                期限內
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="inStore">
+                                            未借出
+                                        </div>
+                                    }
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location.RackPosition)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.ProdName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Kind.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Supplier.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Customer.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.ComList)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.ShiftTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeProduct.Pb)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Life)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastBorrowDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastReturnDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UseLastDate)
+                                </td>
+                                @*<td>
+                                        @Html.ActionLink("Link", "Resume", new { id = item.NumberID })
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Spare1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateEmployee)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<script>
+
+    //$(document).ready(function () {
+    //    $('#dataTable').DataTable({
+    //        pagingType: 'full_numbers',
+    //        order: [[0, 'desc']],
+    //    });
+    //});
+
+    function InitData() {
+        var dataTable = $('#dataTable').DataTable({
+            "scrollY": "hidden",
+            "scrollCollapse": false,
+            "dom": 'tr<"bottom"lip><"clear">',
+            language: {
+                lengthMenu: '',
+                search: '<span class="label label-success">搜尋:</span>',
+                loadingRecords: '資料載入中...',
+                paginate: {
+                    previous: "Previous",
+                    next: "Next",
+                    first: "First",
+                    last: "Last"
+                },
+                zeroRecords: "暫無資料",
+            },
+            "lengthChange": false,
+            "ordering": false,
+            "iDisplayLength": 10,
+            "searching": false,
+            destory: true,
+            "serverSide": true,
+            "sAjaxSource": "@Url.Action("GetData","Product")",
+            "fnServerData": function (sSource, aoData, fnCallback) {
+                aoData.push({ "name": "NumberID", "value": $("#NumberID").val() });
+                $.ajax({
+                    "dataType": 'json',
+                    "type": "POST",
+                    "url": sSource,
+                    "data": aoData,
+                    "success": fnCallback
+                });
+            }
+        });
+    }
+
+
+</script>
