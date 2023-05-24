@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
 using Castle.Core.Resource;
+using System.Linq.Dynamic;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -25,7 +26,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Index()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            return View(MeProductRepo.ListAllMeProduct());
+            return View();
         }
 
         [Authorize(Users = "1,2,3")]
@@ -301,6 +302,34 @@ namespace TE_ManagementSystem.Controllers
         //        });
         //    }
         //}
+
+        [HttpPost]
+        public ActionResult GetList()
+        {
+            //server side parameter
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            List<MeProduct> meproductsList = new List<MeProduct>();
+            meproductsList = MeProductRepo.ListAllMeProduct().ToList<MeProduct>();
+            int totalrows = meproductsList.Count;
+            //filter
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                meproductsList = meproductsList
+                    .Where(x => x.ProdName.ToLower().Contains(searchValue.ToLower())).ToList<MeProduct>();
+            }
+            int totalrowsafterfiltering = meproductsList.Count;
+            //sorting
+            meproductsList = meproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<MeProduct>();
+            //paging
+            meproductsList = meproductsList.Skip(start).Take(length).ToList<MeProduct>();
+
+            return Json(new { data = meproductsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public JsonResult PostMethod2()

@@ -10354,6 +10354,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Index - 複製 %282%29.cshtml" />
     <Content Include="Views\Product\Index - Pagedlist.cshtml" />
+    <Content Include="Views\MeProduct\Index - 複製.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -10,7 +10,6 @@ using System.Reflection;
 using PagedList;
 using PagedList.Mvc;
 using System.Linq.Dynamic;
-using Newtonsoft.Json;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -28,9 +27,6 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Index()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            //return View(ProductRepo.ListAllProductUpdateDue());
-            //List<Product> products = db.Products.ToList();
-            //return View(db.Products.Where(x => x.NumberID.StartsWith(search) || search==null).ToList().ToPagedList(i ?? 1, 10));
             return View();
         }
 

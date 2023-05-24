@@ -78,7 +78,59 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MeStockDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdName)
+                                </td>
+                                @*<td>
+                                        <img src="/MeProduct/DisplayingIndexImage?imgID= + @item.ID + " class="img-responsive" thimbnail"="">
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.KindProcess.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kind.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Supplier.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShiftTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Pb)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ComList)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Spare1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateEmployee)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -92,69 +144,8 @@
 
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            ajax: {
-                url: "/MeProduct/GetList",
-                type: "POST",
-                datatype: "json"
-            },
-            columns: [
-                {
-                    data: "MeStockDate",
-                    name: "MeStockDate",
-                    render: function (data, type, row) {
-                        if (data !== null) {
-                            var timestamp = parseInt(data.substr(6));
-                            var date = new Date(timestamp);
-                            var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options);
-                            return '<div>' + formattedDateTime + '</div>';
-                        } else {
-                            return '<div></div>';
-                        }
-                    }
-                },
-                { data: "ProdName", name: "ProdName" },
-                { data: "KindProcess", name: "KindProcess" },
-                { data: "Kind", name: "Kind" },
-                { data: "Customer", name: "Customer" },
-                { data: "Supplier", name: "Supplier" },
-                { data: "Quantity", name: "Quantity" },
-                { data: "ShiftTime", name: "ShiftTime" },
-                { data: "Pb", name: "Pb" },
-                { data: "ComList", name: "ComList" },
-                { data: "Employee", name: "Employee" },
-                { data: "Spare1", name: "Spare1" },
-                {
-                    data: "UpdateDate",
-                    name: "UpdateDate",
-                    render: function (data, type, row) {
-                        if (data !== null) {
-                            var timestamp = parseInt(data.substr(6));
-                            var date = new Date(timestamp);
-                            var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options);
-                            return '<div>' + formattedDateTime + '</div>';
-                        } else {
-                            return '<div></div>';
-                        }
-                    }
-                },
-                { data: "UpdateEmployee", name: "UpdateEmployee" },
-                {
-                    data: "ID",
-                    name: "ID",
-                    render: function (data, type, row) {
-                        return '<a href="/MeProduct/Edit/' + data + '">Edit</a>';
-                    }
-                }
-            ],
             pagingType: 'full_numbers',
-            order: [0, 'desc'],
-            serverSide: true,
-            processing: true,
-            language: {
-                processing: "processing...please wait."
-            }
+            order: [[0, 'desc']],
         });
     });
 

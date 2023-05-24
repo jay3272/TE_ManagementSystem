@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -87,9 +88,41 @@ namespace TE_ManagementSystem.Models.Repo
             return db.MeProducts.Where(x => x.ProdName == name).FirstOrDefault().ID;
         }
 
-        public IQueryable<MeProduct> ListAllMeProduct()
+        public List<MeProduct> ListAllMeProduct()
         {
-            return db.MeProducts;
+            DbSet<MeProduct> meproductSet = db.MeProducts;
+            List<MeProduct> meproductsList = new List<MeProduct>();
+
+            foreach (var el in meproductSet)
+            {                
+                meproductsList.Add(new MeProduct()
+                {
+                    ID=el.ID,
+                    ProdName=el.ProdName,
+                    KindID=el.KindID,
+                    KindProcessID=el.KindProcessID,
+                    CustomerID=el.CustomerID,
+                    SupplierID=el.SupplierID,
+                    Opid=el.Opid,
+                    Quantity=el.Quantity,
+                    ShiftTime=el.ShiftTime,
+                    IsStock=el.IsStock,
+                    IsReturnMe=el.IsReturnMe,
+                    Pb=el.Pb,
+                    Image=el.Image,
+                    ComList=el.ComList,
+                    Spare1=el.Spare1,
+                    Spare2=el.Spare2,
+                    Spare3=el.Spare3,
+                    Spare4=el.Spare4,
+                    Spare5=el.Spare5,
+                    MeStockDate=el.MeStockDate,
+                    UpdateDate=el.UpdateDate,
+                    UpdateEmployee=el.UpdateEmployee
+                });
+            }
+
+            return meproductsList;
         }
 
         public bool UpdateMeProduct(MeProduct meProduct)
