@@ -291,7 +291,9 @@ namespace TE_ManagementSystem.Controllers
             if (!string.IsNullOrEmpty(searchValue))
             {
                 productsList = productsList
-                    .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())).ToList<Product>();
+                    .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
+                     || x.Status.ToLower().Contains(searchValue.ToLower()) || searchValue.ToLower().Contains("逾期")
+                      || searchValue.ToLower().Contains("期限內") || searchValue.ToLower().Contains("未借出")).ToList<Product>();
             }
             int totalrowsafterfiltering = productsList.Count;
             //sorting

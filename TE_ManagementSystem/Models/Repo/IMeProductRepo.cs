@@ -9,7 +9,7 @@ namespace TE_ManagementSystem.Models.Repo
     interface IMeProductRepo
     {
         //列出所以ME Product清單
-        List<MeProduct> ListAllMeProduct();
+        List<ViewMeProduct> ListAllMeProduct();
 
         //列出所以ME Product清單
         IQueryable<MeProduct> ListAllMeProductNotStock();

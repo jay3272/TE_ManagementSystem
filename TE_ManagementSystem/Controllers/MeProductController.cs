@@ -313,20 +313,22 @@ namespace TE_ManagementSystem.Controllers
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            List<MeProduct> meproductsList = new List<MeProduct>();
-            meproductsList = MeProductRepo.ListAllMeProduct().ToList<MeProduct>();
+            List<ViewMeProduct> meproductsList = new List<ViewMeProduct>();
+            meproductsList = MeProductRepo.ListAllMeProduct().ToList<ViewMeProduct>();
             int totalrows = meproductsList.Count;
             //filter
             if (!string.IsNullOrEmpty(searchValue))
             {
                 meproductsList = meproductsList
-                    .Where(x => x.ProdName.ToLower().Contains(searchValue.ToLower())).ToList<MeProduct>();
+                    .Where(x => x.ProdName.ToLower().Contains(searchValue.ToLower()) || x.KindProcessName.ToLower().Contains(searchValue.ToLower())
+                     || x.KindName.ToLower().Contains(searchValue.ToLower())|| x.CustomerName.ToLower().Contains(searchValue.ToLower())
+                     || x.SupplierName.ToLower().Contains(searchValue.ToLower())|| x.ComList.ToLower().Contains(searchValue.ToLower())).ToList<ViewMeProduct>();
             }
             int totalrowsafterfiltering = meproductsList.Count;
             //sorting
-            meproductsList = meproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<MeProduct>();
+            meproductsList = meproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewMeProduct>();
             //paging
-            meproductsList = meproductsList.Skip(start).Take(length).ToList<MeProduct>();
+            meproductsList = meproductsList.Skip(start).Take(length).ToList<ViewMeProduct>();
 
             return Json(new { data = meproductsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }

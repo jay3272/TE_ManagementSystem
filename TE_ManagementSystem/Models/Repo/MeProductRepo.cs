@@ -88,14 +88,14 @@ namespace TE_ManagementSystem.Models.Repo
             return db.MeProducts.Where(x => x.ProdName == name).FirstOrDefault().ID;
         }
 
-        public List<MeProduct> ListAllMeProduct()
+        public List<ViewMeProduct> ListAllMeProduct()
         {
             DbSet<MeProduct> meproductSet = db.MeProducts;
-            List<MeProduct> meproductsList = new List<MeProduct>();
+            List<ViewMeProduct> meproductsList = new List<ViewMeProduct>();
 
             foreach (var el in meproductSet)
             {                
-                meproductsList.Add(new MeProduct()
+                meproductsList.Add(new ViewMeProduct()
                 {
                     ID=el.ID,
                     ProdName=el.ProdName,
@@ -106,19 +106,17 @@ namespace TE_ManagementSystem.Models.Repo
                     Opid=el.Opid,
                     Quantity=el.Quantity,
                     ShiftTime=el.ShiftTime,
-                    IsStock=el.IsStock,
-                    IsReturnMe=el.IsReturnMe,
                     Pb=el.Pb,
                     Image=el.Image,
                     ComList=el.ComList,
                     Spare1=el.Spare1,
-                    Spare2=el.Spare2,
-                    Spare3=el.Spare3,
-                    Spare4=el.Spare4,
-                    Spare5=el.Spare5,
                     MeStockDate=el.MeStockDate,
                     UpdateDate=el.UpdateDate,
-                    UpdateEmployee=el.UpdateEmployee
+                    UpdateEmployee=el.UpdateEmployee,
+                    KindProcessName=el.KindProcess.Name,
+                    KindName=el.Kind.Name,
+                    CustomerName=el.Customer.Name,
+                    SupplierName=el.Supplier.Name
                 });
             }
 

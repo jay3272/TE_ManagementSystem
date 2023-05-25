@@ -501,6 +501,7 @@
     <Compile Include="Models\Repo\PORepo.cs" />
     <Compile Include="Models\Repo\MeProductRepo.cs" />
     <Compile Include="Models\Repo\ProductRepo.cs" />
+    <Compile Include="Models\ViewMeProduct.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
