@@ -48,13 +48,13 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="ui celled table" id="dataTable" width="100%" cellspacing="0">
+                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                        @*<tr>
+                        <tr>
                             <th colspan="7">info</th>
                             <th colspan="9">ME info</th>
                             <th colspan="7">else</th>
-                        </tr>*@
+                        </tr>
                         <tr>
                             <th>
                                 入庫日期
@@ -74,7 +74,7 @@
                             <th>
                                 逾期
                             </th>
-                            @*<th>
+                            <th>
                                 治具室位置
                             </th>
                             <th>
@@ -86,16 +86,13 @@
                             <th>
                                 治具種類
                             </th>
-                            <th>
-                                供應商
-                            </th>
+                            @*<th>
+                                    供應商
+                                </th>*@
                             <th>
                                 客戶
                             </th>
-                            <th>
-                                料號
-                            </th>
-                            <th>
+                            @*<th>
                                 數量
                             </th>
                             <th>
@@ -120,6 +117,9 @@
                                     履歷
                                 </th>*@
                             <th>
+                                料號
+                            </th>
+                            <th>
                                 備註
                             </th>
                             <th>
@@ -127,6 +127,8 @@
                             </th>
                             <th>
                                 更新(創建)人員
+                            </th>
+                            <th>
                             </th>
                         </tr>
                     </thead>
@@ -158,7 +160,7 @@
                             var timestamp = parseInt(data.substr(6));
                             var date = new Date(timestamp);
                             var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options); 
+                            var formattedDateTime = date.toLocaleString(undefined, options);
                             return '<div>' + formattedDateTime + '</div>';
                         } else {
                             return '<div></div>';
@@ -169,7 +171,7 @@
                     data: "NumberID",
                     name: "NumberID",
                     render: function (data, type, row) {
-                        return '<a href="/Product/Resume/'+ data +'">'+ data +'</a>';
+                        return '<a href="/Product/Resume/' + data + '">' + data + '</a>';
                     }
                 },
                 { data: "RFID", name: "RFID" },
@@ -200,6 +202,11 @@
 
                     }
                 },
+                { data: "LocationName", name: "LocationName" },
+                { data: "LocationRackPosition", name: "LocationRackPosition" },
+                { data: "ProdName", name: "ProdName" },
+                { data: "KindName", name: "KindName" },
+                { data: "CustomerName", name: "CustomerName" },
                 { data: "Life", name: "Life" },
                 {
                     data: "LastBorrowDate",
@@ -209,7 +216,7 @@
                             var timestamp = parseInt(data.substr(6));
                             var date = new Date(timestamp);
                             var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options); 
+                            var formattedDateTime = date.toLocaleString(undefined, options);
                             return '<div>' + formattedDateTime + '</div>';
                         } else {
                             return '<div></div>';
@@ -224,7 +231,7 @@
                             var timestamp = parseInt(data.substr(6));
                             var date = new Date(timestamp);
                             var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options); 
+                            var formattedDateTime = date.toLocaleString(undefined, options);
                             return '<div>' + formattedDateTime + '</div>';
                         } else {
                             return '<div></div>';
@@ -239,13 +246,14 @@
                             var timestamp = parseInt(data.substr(6));
                             var date = new Date(timestamp);
                             var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options); 
+                            var formattedDateTime = date.toLocaleString(undefined, options);
                             return '<div>' + formattedDateTime + '</div>';
                         } else {
                             return '<div></div>';
                         }
                     }
                 },
+                { data: "ComList", name: "ComList" },
                 { data: "Spare1", name: "Spare1" },
                 {
                     data: "UpdateDate",
@@ -255,7 +263,7 @@
                             var timestamp = parseInt(data.substr(6));
                             var date = new Date(timestamp);
                             var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-                            var formattedDateTime = date.toLocaleString(undefined, options); 
+                            var formattedDateTime = date.toLocaleString(undefined, options);
                             return '<div>' + formattedDateTime + '</div>';
                         } else {
                             return '<div></div>';
@@ -263,6 +271,13 @@
                     }
                 },
                 { data: "UpdateEmployee", name: "UpdateEmployee" },
+                {
+                    data: "NumberID",
+                    name: "NumberID",
+                    render: function (data, type, row) {
+                        return '<a href="/Product/Edit/' + data + '">Edit</a>';
+                    }
+                }
             ],
             pagingType: 'full_numbers',
             order: [0, 'desc'],

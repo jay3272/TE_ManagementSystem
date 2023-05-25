@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -31,9 +32,32 @@ namespace TE_ManagementSystem.Models.Repo
             return db.ProductTransactions.DefaultIfEmpty().Where(p => p.Product.NumberID == id);
         }
 
-        public IQueryable<ProductTransaction> ListAllProductTransaction()
+        public List<ViewProductTransaction> ListAllProductTransaction()
         {
-            return db.ProductTransactions.OrderByDescending(x=>x.RegisterDate);
+            DbSet<ProductTransaction> productTransactionSet = db.ProductTransactions; 
+            List<ViewProductTransaction> viewProductTransactionList = new List<ViewProductTransaction>();
+
+            foreach (var el in productTransactionSet)
+            {
+                viewProductTransactionList.Add(new ViewProductTransaction()
+                {
+                    ID=el.ID,
+                    DepartmentName=el.Employee.Department.Name,
+                    EmployeeName=el.Employee.Name,
+                    ProductID=el.Product.NumberID,
+                    ProdName=el.Product.MeProduct.ProdName,
+                    KindName=el.Product.MeProduct.Kind.Name,
+                    LocationName=el.Product.Location.Name,
+                    LocationRackPosition=el.Product.Location.RackPosition,
+                    ComList=el.Product.MeProduct.ComList,
+                    IsReturn=el.IsReturn,
+                    IsToFix=el.IsToFix,
+                    BorrowDay=el.BorrowDay,
+                    RegisterDate=el.RegisterDate
+                });
+            }
+
+            return viewProductTransactionList;
         }
 
         public bool UpdateProductTransaction(ProductTransaction productTransaction)

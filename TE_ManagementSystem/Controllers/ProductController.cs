@@ -284,24 +284,23 @@ namespace TE_ManagementSystem.Controllers
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            List<Product> productsList = new List<Product>();
-            productsList = ProductRepo.ListAllProductUpdateDue().ToList<Product>();
-            int totalrows = productsList.Count;
+            List<ViewProduct> viewproductsList = new List<ViewProduct>();
+            viewproductsList = ProductRepo.ListAllProductUpdateDue().ToList<ViewProduct>();
+            int totalrows = viewproductsList.Count;
             //filter
             if (!string.IsNullOrEmpty(searchValue))
             {
-                productsList = productsList
+                viewproductsList = viewproductsList
                     .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
-                     || x.Status.ToLower().Contains(searchValue.ToLower()) || searchValue.ToLower().Contains("逾期")
-                      || searchValue.ToLower().Contains("期限內") || searchValue.ToLower().Contains("未借出")).ToList<Product>();
+                     || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
             }
-            int totalrowsafterfiltering = productsList.Count;
+            int totalrowsafterfiltering = viewproductsList.Count;
             //sorting
-            productsList = productsList.OrderBy(sortColumnName + " " + sortDirection).ToList<Product>();
+            viewproductsList = viewproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProduct>();
             //paging
-            productsList = productsList.Skip(start).Take(length).ToList<Product>();
+            viewproductsList = viewproductsList.Skip(start).Take(length).ToList<ViewProduct>();
 
-            return Json(new { data = productsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = viewproductsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         private bool CheckInputErr(Product Product)

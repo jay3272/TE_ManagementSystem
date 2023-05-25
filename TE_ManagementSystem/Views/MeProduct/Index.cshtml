@@ -120,7 +120,21 @@
                 { data: "SupplierName", name: "SupplierName" },
                 { data: "Quantity", name: "Quantity" },
                 { data: "ShiftTime", name: "ShiftTime" },
-                { data: "Pb", name: "Pb" },
+                {
+                    data: "Pb",
+                    name: "Pb",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            var checkBoxHtml = '<input type="checkbox" disabled';
+                            if (data) {
+                                checkBoxHtml += ' checked';
+                            }
+                            checkBoxHtml += '>';
+                            return checkBoxHtml;
+                        }
+                        return data;
+                    }
+                },
                 { data: "ComList", name: "ComList" },
                 { data: "UpdateEmployee", name: "UpdateEmployee" },
                 { data: "Spare1", name: "Spare1" },

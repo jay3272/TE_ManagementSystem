@@ -41,7 +41,7 @@ namespace TE_ManagementSystem.Models.Repo
             return db.Products.DefaultIfEmpty().Where(p => p.Usable == true);
         }
 
-        public List<Product> ListAllProductUpdateDue()
+        public List<ViewProduct> ListAllProductUpdateDue()
         {
             DateTime dateTimeNow = DateTime.Now;
             DateTime dateTimeLastLend;
@@ -68,14 +68,16 @@ namespace TE_ManagementSystem.Models.Repo
             db.SaveChanges();
 
             DbSet<Product> productSet = db.Products;
-            List<Product> productsList = new List<Product>();
+            List<ViewProduct> productsList = new List<ViewProduct>();
 
             foreach (var el in productSet)
             {
-                productsList.Add(new Product() { ID=el.ID, NumberID=el.NumberID, RFID=el.RFID, Status=el.Status, LocationID=el.LocationID
+                productsList.Add(new ViewProduct() { ID=el.ID, NumberID=el.NumberID, RFID=el.RFID, Status=el.Status, LocationID=el.LocationID
                     , EngID=el.EngID, StockDate=el.StockDate, Life=el.Life, LastBorrowDate=el.LastBorrowDate, LastReturnDate=el.LastReturnDate
-                    , UseLastDate=el.UseLastDate, Usable=el.Usable, Overdue=el.Overdue, Spare1=el.Spare1, Spare2=el.Spare2, Spare3=el.Spare3, Spare4=el.Spare4, Spare5=el.Spare5
-                    , UpdateDate=el.UpdateDate, UpdateEmployee=el.UpdateEmployee
+                    , UseLastDate=el.UseLastDate, Usable=el.Usable, Overdue=el.Overdue, Spare1=el.Spare1
+                    , UpdateDate=el.UpdateDate, UpdateEmployee=el.UpdateEmployee, LocationName=el.Location.Name, LocationRackPosition=el.Location.RackPosition
+                    , ProdName=el.MeProduct.ProdName, KindName=el.MeProduct.Kind.Name, CustomerName=el.MeProduct.Customer.Name
+                    , ComList=el.MeProduct.ComList
                 });
             }
 

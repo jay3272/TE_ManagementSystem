@@ -503,6 +503,8 @@
     <Compile Include="Models\Repo\ProductRepo.cs" />
     <Compile Include="Models\ViewMeProduct.cs" />
     <Compile Include="Models\ViewModel.cs" />
+    <Compile Include="Models\ViewProduct.cs" />
+    <Compile Include="Models\ViewProductTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -10356,6 +10358,7 @@
     <Content Include="Views\Product\Index - 複製 %282%29.cshtml" />
     <Content Include="Views\Product\Index - Pagedlist.cshtml" />
     <Content Include="Views\MeProduct\Index - 複製.cshtml" />
+    <Content Include="Views\PO\Index - 複製.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

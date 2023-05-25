@@ -70,65 +70,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Employee.Department.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Employee.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.NumberID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.MeProduct.ProdName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.MeProduct.Kind.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Location.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.Location.RackPosition)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Product.MeProduct.ComList)
-                                </td>
-                                <td>
-                                    @if (item.IsReturn)
-                                    {
-                                        <span>倉庫</span>
-                                    }
-                                    else
-                                    {
-                                        <div class="onLend">
-                                            <span>借出</span>
-                                        </div>
-                                    }
-
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsReturn)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsToFix)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.BorrowDay)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.RegisterDate)
-                                </td>
-                                @*<td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                                    </td>*@
-                            </tr>
-                        }
+                        
                     </tbody>
                 </table>
             </div>
@@ -149,8 +91,85 @@
 
     $(document).ready(function () {
         $('#dataTable').DataTable({
+            ajax: {
+                url: "/PO/GetList",
+                type: "POST",
+                datatype: "json"
+            },
+            columns: [
+                { data: "DepartmentName", name: "DepartmentName" },
+                { data: "EmployeeName", name: "EmployeeName" },
+                { data: "ProductID", name: "ProductID" },
+                { data: "ProdName", name: "ProdName" },
+                { data: "KindName", name: "KindName" },
+                { data: "LocationName", name: "LocationName" },
+                { data: "LocationRackPosition", name: "LocationRackPosition" },
+                { data: "ComList", name: "ComList" },
+                {
+                    data: "IsReturn",
+                    name: "IsReturn",
+                    render: function (data, type, row) {
+                        if (data === true) {
+                            return '<div>' + '倉庫' + '</div>';
+                        } else {
+                            return '<div class="onLend">' + '借出' + '</div>';
+                        }
+                    }
+                },
+                {
+                    data: "IsReturn",
+                    name: "IsReturn",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            var checkBoxHtml = '<input type="checkbox" disabled';
+                            if (data) {
+                                checkBoxHtml += ' checked';
+                            }
+                            checkBoxHtml += '>';
+                            return checkBoxHtml;
+                        }
+                        return data;
+                    }
+                },
+                {
+                    data: "IsToFix",
+                    name: "IsToFix",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            var checkBoxHtml = '<input type="checkbox" disabled';
+                            if (data) {
+                                checkBoxHtml += ' checked';
+                            }
+                            checkBoxHtml += '>';
+                            return checkBoxHtml;
+                        }
+                        return data;
+                    }
+                },
+                { data: "BorrowDay", name: "BorrowDay" },
+                {
+                    data: "RegisterDate",
+                    name: "RegisterDate",
+                    render: function (data, type, row) {
+                        if (data !== null) {
+                            var timestamp = parseInt(data.substr(6));
+                            var date = new Date(timestamp);
+                            var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+                            var formattedDateTime = date.toLocaleString(undefined, options);
+                            return '<div>' + formattedDateTime + '</div>';
+                        } else {
+                            return '<div></div>';
+                        }
+                    }
+                }
+            ],
             pagingType: 'full_numbers',
-            order: [[12, 'desc']],
+            order: [12, 'desc'],
+            serverSide: true,
+            processing: true,
+            language: {
+                processing: "processing...please wait."
+            }
         });
     });
 

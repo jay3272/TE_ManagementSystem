@@ -9,7 +9,7 @@ namespace TE_ManagementSystem.Models.Repo
     interface IPORepo
     {
         //列出所以Product Transaction清單
-        IQueryable<ProductTransaction> ListAllProductTransaction();
+        List<ViewProductTransaction> ListAllProductTransaction();
 
         //列出某個Product Transaction紀錄
         IQueryable<ProductTransaction> GetProductTransactionById(string id);

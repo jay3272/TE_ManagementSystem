@@ -8,6 +8,7 @@ using TE_ManagementSystem.Models;
 using System.Net;
 using System.Data.Entity;
 using System.Reflection;
+using System.Linq.Dynamic;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -23,7 +24,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Index()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            return View(PORepo.ListAllProductTransaction());
+            return View();
         }
 
         // GET: PO/Create
@@ -249,6 +250,50 @@ namespace TE_ManagementSystem.Controllers
             {
                 return Json(new { ReturnStatus = "error", ReturnData = "ViewImage(), ex:" + ex });
             }
+        }
+
+        [HttpPost]
+        public ActionResult GetList()
+        {
+            //server side parameter
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            List<ViewProductTransaction> viewProductTransactionsList = new List<ViewProductTransaction>();
+            viewProductTransactionsList = PORepo.ListAllProductTransaction().ToList<ViewProductTransaction>();
+            int totalrows = viewProductTransactionsList.Count;
+            //filter
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                switch (searchValue)
+                {
+                    case "倉庫":
+                        viewProductTransactionsList = viewProductTransactionsList
+                            .Where(x => x.IsReturn == true).ToList<ViewProductTransaction>();
+                        break;
+                    case "借出":
+                        viewProductTransactionsList = viewProductTransactionsList
+                            .Where(x => x.IsReturn == false).ToList<ViewProductTransaction>();
+                        break;
+                    default:
+                        viewProductTransactionsList = viewProductTransactionsList
+                            .Where(x => x.ProdName.ToLower().Contains(searchValue.ToLower()) || x.DepartmentName.ToLower().Contains(searchValue.ToLower())
+                             || x.EmployeeName.ToLower().Contains(searchValue.ToLower())|| x.ProductID.ToLower().Contains(searchValue.ToLower())
+                             || x.KindName.ToLower().Contains(searchValue.ToLower())|| x.ComList.ToLower().Contains(searchValue.ToLower())
+                             || x.LocationName.ToLower().Contains(searchValue.ToLower())|| x.LocationRackPosition.ToLower().Contains(searchValue.ToLower())).ToList<ViewProductTransaction>();
+                        break;
+                }
+            }
+            int totalrowsafterfiltering = viewProductTransactionsList.Count;
+            //sorting
+            viewProductTransactionsList = viewProductTransactionsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProductTransaction>();
+            //paging
+            viewProductTransactionsList = viewProductTransactionsList.Skip(start).Take(length).ToList<ViewProductTransaction>();
+
+            return Json(new { data = viewProductTransactionsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         private bool CheckInputErr(ProductTransaction productTransaction)

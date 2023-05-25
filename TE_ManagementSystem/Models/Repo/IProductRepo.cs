@@ -14,7 +14,7 @@ namespace TE_ManagementSystem.Models.Repo
         IQueryable<Product> ListAllProductInStock();
 
         //列出所以Product清單
-        List<Product> ListAllProductUpdateDue();
+        List<ViewProduct> ListAllProductUpdateDue();
 
         //列出所以Product清單
         Product LinkToResume(string id);
