@@ -43,7 +43,7 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Customers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 customer.ID = maxId;
-                customer.UpdateEmployee = Session["UsrName"].ToString();
+                customer.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.Customers.Add(customer);
 
@@ -85,7 +85,7 @@ namespace TE_ManagementSystem.Controllers
                 var model = db.Customers.Where(x => x.ID == customer.ID).FirstOrDefault();
                 model.Name = customer.Name;
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                model.UpdateEmployee = Session["UsrName"].ToString();
+                model.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");

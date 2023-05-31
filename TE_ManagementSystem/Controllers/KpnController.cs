@@ -42,7 +42,7 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.KPNs.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kpn.ID = maxId;
-                kpn.UpdateEmployee = Session["UsrName"].ToString();
+                kpn.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.KPNs.Add(kpn);
 
@@ -82,7 +82,7 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(kpn)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 kpn.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                kpn.UpdateEmployee = Session["UsrName"].ToString();
+                kpn.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");

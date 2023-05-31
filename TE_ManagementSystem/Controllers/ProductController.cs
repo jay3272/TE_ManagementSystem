@@ -160,7 +160,7 @@ namespace TE_ManagementSystem.Controllers
                     int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                     maxId += 1;
                     Product.ID = maxId;
-                    Product.UpdateEmployee = Session["UsrName"].ToString();
+                    Product.UpdateEmployee = GlobalValuel.LoginUserName;
 
                     Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
@@ -241,7 +241,7 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                Product.UpdateEmployee = Session["UsrName"].ToString();
+                Product.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");
@@ -290,9 +290,26 @@ namespace TE_ManagementSystem.Controllers
             //filter
             if (!string.IsNullOrEmpty(searchValue))
             {
-                viewproductsList = viewproductsList
-                    .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
-                     || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
+                switch (searchValue)
+                {
+                    case "逾期":
+                        viewproductsList = viewproductsList
+                            .Where(x => x.Status == "借出" && x.Overdue == true).ToList<ViewProduct>();
+                        break;
+                    case "期限內":
+                        viewproductsList = viewproductsList
+                            .Where(x => x.Status == "借出" && x.Overdue == false).ToList<ViewProduct>();
+                        break;
+                    case "未借出":
+                        viewproductsList = viewproductsList
+                            .Where(x => x.Status != "借出").ToList<ViewProduct>();
+                        break;
+                    default:
+                        viewproductsList = viewproductsList
+                            .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
+                             || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
+                        break;
+                }
             }
             int totalrowsafterfiltering = viewproductsList.Count;
             //sorting

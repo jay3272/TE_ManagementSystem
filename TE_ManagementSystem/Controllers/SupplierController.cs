@@ -41,7 +41,7 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Suppliers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 supplier.ID = maxId;
-                supplier.UpdateEmployee = Session["UsrName"].ToString();
+                supplier.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.Suppliers.Add(supplier);
 
@@ -82,7 +82,7 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(supplier)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 supplier.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                supplier.UpdateEmployee = Session["UsrName"].ToString();
+                supplier.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");

@@ -34,6 +34,7 @@ namespace TE_ManagementSystem.Controllers
             {
                 FormsAuthentication.RedirectFromLoginPage(user.RankID.ToString(), true);
                 Session.Add("CurrentUser", user);
+                GlobalValuel.LoginUserName = user.Name;
 
                 Session.Add("UsrName", user.Name);
                 Session.Add("UsrOpid", user.Opid);
@@ -44,21 +45,27 @@ namespace TE_ManagementSystem.Controllers
                 {
                     case 1:
                         Session.Add("UsrRank", "Admin");
+                        GlobalValuel.LoginUserRank = "Admin";
                         break;
                     case 2:
                         Session.Add("UsrRank", "Supervisor");
+                        GlobalValuel.LoginUserRank = "Supervisor";
                         break;
                     case 3:
                         Session.Add("UsrRank", "Engineer");
+                        GlobalValuel.LoginUserRank = "Engineer";
                         break;
                     case 4:
                         Session.Add("UsrRank", "Operator");
+                        GlobalValuel.LoginUserRank = "Operator";
                         break;
                     case 5:
                         Session.Add("UsrRank", "Guest");
+                        GlobalValuel.LoginUserRank = "Guest";
                         break;
                     default:
                         Session.Add("UsrRank", "default");
+                        GlobalValuel.LoginUserRank = "default";
                         break;
                 }
 

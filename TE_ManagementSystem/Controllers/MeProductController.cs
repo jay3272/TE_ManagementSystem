@@ -77,7 +77,7 @@ namespace TE_ManagementSystem.Controllers
 
                 maxId += 1;
                 meProduct.ID = maxId;
-                meProduct.UpdateEmployee = Session["UsrName"].ToString();
+                meProduct.UpdateEmployee = GlobalValuel.LoginUserName;
                 meProduct.MeStockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 meProduct.IsStock = false;
                 meProduct.IsReturnMe = false;
@@ -170,7 +170,7 @@ namespace TE_ManagementSystem.Controllers
                 }
 
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                model.UpdateEmployee = Session["UsrName"].ToString();
+                model.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");

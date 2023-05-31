@@ -43,7 +43,7 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 //employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
-                employee.UpdateEmployee = Session["UsrName"].ToString();
+                employee.UpdateEmployee = GlobalValuel.LoginUserName;
                 employee.IsActive = true;
                 if (employee.Email == null)
                 {
@@ -98,7 +98,7 @@ namespace TE_ManagementSystem.Controllers
                 model.IsActive = employee.IsActive;
                 model.Password = employee.Password;
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                model.UpdateEmployee = Session["UsrName"].ToString();
+                model.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");

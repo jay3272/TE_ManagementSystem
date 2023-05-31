@@ -42,7 +42,7 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Locations.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 location.ID = maxId;
-                location.UpdateEmployee = Session["UsrName"].ToString();
+                location.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 location.Status = true;
                 db.Locations.Add(location);
@@ -83,7 +83,7 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(location)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 location.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                location.UpdateEmployee = Session["UsrName"].ToString();
+                location.UpdateEmployee = GlobalValuel.LoginUserName;
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");

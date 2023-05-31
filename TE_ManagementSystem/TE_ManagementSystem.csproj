@@ -422,6 +422,7 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GlobalValuel.cs" />
     <Compile Include="Models\Image.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
