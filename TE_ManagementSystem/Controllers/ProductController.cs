@@ -131,7 +131,7 @@ namespace TE_ManagementSystem.Controllers
                 }
                 else
                 {
-                    this.LabelRuleRepo.GenerateLabelRule(Product.EngID); 
+                    this.LabelRuleRepo.GenerateLabelRule(Product.EngID);
                     labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
                     Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room, Product.Rack);
                     Product.Usable = true;
@@ -209,6 +209,163 @@ namespace TE_ManagementSystem.Controllers
                     //更新失敗
                     return Json(new { ReturnStatus = "error", ReturnData = "更新治具編碼規則異常 !" });
                 }
+
+                this.logUtil.AppendMethod("Save Create");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Users = "1,2")]
+        public ActionResult OldCreate()
+        {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+            var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
+
+            int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+            maxId += 1;
+            ViewBag.SuggestedNewProdId = maxId;
+            ViewBag.MeProducts = readyImportProduct;
+            ViewBag.Locations = db.Locations;
+
+
+            var locationData = db.Locations.Select(x => x.Name).Distinct();
+            var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
+            var meProductData = readyImportProduct;
+
+            List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+            List<SelectListItem> selectRackListItems = new List<SelectListItem>();
+            List<SelectListItem> selectMeProductListItems = new List<SelectListItem>();
+
+            foreach (var item in locationData)
+            {
+                selectLocationListItems.Add(new SelectListItem()
+                {
+                    Text = item,
+                    Selected = false
+                });
+            }
+
+            foreach (var item in rackData)
+            {
+                selectRackListItems.Add(new SelectListItem()
+                {
+                    Text = item,
+                    Selected = false
+                });
+            }
+
+            foreach (var item in meProductData)
+            {
+                selectMeProductListItems.Add(new SelectListItem()
+                {
+                    Text = item.ID + "/" + item.ProdName + "/" + item.ComList,
+                    Value = item.ID.ToString(),
+                    Selected = false
+                });
+            }
+
+            ViewBag.listLocation = selectLocationListItems;
+            ViewBag.listRack = selectRackListItems;
+            ViewBag.listMeProduct = selectMeProductListItems;
+
+
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Users = "1,2")]
+        [ValidateAntiForgeryToken]
+        public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee")] Product Product)
+        {
+            try
+            {
+                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+
+                if (Product.NumberID.Length > 3 && Product.NumberID.Length < 8)
+                {
+                    //add MeProduct
+                    int maxEngId = db.MeProducts.DefaultIfEmpty().Max(m => m == null ? 0 : m.ID);
+                    maxEngId += 1;
+                    MeProduct meproduct = new MeProduct();
+                    try
+                    {
+                        meproduct.ID = maxEngId;
+                        meproduct.ProdName = Product.Spare5;
+                        meproduct.KindID = 0;
+                        meproduct.KindProcessID = 0;
+                        meproduct.CustomerID = 0;
+                        meproduct.SupplierID = 0;
+                        meproduct.Opid = Session["UsrOpid"].ToString();
+                        meproduct.Quantity = 1;
+                        meproduct.ShiftTime = 10;
+                        meproduct.IsStock = true;
+                        meproduct.IsReturnMe = false;
+                        meproduct.Pb = false;
+                        meproduct.ComList = "empty";
+                        meproduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        meproduct.UpdateEmployee = Session["UsrName"].ToString();
+
+                        db.MeProducts.Add(meproduct);
+                        db.SaveChanges();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "OLD治具新增異常 !" + ex.Message });
+                    }
+                    //
+
+                    //新增OLD 治具
+                    int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                    maxId += 1;
+                    Product.ID = maxId;
+                    Product.EngID = maxEngId;
+                    Product.Usable = true;
+
+                    if (Product.Usable)
+                    {
+                        Product.Status = "倉庫";
+                    }
+                    else
+                    {
+                        Product.Status = "借出";
+                    }
+
+                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    Product.Overdue = false;
+
+                    try
+                    {
+                        if (Session["UsrName"].ToString().Count() > 0)
+                        {
+                            Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                            Product.UpdateEmployee = Session["UsrName"].ToString();
+                        }
+                        else
+                        {
+                            return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+
+                    db.Products.Add(Product);
+                    db.SaveChanges();
+                    //
+                }
+                else
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "治具編號需3~7碼 !" });
+                }
+
 
                 this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");

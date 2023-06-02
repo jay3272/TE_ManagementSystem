@@ -1,0 +1,277 @@
+﻿@model TE_ManagementSystem.Models.Product
+
+@{
+    ViewBag.Title = "OldCreate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<script src="~/Content/custom/supplierMePO.js"></script>*@
+<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link href="../Content/style2.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="~/Content/custom/supplierMePO.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.6.2/css/select.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-xl-10">
+            <!-- general form elements -->
+
+            <section class="layout">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">治具入庫</h3>
+                    </div>
+                    @using (Html.BeginForm("OldCreate", "Product", FormMethod.Post, new { id = "frmProduct", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form role="form">
+                            <div class="box-body">
+
+
+                                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <input type="text" autocomplete="off" class="form-control" id="NewProdId" value=@ViewBag.SuggestedNewProdId readonly="readonly" />
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group">
+                                        @Html.Label("治具編號", new { @class = "control-label" })
+
+                                        @Html.EditorFor(model => model.NumberID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.NumberID, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RFID, htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+                                    @Html.EditorFor(model => model.RFID, new { htmlAttributes = new { @class = "form-control", Value = "NA", style = "width:Auto" } })
+                                    @Html.ValidationMessageFor(model => model.RFID, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.Usable, new { @class = "control-label", @style = "color:black" })
+
+                                        @Html.CheckBoxFor(model => model.Usable, new { @checked = "checked" })
+                                        @Html.ValidationMessageFor(model => model.Usable, "", new { @class = "text-danger" })
+
+                                    </div>*@
+
+                                <div class="form-group">
+                                    @Html.Label("治具室", new { @class = "control-label", @style = "color:black" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox" name="Room">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listLocation)
+                                            {
+                                                <option value="@item.Text">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("儲位", new { @class = "control-label", @style = "color:black" })
+
+                                    <div class="ui-widget">
+                                        <select id="combobox1" name="Rack">
+                                            <option value=""></option>
+                                            @foreach (var item in ViewBag.listRack)
+                                            {
+                                                <option value="@item.Text">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.EngID, new { @class = "control-label", @style = "color:black" })
+                                    @Html.EditorFor(model => model.Spare5, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+
+                                    @*<div class="ui-widget">
+                                            <select id="combobox2" name="EngID">
+                                                <option value=""></option>
+                                                @foreach (var item in ViewBag.listMeProduct)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
+                                        </div>*@
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Life, new { @class = "control-label", @style = "color:black" })
+
+                                    @Html.EditorFor(model => model.Life, new { htmlAttributes = new { @class = "form-control", Value = 5, min = 1, max = 300, style = "width:Auto" } })
+                                    @Html.ValidationMessageFor(model => model.Life, "", new { @class = "text-danger" })
+
+                                </div>
+
+                            </div>
+                            @*<button type="button" id="fill">確認填入</button>*@
+
+                            <div class="box-footer">
+                                <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+
+
+                        </form>
+                    }
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</section>
+
+
+<script>
+    @foreach (var d in ViewBag.MeProducts)
+    {
+        @: meProducts.push(["@d.ID", "@d.ProdName"]);
+    }
+    OnTypeMeProductName('#meProductName');
+
+</script>
+
+<script>
+    @foreach (var d in ViewBag.Locations)
+    {
+        @: locations.push(["@d.ID", "@d.Name", "@d.RackPosition"]);
+    }
+    OnTypeLocationName('#location');
+
+</script>
+
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+
+        function customRenderItem(ul, item) {
+            var t = '<span class="mcacCol1">' + item[0] + '</span><span class="mcacCol2">' + item[1] + '</span>',
+                result = $('<li class="ui-menu-item" role="menuitem"></li>')
+                    .data('item.autocomplete', item)
+                    .append('<a class="ui-corner-all" style="position:relative;" tabindex="-1">' + t + '</a>')
+                    .appendTo(ul);
+
+            return result;
+        }
+
+        var columns = [{ name: 'Color', width: '100px' }, { name: 'Hex', width: '70px' }],
+            colors = [['Red', '#f00'], ['Green', '#0f0'], ['Blue', '#00f']];
+
+        $("#search").mcautocomplete({
+            showHeader: true,
+            columns: columns,
+            source: colors,
+            select: function (event, ui) {
+                this.value = (ui.item ? ui.item[0] : '');
+                return false;
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    var postUrl = '@Url.Action("OldCreate", "Product")';
+
+    $(function () {
+        $('#CreateProduct').click(function (e) {
+            e.preventDefault();
+            CreateItem();
+        });
+    });
+
+    function CreateItem() {
+        var question = "確認新增匯入該項?";
+        ConfirmCreate(question).then(function (answer) {
+            var ans = (String(answer) === "true");
+            if (ans) {
+                var data = $('#frmProduct').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    data: data,
+                    success: function (response) {
+                        if (response.ReturnStatus == "error") {
+                            AlertCreate(response.ReturnData);
+                        } else {
+                            window.location.href = "index";
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function ConfirmCreate(question) {
+        var defer = $.Deferred();
+        $('<div id="id="divCreateClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Confirm Create',
+                buttons: {
+                    "Yes": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+    function AlertCreate(question) {
+        var defer = $.Deferred();
+        $('<div style="color: red" id="id="divCreateErrorClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Error',
+                buttons: {
+                    "OK": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+</script>
+
+
