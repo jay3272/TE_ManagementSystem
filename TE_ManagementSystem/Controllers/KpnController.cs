@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Castle.Core.Resource;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -42,7 +43,23 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.KPNs.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kpn.ID = maxId;
-                kpn.UpdateEmployee = GlobalValuel.LoginUserName;
+
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        kpn.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        kpn.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.KPNs.Add(kpn);
 
@@ -52,7 +69,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 
@@ -80,9 +97,26 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 if (this.CheckInputErr(kpn)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                var model = db.KPNs.Where(x => x.ID == kpn.ID).FirstOrDefault();
+                model.Name = kpn.Name;
+                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                kpn.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                kpn.UpdateEmployee = GlobalValuel.LoginUserName;
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        model.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");
@@ -90,7 +124,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 

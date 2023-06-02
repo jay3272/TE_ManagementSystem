@@ -42,7 +42,23 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Locations.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 location.ID = maxId;
-                location.UpdateEmployee = GlobalValuel.LoginUserName;
+
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        location.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        location.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 location.Status = true;
                 db.Locations.Add(location);
@@ -53,7 +69,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 
@@ -81,9 +97,27 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 if (this.CheckInputErr(location)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                var model = db.Locations.Where(x => x.ID == location.ID).FirstOrDefault();
+                model.Name = location.Name;
+                model.RackPosition = location.RackPosition;
+                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                location.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                location.UpdateEmployee = GlobalValuel.LoginUserName;
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        model.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");
@@ -91,7 +125,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 

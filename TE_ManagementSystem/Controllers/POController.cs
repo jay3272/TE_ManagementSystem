@@ -53,30 +53,30 @@ namespace TE_ManagementSystem.Controllers
                 }
 
 
-                IProductRepo ProductRepo = new ProductRepo();
-                var productData = ProductRepo.ListAllProductInStock();
+                //IProductRepo ProductRepo = new ProductRepo();
+                //var productData = ProductRepo.ListAllProductInStock();
 
-                List<SelectListItem> selectProductListItems = new List<SelectListItem>();
+                //List<SelectListItem> selectProductListItems = new List<SelectListItem>();
 
-                foreach (var item in productData)
-                {
-                    selectProductListItems.Add(new SelectListItem()
-                    {
-                        Text = item.MeProduct.ProdName + "/" + item.NumberID,
-                        Value = item.NumberID,
-                        Selected = false
-                    });
-                }
+                //foreach (var item in productData)
+                //{
+                //    selectProductListItems.Add(new SelectListItem()
+                //    {
+                //        Text = item.MeProduct.ProdName + "/" + item.NumberID,
+                //        Value = item.NumberID,
+                //        Selected = false
+                //    });
+                //}
 
-                ViewBag.Products = productData;
-                ViewBag.listProduct = selectProductListItems;
+                //ViewBag.Products = productData;
+                //ViewBag.listProduct = selectProductListItems;
 
 
                 return View();
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 
@@ -143,7 +143,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 

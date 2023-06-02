@@ -42,7 +42,23 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Kinds.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kind.ID = maxId;
-                kind.UpdateEmployee = GlobalValuel.LoginUserName;
+
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        kind.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        kind.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.Kinds.Add(kind);
 
@@ -52,7 +68,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 
@@ -90,7 +106,7 @@ namespace TE_ManagementSystem.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+        //        return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
         //    }
         //}
 

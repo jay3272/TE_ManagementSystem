@@ -43,7 +43,23 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Customers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 customer.ID = maxId;
-                customer.UpdateEmployee = GlobalValuel.LoginUserName;
+
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        customer.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        customer.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.Customers.Add(customer);
 
@@ -53,7 +69,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 
@@ -85,7 +101,23 @@ namespace TE_ManagementSystem.Controllers
                 var model = db.Customers.Where(x => x.ID == customer.ID).FirstOrDefault();
                 model.Name = customer.Name;
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                model.UpdateEmployee = GlobalValuel.LoginUserName;
+                
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        model.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");
@@ -93,7 +125,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 

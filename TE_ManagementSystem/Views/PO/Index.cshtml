@@ -99,7 +99,13 @@
             columns: [
                 { data: "DepartmentName", name: "DepartmentName" },
                 { data: "EmployeeName", name: "EmployeeName" },
-                { data: "ProductID", name: "ProductID" },
+                {
+                    data: "ProductID",
+                    name: "ProductID",
+                    render: function (data, type, row) {
+                        return '<a href="/Product/Resume/' + data + '">' + data + '</a>';
+                    }
+                },
                 { data: "ProdName", name: "ProdName" },
                 { data: "KindName", name: "KindName" },
                 { data: "LocationName", name: "LocationName" },

@@ -3,6 +3,7 @@ using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
@@ -43,7 +44,23 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 //employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
-                employee.UpdateEmployee = GlobalValuel.LoginUserName;
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        employee.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        employee.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
+
                 employee.IsActive = true;
                 if (employee.Email == null)
                 {
@@ -62,7 +79,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !"});
             }
         }
 
@@ -73,7 +90,6 @@ namespace TE_ManagementSystem.Controllers
             {
                 this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
                 var model = db.Employees.Where(x => x.Opid == Opid).FirstOrDefault();
-
                 return View(model);
             }
             catch (Exception ex)
@@ -98,7 +114,23 @@ namespace TE_ManagementSystem.Controllers
                 model.IsActive = employee.IsActive;
                 model.Password = employee.Password;
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                model.UpdateEmployee = GlobalValuel.LoginUserName;
+
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        model.UpdateEmployee = Session["UsrName"].ToString();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
 
                 db.SaveChanges();
                 this.logUtil.AppendMethod("Save Update");
@@ -106,7 +138,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
             }
         }
 

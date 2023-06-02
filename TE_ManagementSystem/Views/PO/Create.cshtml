@@ -308,6 +308,10 @@
 
 <script type="text/javascript">
 
+    window.addEventListener('load', function () {
+        $('#Opid').focus();
+    });
+
     var postUrl = '@Url.Action("Create", "PO", new { IsReturn = @ViewBag.IsReturn })';
 
     $(function () {
