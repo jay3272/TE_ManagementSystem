@@ -10,6 +10,9 @@ using System.Reflection;
 using PagedList;
 using PagedList.Mvc;
 using System.Linq.Dynamic;
+using System.Xml.Linq;
+using System.Data.Entity;
+using System.Diagnostics.Eventing.Reader;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -54,57 +57,67 @@ namespace TE_ManagementSystem.Controllers
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
+            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-            int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            ViewBag.SuggestedNewProdId = maxId;
-            ViewBag.MeProducts = readyImportProduct;
-            ViewBag.Locations = db.Locations;
-
-
-            var locationData = db.Locations.Select(x => x.Name).Distinct();
-            var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
-            var meProductData = readyImportProduct;
-
-            List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
-            List<SelectListItem> selectRackListItems = new List<SelectListItem>();
-            List<SelectListItem> selectMeProductListItems = new List<SelectListItem>();
-
-            foreach (var item in locationData)
+            if (GlobalValuel.LoginUserName.ToString().Count() > 0)
             {
-                selectLocationListItems.Add(new SelectListItem()
+                var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
+
+                int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                ViewBag.SuggestedNewProdId = maxId;
+                ViewBag.MeProducts = readyImportProduct;
+                ViewBag.Locations = db.Locations;
+
+
+                var locationData = db.Locations.Select(x => x.Name).Distinct();
+                var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
+                var meProductData = readyImportProduct;
+
+                List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+                List<SelectListItem> selectRackListItems = new List<SelectListItem>();
+                List<SelectListItem> selectMeProductListItems = new List<SelectListItem>();
+
+                foreach (var item in locationData)
                 {
-                    Text = item,
-                    Selected = false
-                });
+                    selectLocationListItems.Add(new SelectListItem()
+                    {
+                        Text = item,
+                        Selected = false
+                    });
+                }
+
+                foreach (var item in rackData)
+                {
+                    selectRackListItems.Add(new SelectListItem()
+                    {
+                        Text = item,
+                        Selected = false
+                    });
+                }
+
+                foreach (var item in meProductData)
+                {
+                    selectMeProductListItems.Add(new SelectListItem()
+                    {
+                        Text = item.ID + "/" + item.ProdName + "/" + item.ComList,
+                        Value = item.ID.ToString(),
+                        Selected = false
+                    });
+                }
+
+                ViewBag.listLocation = selectLocationListItems;
+                ViewBag.listRack = selectRackListItems;
+                ViewBag.listMeProduct = selectMeProductListItems;
+
+
+                return View();
+            }
+            else
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
             }
 
-            foreach (var item in rackData)
-            {
-                selectRackListItems.Add(new SelectListItem()
-                {
-                    Text = item,
-                    Selected = false
-                });
-            }
-
-            foreach (var item in meProductData)
-            {
-                selectMeProductListItems.Add(new SelectListItem()
-                {
-                    Text = item.ID + "/" + item.ProdName + "/" + item.ComList,
-                    Value = item.ID.ToString(),
-                    Selected = false
-                });
-            }
-
-            ViewBag.listLocation = selectLocationListItems;
-            ViewBag.listRack = selectRackListItems;
-            ViewBag.listMeProduct = selectMeProductListItems;
-
-
-            return View();
         }
 
         [HttpPost]
@@ -166,7 +179,7 @@ namespace TE_ManagementSystem.Controllers
                         if (Session["UsrName"].ToString().Count() > 0)
                         {
                             Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                            Product.UpdateEmployee = Session["UsrName"].ToString();
+                            Product.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
                         }
                         else
                         {
@@ -225,63 +238,56 @@ namespace TE_ManagementSystem.Controllers
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
+            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-            int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-            maxId += 1;
-            ViewBag.SuggestedNewProdId = maxId;
-            ViewBag.MeProducts = readyImportProduct;
-            ViewBag.Locations = db.Locations;
-
-
-            var locationData = db.Locations.Select(x => x.Name).Distinct();
-            var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
-            var meProductData = readyImportProduct;
-
-            List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
-            List<SelectListItem> selectRackListItems = new List<SelectListItem>();
-            List<SelectListItem> selectMeProductListItems = new List<SelectListItem>();
-
-            foreach (var item in locationData)
+            if (GlobalValuel.LoginUserName.ToString().Count() > 0)
             {
-                selectLocationListItems.Add(new SelectListItem()
+                int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+                maxId += 1;
+                ViewBag.SuggestedNewProdId = maxId;
+                ViewBag.Locations = db.Locations;
+
+
+                var locationData = db.Locations.Select(x => x.Name).Distinct();
+                var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
+
+                List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+                List<SelectListItem> selectRackListItems = new List<SelectListItem>();
+
+                foreach (var item in locationData)
                 {
-                    Text = item,
-                    Selected = false
-                });
+                    selectLocationListItems.Add(new SelectListItem()
+                    {
+                        Text = item,
+                        Selected = false
+                    });
+                }
+
+                foreach (var item in rackData)
+                {
+                    selectRackListItems.Add(new SelectListItem()
+                    {
+                        Text = item,
+                        Selected = false
+                    });
+                }
+
+                ViewBag.listLocation = selectLocationListItems;
+                ViewBag.listRack = selectRackListItems;
+
+                return View();
+            }
+            else
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
             }
 
-            foreach (var item in rackData)
-            {
-                selectRackListItems.Add(new SelectListItem()
-                {
-                    Text = item,
-                    Selected = false
-                });
-            }
-
-            foreach (var item in meProductData)
-            {
-                selectMeProductListItems.Add(new SelectListItem()
-                {
-                    Text = item.ID + "/" + item.ProdName + "/" + item.ComList,
-                    Value = item.ID.ToString(),
-                    Selected = false
-                });
-            }
-
-            ViewBag.listLocation = selectLocationListItems;
-            ViewBag.listRack = selectRackListItems;
-            ViewBag.listMeProduct = selectMeProductListItems;
-
-
-            return View();
         }
 
         [HttpPost]
         [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
-        public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee")] Product Product)
+        public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee,OldQuantity,OldSupplier,OldState,OldKpn,OldAppendix")] Product Product)
         {
             try
             {
@@ -300,16 +306,29 @@ namespace TE_ManagementSystem.Controllers
                         meproduct.KindID = 0;
                         meproduct.KindProcessID = 0;
                         meproduct.CustomerID = 0;
-                        meproduct.SupplierID = 0;
+                        var tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier).FirstOrDefault();
+                        if (tmpSupplier == null)
+                        {
+                            Supplier supplier = new Supplier();
+                            supplier.ID = db.Suppliers.DefaultIfEmpty().Max(s => s == null ? 0 : s.ID) + 1;
+                            supplier.Name = Product.OldSupplier;
+                            supplier.Email = "NA";
+                            supplier.Phone = "NA";
+                            supplier.Address = "NA";
+                            db.Suppliers.Add(supplier);
+                            db.SaveChanges();
+                            tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier).FirstOrDefault();
+                        }
+                        meproduct.SupplierID = tmpSupplier.ID;
                         meproduct.Opid = Session["UsrOpid"].ToString();
-                        meproduct.Quantity = 1;
+                        meproduct.Quantity = (int)Product.OldQuantity;
                         meproduct.ShiftTime = 10;
                         meproduct.IsStock = true;
                         meproduct.IsReturnMe = false;
                         meproduct.Pb = false;
-                        meproduct.ComList = "empty";
+                        meproduct.ComList = Product.OldKpn;
                         meproduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        meproduct.UpdateEmployee = Session["UsrName"].ToString();
+                        meproduct.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
                         db.MeProducts.Add(meproduct);
                         db.SaveChanges();
@@ -326,6 +345,19 @@ namespace TE_ManagementSystem.Controllers
                     maxId += 1;
                     Product.ID = maxId;
                     Product.EngID = maxEngId;
+                    var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room || l.RackPosition == Product.Rack)).FirstOrDefault();
+                    if (tmpLocation == null)
+                    {
+                        Location location = new Location();
+                        location.ID = db.Locations.DefaultIfEmpty().Max(l => l == null ? 0 : l.ID) + 1;
+                        location.Name = Product.Room;
+                        location.RackPosition = Product.Rack;
+                        location.Status = true;
+                        db.Locations.Add(location);
+                        db.SaveChanges();
+                        tmpLocation = db.Locations.Where(l => (l.Name == Product.Room || l.RackPosition == Product.Rack)).FirstOrDefault();
+                    }
+                    Product.LocationID = tmpLocation.ID;
                     Product.Usable = true;
 
                     if (Product.Usable)
@@ -345,7 +377,7 @@ namespace TE_ManagementSystem.Controllers
                         if (Session["UsrName"].ToString().Count() > 0)
                         {
                             Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                            Product.UpdateEmployee = Session["UsrName"].ToString();
+                            Product.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
                         }
                         else
                         {
@@ -421,7 +453,7 @@ namespace TE_ManagementSystem.Controllers
                     if (Session["UsrName"].ToString().Count() > 0)
                     {
                         model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        model.UpdateEmployee = Session["UsrName"].ToString();
+                        model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
                     }
                     else
                     {

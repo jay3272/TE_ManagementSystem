@@ -176,6 +176,11 @@
           <Property Name="Rack" Type="varchar" MaxLength="100" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
+          <Property Name="OldQuantity" Type="int" />
+          <Property Name="OldSupplier" Type="varchar" MaxLength="100" />
+          <Property Name="OldState" Type="varchar" MaxLength="100" />
+          <Property Name="OldKpn" Type="varchar(max)" />
+          <Property Name="OldAppendix" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -615,6 +620,11 @@
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Product" FromRole="Product" ToRole="ProductTransaction" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OldQuantity" Type="Int32" />
+          <Property Name="OldSupplier" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OldState" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OldKpn" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OldAppendix" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -1025,6 +1035,11 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ManagementContextModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="OldAppendix" ColumnName="OldAppendix" />
+                <ScalarProperty Name="OldKpn" ColumnName="OldKpn" />
+                <ScalarProperty Name="OldState" ColumnName="OldState" />
+                <ScalarProperty Name="OldSupplier" ColumnName="OldSupplier" />
+                <ScalarProperty Name="OldQuantity" ColumnName="OldQuantity" />
                 <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

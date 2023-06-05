@@ -41,20 +41,21 @@
                 <ul class="list-group" style="">
                 </ul>治具資訊
             </h3><ul class="list-group" style="">
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>編號:@Html.DisplayFor(model => model.NumberID)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>名稱:@Html.DisplayFor(model => model.MeProduct.ProdName)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>狀態:@Html.DisplayFor(model => model.Status)</b></span><br></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>逾期:@Html.DisplayFor(model => model.Overdue)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>位置:@Html.DisplayFor(model => model.Location.Name)_@Html.DisplayFor(model => model.Location.RackPosition)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>種類:@Html.DisplayFor(model => model.MeProduct.Kind.Name)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>數量:@Html.DisplayFor(model => model.MeProduct.Quantity)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>鉛:@Html.DisplayFor(model => model.MeProduct.Pb)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>Shift Time:@Html.DisplayFor(model => model.MeProduct.ShiftTime)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>年限:@Html.DisplayFor(model => model.Life)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>入庫日:@Html.DisplayFor(model => model.StockDate)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>最後借出日:@Html.DisplayFor(model => model.LastBorrowDate)</b></span></div></li>
-                <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>最後歸還日:@Html.DisplayFor(model => model.LastReturnDate)</b></span></div></li>
-            </ul>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>編號:@Html.DisplayFor(model => model.NumberID)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>名稱:@Html.DisplayFor(model => model.MeProduct.ProdName)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>狀態:@Html.DisplayFor(model => model.Status)</b></span><br></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>報廢狀態:@Html.DisplayFor(model => model.OldState)</b></span><br></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>逾期:@Html.DisplayFor(model => model.Overdue)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>位置:@Html.DisplayFor(model => model.Location.Name)_@Html.DisplayFor(model => model.Location.RackPosition)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>種類:@Html.DisplayFor(model => model.MeProduct.Kind.Name)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>數量:@Html.DisplayFor(model => model.MeProduct.Quantity)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>鉛:@Html.DisplayFor(model => model.MeProduct.Pb)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>Shift Time:@Html.DisplayFor(model => model.MeProduct.ShiftTime)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>年限:@Html.DisplayFor(model => model.Life)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>入庫日:@Html.DisplayFor(model => model.StockDate)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>最後借出日:@Html.DisplayFor(model => model.LastBorrowDate)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>最後歸還日:@Html.DisplayFor(model => model.LastReturnDate)</b></span></div></li>
+</ul>
         </div><div class="col-sm-4 col-5">
             <h3>客戶機種</h3><ul class="list-group" style="">
                 <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>客戶:@Html.DisplayFor(model => model.MeProduct.Customer.Name)</b></span></div></li>

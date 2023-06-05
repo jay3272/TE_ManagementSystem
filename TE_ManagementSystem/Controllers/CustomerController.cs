@@ -15,7 +15,7 @@ namespace TE_ManagementSystem.Controllers
     {
         ICustomerRepo CustomerRepo = new CustomerRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
-
+        
         // GET: Customer
         [Authorize(Users="1,2,3,4,5")]
         public ActionResult Index()
@@ -28,7 +28,17 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Create()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            return View();
+
+            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+
+            if (GlobalValuel.LoginUserName.Count() > 0)
+            {
+                return View();
+            }
+            else
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]
@@ -49,7 +59,7 @@ namespace TE_ManagementSystem.Controllers
                     if (Session["UsrName"].ToString().Count() > 0)
                     {
                         customer.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        customer.UpdateEmployee = Session["UsrName"].ToString();
+                        customer.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
                     }
                     else
                     {
@@ -80,9 +90,19 @@ namespace TE_ManagementSystem.Controllers
             {
                 this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-                var model = db.Customers.Where(x => x.ID == id).FirstOrDefault();
+                GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-                return View(model);
+                if (GlobalValuel.LoginUserName.ToString().Count() > 0)
+                {
+                    var model = db.Customers.Where(x => x.ID == id).FirstOrDefault();
+
+                    return View(model);
+                }
+                else
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
+
             }
             catch (Exception ex)
             {
@@ -107,7 +127,7 @@ namespace TE_ManagementSystem.Controllers
                     if (Session["UsrName"].ToString().Count() > 0)
                     {
                         model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        model.UpdateEmployee = Session["UsrName"].ToString();
+                        model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
                     }
                     else
                     {

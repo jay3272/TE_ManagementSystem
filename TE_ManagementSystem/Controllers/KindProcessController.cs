@@ -27,7 +27,17 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Create()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            return View();
+
+            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+
+            if (GlobalValuel.LoginUserName.ToString().Count() > 0)
+            {
+                return View();
+            }
+            else
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]
@@ -48,7 +58,7 @@ namespace TE_ManagementSystem.Controllers
                     if (Session["UsrName"].ToString().Count() > 0)
                     {
                         kindProcess.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        kindProcess.UpdateEmployee = Session["UsrName"].ToString();
+                        kindProcess.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
                     }
                     else
                     {
@@ -98,7 +108,7 @@ namespace TE_ManagementSystem.Controllers
         //        var model = db.KindProcesses.Where(x => x.ID == kindProcess.ID).FirstOrDefault();
         //        model.Name = kindProcess.Name;
         //        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-        //        model.UpdateEmployee = Session["UsrName"].ToString();
+        //        model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
         //        db.SaveChanges();
         //        return RedirectToAction("Index");
