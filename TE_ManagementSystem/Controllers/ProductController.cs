@@ -30,6 +30,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult Index()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+            GlobalValue.viewproductsList = ProductRepo.ListAllProductUpdateDue().ToList<ViewProduct>();
             return View();
         }
 
@@ -57,9 +58,9 @@ namespace TE_ManagementSystem.Controllers
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+            GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-            if (GlobalValuel.LoginUserName.ToString().Count() > 0)
+            if (GlobalValue.LoginUserName.ToString().Count() > 0)
             {
                 var readyImportProduct = MeProductRepo.ListAllMeProductNotStock();
 
@@ -238,9 +239,9 @@ namespace TE_ManagementSystem.Controllers
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+            GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-            if (GlobalValuel.LoginUserName.ToString().Count() > 0)
+            if (GlobalValue.LoginUserName.ToString().Count() > 0)
             {
                 int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
@@ -506,40 +507,40 @@ namespace TE_ManagementSystem.Controllers
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            List<ViewProduct> viewproductsList = new List<ViewProduct>();
-            viewproductsList = ProductRepo.ListAllProductUpdateDue().ToList<ViewProduct>();
-            int totalrows = viewproductsList.Count;
+            int totalrows = GlobalValue.viewproductsList.Count;
+            List<ViewProduct> viewproductsPartialList = new List<ViewProduct>();
+
             //filter
             if (!string.IsNullOrEmpty(searchValue))
             {
                 switch (searchValue)
                 {
                     case "逾期":
-                        viewproductsList = viewproductsList
+                        viewproductsPartialList = GlobalValue.viewproductsList
                             .Where(x => x.Status == "借出" && x.Overdue == true).ToList<ViewProduct>();
                         break;
                     case "期限內":
-                        viewproductsList = viewproductsList
+                        viewproductsPartialList = GlobalValue.viewproductsList
                             .Where(x => x.Status == "借出" && x.Overdue == false).ToList<ViewProduct>();
                         break;
                     case "未借出":
-                        viewproductsList = viewproductsList
+                        viewproductsPartialList = GlobalValue.viewproductsList
                             .Where(x => x.Status != "借出").ToList<ViewProduct>();
                         break;
                     default:
-                        viewproductsList = viewproductsList
+                        viewproductsPartialList = GlobalValue.viewproductsList
                             .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
                              || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
                         break;
                 }
             }
-            int totalrowsafterfiltering = viewproductsList.Count;
+            int totalrowsafterfiltering = GlobalValue.viewproductsList.Count;
             //sorting
-            viewproductsList = viewproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProduct>();
+            viewproductsPartialList = GlobalValue.viewproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProduct>();
             //paging
-            viewproductsList = viewproductsList.Skip(start).Take(length).ToList<ViewProduct>();
+            viewproductsPartialList = GlobalValue.viewproductsList.Skip(start).Take(length).ToList<ViewProduct>();
 
-            return Json(new { data = viewproductsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = viewproductsPartialList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         private bool CheckInputErr(Product Product)

@@ -27,9 +27,9 @@ namespace TE_ManagementSystem.Controllers
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+            GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-            if (GlobalValuel.LoginUserName.ToString().Count() > 0)
+            if (GlobalValue.LoginUserName.ToString().Count() > 0)
             {
                 return View();
             }
@@ -88,9 +88,9 @@ namespace TE_ManagementSystem.Controllers
 
             try
             {
-                GlobalValuel.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+                GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-                if (GlobalValuel.LoginUserName.ToString().Count() > 0)
+                if (GlobalValue.LoginUserName.ToString().Count() > 0)
                 {
                     var model = db.Suppliers.Where(x => x.ID == id).FirstOrDefault();
                     return View(model);
