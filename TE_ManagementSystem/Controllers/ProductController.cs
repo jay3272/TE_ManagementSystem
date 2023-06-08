@@ -506,6 +506,7 @@ namespace TE_ManagementSystem.Controllers
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
+            int totalrowsafterfiltering;
 
             int totalrows = GlobalValue.viewproductsList.Count;
             List<ViewProduct> viewproductsPartialList = new List<ViewProduct>();
@@ -529,16 +530,24 @@ namespace TE_ManagementSystem.Controllers
                         break;
                     default:
                         viewproductsPartialList = GlobalValue.viewproductsList
-                            .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
-                             || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
+                            .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
                         break;
                 }
+
+                totalrowsafterfiltering = GlobalValue.viewproductsList.Count;
+                //sorting
+                viewproductsPartialList = viewproductsPartialList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProduct>();
+                //paging
+                viewproductsPartialList = viewproductsPartialList.Skip(start).Take(length).ToList<ViewProduct>();
+
+                return Json(new { data = viewproductsPartialList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
             }
-            int totalrowsafterfiltering = GlobalValue.viewproductsList.Count;
+            totalrowsafterfiltering = GlobalValue.viewproductsList.Count;
             //sorting
             viewproductsPartialList = GlobalValue.viewproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProduct>();
             //paging
-            viewproductsPartialList = GlobalValue.viewproductsList.Skip(start).Take(length).ToList<ViewProduct>();
+            viewproductsPartialList = viewproductsPartialList.Skip(start).Take(length).ToList<ViewProduct>();
 
             return Json(new { data = viewproductsPartialList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
