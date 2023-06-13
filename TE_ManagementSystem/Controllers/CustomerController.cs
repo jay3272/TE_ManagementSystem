@@ -53,6 +53,8 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Customers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 customer.ID = maxId;
+                customer.Name = customer.Name.Trim();
+                customer.CustCode = customer.CustCode.Trim();
 
                 try
                 {
@@ -119,7 +121,7 @@ namespace TE_ManagementSystem.Controllers
             {
                 if (this.CheckInputErr(customer)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.Customers.Where(x => x.ID == customer.ID).FirstOrDefault();
-                model.Name = customer.Name;
+                model.Name = customer.Name.Trim();
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 
                 try

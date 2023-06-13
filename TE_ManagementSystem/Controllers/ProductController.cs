@@ -13,6 +13,7 @@ using System.Linq.Dynamic;
 using System.Xml.Linq;
 using System.Data.Entity;
 using System.Diagnostics.Eventing.Reader;
+using static TE_ManagementSystem.Controllers.MeProductController;
 
 namespace TE_ManagementSystem.Controllers
 {
@@ -129,7 +130,7 @@ namespace TE_ManagementSystem.Controllers
             try
             {
                 if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
-                Product.EngID = MeProductRepo.GetMeProductIdByName(Product.Spare5);
+                Product.EngID = MeProductRepo.GetMeProductIdByName(Product.Spare5.Trim());
 
                 const int cNumberSeries = 5;
                 string labelRuleNumber;
@@ -147,7 +148,7 @@ namespace TE_ManagementSystem.Controllers
                 {
                     this.LabelRuleRepo.GenerateLabelRule(Product.EngID);
                     labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
-                    Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room, Product.Rack);
+                    Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim());
                     Product.Usable = true;
                 }
 
@@ -238,6 +239,8 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult OldCreate()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+            
+            this.loaddefault();
 
             GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
@@ -288,13 +291,30 @@ namespace TE_ManagementSystem.Controllers
         [HttpPost]
         [Authorize(Users = "1,2")]
         [ValidateAntiForgeryToken]
-        public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee,OldQuantity,OldSupplier,OldState,OldKpn,OldAppendix")] Product Product)
+        public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee,OldQuantity,OldSupplier,OldState,OldKpn,OldAppendix,OldKindId")] Product Product)
         {
             try
             {
                 if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
-                if (Product.NumberID.Length > 3 && Product.NumberID.Length < 8)
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        Product.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
+
+                if (Product.NumberID.Trim().Length > 3 && Product.NumberID.Trim().Length < 8)
                 {
                     //add MeProduct
                     int maxEngId = db.MeProducts.DefaultIfEmpty().Max(m => m == null ? 0 : m.ID);
@@ -303,22 +323,22 @@ namespace TE_ManagementSystem.Controllers
                     try
                     {
                         meproduct.ID = maxEngId;
-                        meproduct.ProdName = Product.Spare5;
-                        meproduct.KindID = 0;
+                        meproduct.ProdName = Product.Spare5.Trim();
+                        meproduct.KindID = (int)Product.OldKindId;
                         meproduct.KindProcessID = 0;
                         meproduct.CustomerID = 0;
-                        var tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier).FirstOrDefault();
+                        var tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
                         if (tmpSupplier == null)
                         {
                             Supplier supplier = new Supplier();
                             supplier.ID = db.Suppliers.DefaultIfEmpty().Max(s => s == null ? 0 : s.ID) + 1;
-                            supplier.Name = Product.OldSupplier;
+                            supplier.Name = Product.OldSupplier.Trim();
                             supplier.Email = "NA";
                             supplier.Phone = "NA";
                             supplier.Address = "NA";
                             db.Suppliers.Add(supplier);
                             db.SaveChanges();
-                            tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier).FirstOrDefault();
+                            tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
                         }
                         meproduct.SupplierID = tmpSupplier.ID;
                         meproduct.Opid = Session["UsrOpid"].ToString();
@@ -327,7 +347,7 @@ namespace TE_ManagementSystem.Controllers
                         meproduct.IsStock = true;
                         meproduct.IsReturnMe = false;
                         meproduct.Pb = false;
-                        meproduct.ComList = Product.OldKpn;
+                        meproduct.ComList = Product.OldKpn.Trim();
                         meproduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         meproduct.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
@@ -346,17 +366,17 @@ namespace TE_ManagementSystem.Controllers
                     maxId += 1;
                     Product.ID = maxId;
                     Product.EngID = maxEngId;
-                    var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room || l.RackPosition == Product.Rack)).FirstOrDefault();
+                    var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
                     if (tmpLocation == null)
                     {
                         Location location = new Location();
                         location.ID = db.Locations.DefaultIfEmpty().Max(l => l == null ? 0 : l.ID) + 1;
-                        location.Name = Product.Room;
-                        location.RackPosition = Product.Rack;
+                        location.Name = Product.Room.Trim();
+                        location.RackPosition = Product.Rack.Trim();
                         location.Status = true;
                         db.Locations.Add(location);
                         db.SaveChanges();
-                        tmpLocation = db.Locations.Where(l => (l.Name == Product.Room || l.RackPosition == Product.Rack)).FirstOrDefault();
+                        tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
                     }
                     Product.LocationID = tmpLocation.ID;
                     Product.Usable = true;
@@ -372,23 +392,6 @@ namespace TE_ManagementSystem.Controllers
 
                     Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     Product.Overdue = false;
-
-                    try
-                    {
-                        if (Session["UsrName"].ToString().Count() > 0)
-                        {
-                            Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                            Product.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
-                        }
-                        else
-                        {
-                            return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
-                    }
 
                     db.Products.Add(Product);
                     db.SaveChanges();
@@ -530,11 +533,12 @@ namespace TE_ManagementSystem.Controllers
                         break;
                     default:
                         viewproductsPartialList = GlobalValue.viewproductsList
-                            .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
+                            .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
+                             || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
                         break;
                 }
 
-                totalrowsafterfiltering = GlobalValue.viewproductsList.Count;
+                totalrowsafterfiltering = viewproductsPartialList.Count;
                 //sorting
                 viewproductsPartialList = viewproductsPartialList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewProduct>();
                 //paging
@@ -550,6 +554,28 @@ namespace TE_ManagementSystem.Controllers
             viewproductsPartialList = viewproductsPartialList.Skip(start).Take(length).ToList<ViewProduct>();
 
             return Json(new { data = viewproductsPartialList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        }
+
+        private void loaddefault()
+        {
+            ViewBag.Kind = db.Kinds;
+            var kindData = db.Kinds;
+            List<SelectListItem> selectKindListItems = new List<SelectListItem>();
+
+            foreach (var item in kindData)
+            {
+                if (item.Name.Contains("舊分類"))
+                {
+                    selectKindListItems.Add(new SelectListItem()
+                    {
+                        Text = item.ID + "/" + item.Name,
+                        Value = item.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            }
+
+            ViewBag.listKind = selectKindListItems;
         }
 
         private bool CheckInputErr(Product Product)

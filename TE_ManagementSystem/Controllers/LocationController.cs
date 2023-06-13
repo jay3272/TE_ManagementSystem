@@ -53,6 +53,8 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Locations.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 location.ID = maxId;
+                location.Name = location.Name.Trim();
+                location.RackPosition = location.RackPosition.Trim();
 
                 try
                 {
@@ -119,8 +121,8 @@ namespace TE_ManagementSystem.Controllers
             {
                 if (this.CheckInputErr(location)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.Locations.Where(x => x.ID == location.ID).FirstOrDefault();
-                model.Name = location.Name;
-                model.RackPosition = location.RackPosition;
+                model.Name = location.Name.Trim();
+                model.RackPosition = location.RackPosition.Trim();
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 try

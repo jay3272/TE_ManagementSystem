@@ -52,6 +52,8 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.KindProcesses.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kindProcess.ID = maxId;
+                kindProcess.Name = kindProcess.Name.Trim();
+                kindProcess.Number = kindProcess.Number.Trim();
 
                 try
                 {

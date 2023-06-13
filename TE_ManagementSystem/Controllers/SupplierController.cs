@@ -51,6 +51,10 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Suppliers.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 supplier.ID = maxId;
+                supplier.Name = supplier.Name.Trim();
+                supplier.Email = supplier.Email.Trim();
+                supplier.Phone = supplier.Phone.Trim();
+                supplier.Address = supplier.Address.Trim();
 
                 try
                 {
@@ -116,10 +120,10 @@ namespace TE_ManagementSystem.Controllers
             {
                 if (this.CheckInputErr(supplier)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.Suppliers.Where(x => x.ID == supplier.ID).FirstOrDefault();
-                model.Name = supplier.Name;
-                model.Email = supplier.Email;
-                model.Phone = supplier.Phone;
-                model.Address = supplier.Address;
+                model.Name = supplier.Name.Trim();
+                model.Email = supplier.Email.Trim();
+                model.Phone = supplier.Phone.Trim();
+                model.Address = supplier.Address.Trim();
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 try

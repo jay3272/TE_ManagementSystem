@@ -54,6 +54,11 @@ namespace TE_ManagementSystem.Controllers
                 if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 //employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
+                employee.Opid = employee.Opid.Trim();
+                employee.Name = employee.Name.Trim();
+                employee.Email = employee.Email.Trim();
+                employee.Password = employee.Password.Trim();
+
                 try
                 {
                     if (Session["UsrName"].ToString().Count() > 0)
@@ -128,12 +133,12 @@ namespace TE_ManagementSystem.Controllers
             {
                 if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.Employees.Where(x => x.Opid == employee.Opid).FirstOrDefault();
-                model.Name = employee.Name;
-                model.Email = employee.Email;
+                model.Name = employee.Name.Trim();
+                model.Email = employee.Email.Trim();
                 model.RankID = employee.RankID;
                 model.DepartmentID = employee.DepartmentID;
                 model.IsActive = employee.IsActive;
-                model.Password = employee.Password;
+                model.Password = employee.Password.Trim();
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 try

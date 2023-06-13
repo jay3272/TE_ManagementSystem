@@ -54,6 +54,7 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.KPNs.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kpn.ID = maxId;
+                kpn.Name = kpn.Name.Trim();
 
                 try
                 {

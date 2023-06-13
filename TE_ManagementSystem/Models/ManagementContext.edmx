@@ -181,6 +181,7 @@
           <Property Name="OldState" Type="varchar" MaxLength="100" />
           <Property Name="OldKpn" Type="varchar(max)" />
           <Property Name="OldAppendix" Type="varchar" MaxLength="100" />
+          <Property Name="OldKindId" Type="int" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -625,6 +626,7 @@
           <Property Name="OldState" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="OldKpn" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="OldAppendix" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OldKindId" Type="Int32" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -1035,6 +1037,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ManagementContextModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="OldKindId" ColumnName="OldKindId" />
                 <ScalarProperty Name="OldAppendix" ColumnName="OldAppendix" />
                 <ScalarProperty Name="OldKpn" ColumnName="OldKpn" />
                 <ScalarProperty Name="OldState" ColumnName="OldState" />

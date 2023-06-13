@@ -75,6 +75,9 @@ namespace TE_ManagementSystem.Controllers
                 if (MeProductRepo.CheckNameRepeat(meProduct.ProdName)) { return Json(new { ReturnStatus = "error", ReturnData = "治具名稱重複 !" }); }
                 int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
+                meProduct.ProdName = meProduct.ProdName.Trim();
+                meProduct.Opid = meProduct.Opid.Trim();
+                meProduct.Spare1 = meProduct.Spare1.Trim();
 
                 if (meProduct.Image != "empty")
                 {

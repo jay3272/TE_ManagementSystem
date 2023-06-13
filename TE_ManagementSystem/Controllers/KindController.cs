@@ -52,6 +52,8 @@ namespace TE_ManagementSystem.Controllers
                 int maxId = db.Kinds.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 maxId += 1;
                 kind.ID = maxId;
+                kind.Name = kind.Name.Trim();
+                kind.Number = maxId.ToString();
 
                 try
                 {

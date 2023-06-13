@@ -47,6 +47,7 @@ namespace TE_ManagementSystem.Models
         public string OldState { get; set; }
         public string OldKpn { get; set; }
         public string OldAppendix { get; set; }
+        public Nullable<int> OldKindId { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual MeProduct MeProduct { get; set; }
