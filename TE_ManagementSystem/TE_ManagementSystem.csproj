@@ -7301,6 +7301,8 @@
     <Content Include="Content\Bootstrap\bootstrap.bundle.min.js" />
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\checkList.css" />
+    <Content Include="Content\css\cdn.datatables.net_select_1.6.2_css_select.dataTables.min.css" />
+    <Content Include="Content\css\code.jquery.com_ui_1.13.2_themes_base_jquery-ui.css" />
     <Content Include="Content\css\jquery.fileupload-noscript.css" />
     <Content Include="Content\css\jquery.fileupload-ui-noscript.css" />
     <Content Include="Content\css\jquery.fileupload-ui.css" />
@@ -7398,6 +7400,7 @@
     <Content Include="Content\custom\supplierPOPR.js" />
     <Content Include="Content\custom\supplierPOPR1.js" />
     <Content Include="Content\custom\treeView.css" />
+    <Content Include="Content\fonts.googleapis.com_css_family=Nunito_200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i.css" />
     <Content Include="Content\Img\image-icon.png" />
     <Content Include="Content\Img\Tailyn.png" />
     <Content Include="Content\Img\TailynLogo.png" />
@@ -7410,6 +7413,13 @@
     <Content Include="Content\Img\TailynLogo_2021.jpg" />
     <Content Include="Content\Img\user.png" />
     <Content Include="Content\jquery.ui.checkList.js" />
+    <Content Include="Content\js\cdn.datatables.net_1.10.15_js_dataTables.semanticui.min.js" />
+    <Content Include="Content\js\cdn.datatables.net_1.13.4_js_jquery.dataTables.min.js" />
+    <Content Include="Content\js\cdn.datatables.net_select_1.6.2_js_dataTables.select.min.js" />
+    <Content Include="Content\js\cdnjs.cloudflare.com_ajax_libs_semantic-ui_2.2.6_semantic.min.js" />
+    <Content Include="Content\js\code.jquery.com_jquery-3.5.1.js" />
+    <Content Include="Content\js\code.jquery.com_jquery-3.6.0.js" />
+    <Content Include="Content\js\code.jquery.com_ui_1.13.2_jquery-ui.js" />
     <Content Include="Content\js\cors\jquery.postmessage-transport.js" />
     <Content Include="Content\js\cors\jquery.xdr-transport.js" />
     <Content Include="Content\js\demo.js" />

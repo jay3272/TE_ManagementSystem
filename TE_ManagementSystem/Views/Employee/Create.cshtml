@@ -6,11 +6,11 @@
 }
 
 <script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link href="~/Content/css/code.jquery.com_ui_1.13.2_themes_base_jquery-ui.css" rel="stylesheet" />
 <link href="../Content/style2.css" rel="stylesheet" />
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="~/Content/js/code.jquery.com_jquery-3.6.0.js"></script>
+<script src="~/Content/js/code.jquery.com_ui_1.13.2_jquery-ui.js"></script>
 <script src="~/Content/custom/supplierMePO.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
@@ -71,7 +71,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.RankID, new { @class = "control-label", @style = "color:black" })
                                 <br />
-                                
+
                                 <div class="ui-widget">
                                     <select id="combobox" name="RankID">
                                         <option value=""></option>
@@ -100,12 +100,12 @@
                             </div>
 
                             @*<div class="form-group">
-            @Html.LabelFor(model => model.IsActive, new { @class = "control-label", @style = "color:black" })
+                                    @Html.LabelFor(model => model.IsActive, new { @class = "control-label", @style = "color:black" })
 
-            @Html.EditorFor(model => model.IsActive)
-            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.IsActive)
+                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 
-        </div>*@
+                                </div>*@
 
                         </div>
 
