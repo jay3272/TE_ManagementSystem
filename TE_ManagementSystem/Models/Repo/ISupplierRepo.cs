@@ -23,7 +23,7 @@ namespace TE_ManagementSystem.Models.Repo
         bool UpdateSupplier(Supplier supplier);
 
         //刪除
-        bool DeleteSupplier(Supplier supplier);
+        bool DeleteSupplier(int id, string name);
 
     }
 }

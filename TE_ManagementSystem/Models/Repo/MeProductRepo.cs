@@ -16,9 +16,20 @@ namespace TE_ManagementSystem.Models.Repo
             throw new NotImplementedException();
         }
 
-        public bool DeleteMeProduct(MeProduct meProduct)
+        public bool DeleteMeProduct(int id, string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var delMeProduct = db.MeProducts.Where(m => m.ID == id && m.ProdName == name).FirstOrDefault();
+                if (delMeProduct == null) return true;
+                db.MeProducts.Remove(delMeProduct);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public IQueryable<MeProduct> ListAllMeProductNotStock()

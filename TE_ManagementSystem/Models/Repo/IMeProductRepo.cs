@@ -35,7 +35,7 @@ namespace TE_ManagementSystem.Models.Repo
         bool UpdateMeProduct(MeProduct meProduct);
 
         //刪除
-        bool DeleteMeProduct(MeProduct meProduct);
+        bool DeleteMeProduct(int id, string name);
 
     }
 }

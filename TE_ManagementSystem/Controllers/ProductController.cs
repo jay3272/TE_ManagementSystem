@@ -24,6 +24,7 @@ namespace TE_ManagementSystem.Controllers
         IMeProductRepo MeProductRepo = new MeProductRepo();
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
         IPORepo PORepo = new PORepo();
+        ISupplierRepo SupplierRepo = new SupplierRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
 
         // GET: Product
@@ -239,7 +240,7 @@ namespace TE_ManagementSystem.Controllers
         public ActionResult OldCreate()
         {
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-            
+
             this.loaddefault();
 
             GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
@@ -293,9 +294,13 @@ namespace TE_ManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee,OldQuantity,OldSupplier,OldState,OldKpn,OldAppendix,OldKindId")] Product Product)
         {
+
+            int maxEngId = db.MeProducts.DefaultIfEmpty().Max(m => m == null ? 0 : m.ID) + 1;
+            int maxSupId = db.Suppliers.DefaultIfEmpty().Max(s => s == null ? 0 : s.ID) + 1;
+
             try
             {
-                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                if (this.CheckOldInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
 
                 try
                 {
@@ -314,11 +319,10 @@ namespace TE_ManagementSystem.Controllers
                     return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
                 }
 
+
                 if (Product.NumberID.Trim().Length > 3 && Product.NumberID.Trim().Length < 8)
                 {
                     //add MeProduct
-                    int maxEngId = db.MeProducts.DefaultIfEmpty().Max(m => m == null ? 0 : m.ID);
-                    maxEngId += 1;
                     MeProduct meproduct = new MeProduct();
                     try
                     {
@@ -328,18 +332,34 @@ namespace TE_ManagementSystem.Controllers
                         meproduct.KindProcessID = 0;
                         meproduct.CustomerID = 0;
                         var tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
-                        if (tmpSupplier == null)
+
+                        try
                         {
-                            Supplier supplier = new Supplier();
-                            supplier.ID = db.Suppliers.DefaultIfEmpty().Max(s => s == null ? 0 : s.ID) + 1;
-                            supplier.Name = Product.OldSupplier.Trim();
-                            supplier.Email = "NA";
-                            supplier.Phone = "NA";
-                            supplier.Address = "NA";
-                            db.Suppliers.Add(supplier);
-                            db.SaveChanges();
-                            tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
+                            if (tmpSupplier == null)
+                            {
+                                Supplier supplier = new Supplier();
+                                supplier.ID = maxSupId;
+                                supplier.Name = Product.OldSupplier.Trim();
+                                supplier.Email = "NA";
+                                supplier.Phone = "NA";
+                                supplier.Address = "NA";
+                                db.Suppliers.Add(supplier);
+                                db.SaveChanges();
+                                tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
+                            }
                         }
+                        catch (Exception ex)
+                        {
+                            if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()))
+                            {
+                                return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常 !" });
+                            }
+                            else
+                            {
+                                return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常，回朔刪除異常，請通知工程師 !" });
+                            }
+                        }
+
                         meproduct.SupplierID = tmpSupplier.ID;
                         meproduct.Opid = Session["UsrOpid"].ToString();
                         meproduct.Quantity = (int)Product.OldQuantity;
@@ -357,7 +377,14 @@ namespace TE_ManagementSystem.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Json(new { ReturnStatus = "error", ReturnData = "OLD治具新增異常 !" + ex.Message });
+                        if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()) && MeProductRepo.DeleteMeProduct(maxEngId, Product.Spare5.Trim()))
+                        {
+                            return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常 !" });
+                        }
+                        else
+                        {
+                            return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常，回朔刪除異常，請通知工程師 !" });
+                        }                        
                     }
                     //
 
@@ -408,7 +435,14 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+                if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()) && MeProductRepo.DeleteMeProduct(maxEngId, Product.Spare5.Trim()))
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+                }
+                else
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複，回朔刪除異常，請通知工程師 !" });
+                }                
             }
         }
 
@@ -583,6 +617,17 @@ namespace TE_ManagementSystem.Controllers
             if (Product.Spare5 == null || Product.Spare5 == string.Empty) { return true; };
             if (Product.Room == null || Product.Room == string.Empty) { return true; };
             if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
+
+            return false;
+        }
+
+        private bool CheckOldInputErr(Product Product)
+        {
+            if (Product.NumberID == null || Product.NumberID == string.Empty) { return true; };
+            if (Product.Room == null || Product.Room == string.Empty) { return true; };
+            if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
+            if (Product.OldKindId == null) { return true; };
+            if (Product.Spare5 == null || Product.Spare5 == string.Empty) { return true; };
 
             return false;
         }

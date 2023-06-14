@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,9 +16,20 @@ namespace TE_ManagementSystem.Models.Repo
             throw new NotImplementedException();
         }
 
-        public bool DeleteSupplier(Supplier supplier)
+        public bool DeleteSupplier(int id , string name)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var delSupplier = db.Suppliers.Where(s => s.ID == id && s.Name == name).FirstOrDefault();
+                if (delSupplier == null) return true;
+                db.Suppliers.Remove(delSupplier);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public Supplier GetSupplierById(int id)
