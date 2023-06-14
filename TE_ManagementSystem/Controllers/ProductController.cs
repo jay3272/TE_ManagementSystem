@@ -513,6 +513,73 @@ namespace TE_ManagementSystem.Controllers
             }
         }
 
+        //GET: Product/Edit
+        [Authorize(Users = "1,2")]
+        public ActionResult OldEdit(string id)
+        {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+            try
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Product product = db.Products.Find(id);
+
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Users = "1,2")]
+        [ValidateAntiForgeryToken]
+        public ActionResult OldEdit([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateDate,UpdateEmployee")] Product Product)
+        {
+            try
+            {
+                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                var model = db.Products.Where(x => x.ID == Product.ID).FirstOrDefault();
+
+                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                try
+                {
+                    if (Session["UsrName"].ToString().Count() > 0)
+                    {
+                        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+                    }
+                    else
+                    {
+                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                }
+
+                db.SaveChanges();
+                this.logUtil.AppendMethod("Save Update");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+            }
+        }
+
         public ActionResult DisplayingImage(int imgid)
         {
             try

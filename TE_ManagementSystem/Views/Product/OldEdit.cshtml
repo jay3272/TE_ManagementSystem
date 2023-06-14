@@ -1,0 +1,128 @@
+﻿@model TE_ManagementSystem.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.NumberID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RFID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RFID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RFID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("治具室", htmlAttributes: new { @class = "control-label", @style = "color:black" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Room, new { htmlAttributes = new { @class = "form-control", Value = "1室", style = "width:Auto" } })
+                @Html.ValidationMessageFor(model => model.Room, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("儲位", htmlAttributes: new { @class = "control-label", @style = "color:black" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Rack, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                @Html.ValidationMessageFor(model => model.Rack, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.Label("種類", htmlAttributes: new { @class = "control-label", @style = "color:black" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MeProduct.KindID, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                @Html.ValidationMessageFor(model => model.MeProduct.KindID, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EngID, new { @class = "control-label", @style = "color:black" })
+            @Html.EditorFor(model => model.Spare5, new { htmlAttributes = new { @class = "form-control" } })
+
+            @*<div class="ui-widget">
+                    <select id="combobox2" name="EngID">
+                        <option value=""></option>
+                        @foreach (var item in ViewBag.listMeProduct)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>*@
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Life, new { @class = "control-label", @style = "color:black" })
+
+            @Html.EditorFor(model => model.Life, new { htmlAttributes = new { @class = "form-control", Value = 5, min = 1, max = 300, style = "width:Auto" } })
+            @Html.ValidationMessageFor(model => model.Life, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OldQuantity, new { @class = "control-label", @style = "color:black" })
+
+            @Html.EditorFor(model => model.OldQuantity, new { htmlAttributes = new { @class = "form-control", Value = 1, min = 1, max = 300, style = "width:Auto" } })
+            @Html.ValidationMessageFor(model => model.OldQuantity, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OldSupplier, htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+            @Html.EditorFor(model => model.OldSupplier, new { htmlAttributes = new { @class = "form-control", Value = "NA", style = "width:Auto" } })
+            @Html.ValidationMessageFor(model => model.OldSupplier, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OldState, htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+            @Html.EditorFor(model => model.OldState, new { htmlAttributes = new { @class = "form-control", Value = "NA", style = "width:Auto" } })
+            @Html.ValidationMessageFor(model => model.OldState, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OldKpn, htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+            @Html.EditorFor(model => model.OldKpn, new { htmlAttributes = new { @class = "form-control", Value = "NA" } })
+            @Html.ValidationMessageFor(model => model.MeProduct.ComList, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OldAppendix, htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+            @Html.EditorFor(model => model.OldAppendix, new { htmlAttributes = new { @class = "form-control", Value = "NA" } })
+            @Html.ValidationMessageFor(model => model.OldAppendix, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
