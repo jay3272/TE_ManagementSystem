@@ -33,16 +33,6 @@ namespace TE_ManagementSystem.Models
             public bool Overdue { get; set; }
             [Display(Name = "更新人員")]
             public string UpdateEmployee { get; set; }
-            [Display(Name = "數量")]
-            public Nullable<int> OldQuantity { get; set; }
-            [Display(Name = "供應商")]
-            public string OldSupplier { get; set; }
-            [Display(Name = "報廢狀態")]
-            public string OldState { get; set; }
-            [Display(Name = "料號")]
-            public string OldKpn { get; set; }
-            [Display(Name = "附件")]
-            public string OldAppendix { get; set; }
         }
     }
 }

@@ -275,11 +275,7 @@
                     data: "NumberID",
                     name: "NumberID",
                     render: function (data, type, row) {
-                        if (data.length === 8) {
                             return '<a href="/Product/Edit/' + data + '">Edit</a>';
-                        } else {
-                            return '<a href="/Product/OldEdit/' + data + '">Edit</a>';
-                        }
                     }
                 }
             ],

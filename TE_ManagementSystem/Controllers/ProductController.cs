@@ -235,216 +235,216 @@ namespace TE_ManagementSystem.Controllers
             }
         }
 
-        [HttpGet]
-        [Authorize(Users = "1,2")]
-        public ActionResult OldCreate()
-        {
-            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+        //[HttpGet]
+        //[Authorize(Users = "1,2")]
+        //public ActionResult OldCreate()
+        //{
+        //    this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            this.loaddefault();
+        //    this.loaddefault();
 
-            GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+        //    GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-            if (GlobalValue.LoginUserName.ToString().Count() > 0)
-            {
-                int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-                maxId += 1;
-                ViewBag.SuggestedNewProdId = maxId;
-                ViewBag.Locations = db.Locations;
-
-
-                var locationData = db.Locations.Select(x => x.Name).Distinct();
-                var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
-
-                List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
-                List<SelectListItem> selectRackListItems = new List<SelectListItem>();
-
-                foreach (var item in locationData)
-                {
-                    selectLocationListItems.Add(new SelectListItem()
-                    {
-                        Text = item,
-                        Selected = false
-                    });
-                }
-
-                foreach (var item in rackData)
-                {
-                    selectRackListItems.Add(new SelectListItem()
-                    {
-                        Text = item,
-                        Selected = false
-                    });
-                }
-
-                ViewBag.listLocation = selectLocationListItems;
-                ViewBag.listRack = selectRackListItems;
-
-                return View();
-            }
-            else
-            {
-                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        [HttpPost]
-        [Authorize(Users = "1,2")]
-        [ValidateAntiForgeryToken]
-        public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee,OldQuantity,OldSupplier,OldState,OldKpn,OldAppendix,OldKindId")] Product Product)
-        {
-
-            int maxEngId = db.MeProducts.DefaultIfEmpty().Max(m => m == null ? 0 : m.ID) + 1;
-            int maxSupId = db.Suppliers.DefaultIfEmpty().Max(s => s == null ? 0 : s.ID) + 1;
-
-            try
-            {
-                if (this.CheckOldInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
-
-                try
-                {
-                    if (Session["UsrName"].ToString().Count() > 0)
-                    {
-                        Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        Product.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
-                    }
-                    else
-                    {
-                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
-                }
+        //    if (GlobalValue.LoginUserName.ToString().Count() > 0)
+        //    {
+        //        int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+        //        maxId += 1;
+        //        ViewBag.SuggestedNewProdId = maxId;
+        //        ViewBag.Locations = db.Locations;
 
 
-                if (Product.NumberID.Trim().Length > 3 && Product.NumberID.Trim().Length < 8)
-                {
-                    //add MeProduct
-                    MeProduct meproduct = new MeProduct();
-                    try
-                    {
-                        meproduct.ID = maxEngId;
-                        meproduct.ProdName = Product.Spare5.Trim();
-                        meproduct.KindID = (int)Product.OldKindId;
-                        meproduct.KindProcessID = 0;
-                        meproduct.CustomerID = 0;
-                        var tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
+        //        var locationData = db.Locations.Select(x => x.Name).Distinct();
+        //        var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
 
-                        try
-                        {
-                            if (tmpSupplier == null)
-                            {
-                                Supplier supplier = new Supplier();
-                                supplier.ID = maxSupId;
-                                supplier.Name = Product.OldSupplier.Trim();
-                                supplier.Email = "NA";
-                                supplier.Phone = "NA";
-                                supplier.Address = "NA";
-                                db.Suppliers.Add(supplier);
-                                db.SaveChanges();
-                                tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()))
-                            {
-                                return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常 !" });
-                            }
-                            else
-                            {
-                                return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常，回朔刪除異常，請通知工程師 !" });
-                            }
-                        }
+        //        List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+        //        List<SelectListItem> selectRackListItems = new List<SelectListItem>();
 
-                        meproduct.SupplierID = tmpSupplier.ID;
-                        meproduct.Opid = Session["UsrOpid"].ToString();
-                        meproduct.Quantity = (int)Product.OldQuantity;
-                        meproduct.ShiftTime = 10;
-                        meproduct.IsStock = true;
-                        meproduct.IsReturnMe = false;
-                        meproduct.Pb = false;
-                        meproduct.ComList = Product.OldKpn.Trim();
-                        meproduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        meproduct.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+        //        foreach (var item in locationData)
+        //        {
+        //            selectLocationListItems.Add(new SelectListItem()
+        //            {
+        //                Text = item,
+        //                Selected = false
+        //            });
+        //        }
 
-                        db.MeProducts.Add(meproduct);
-                        db.SaveChanges();
+        //        foreach (var item in rackData)
+        //        {
+        //            selectRackListItems.Add(new SelectListItem()
+        //            {
+        //                Text = item,
+        //                Selected = false
+        //            });
+        //        }
 
-                    }
-                    catch (Exception ex)
-                    {
-                        if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()) && MeProductRepo.DeleteMeProduct(maxEngId, Product.Spare5.Trim()))
-                        {
-                            return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常 !" });
-                        }
-                        else
-                        {
-                            return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常，回朔刪除異常，請通知工程師 !" });
-                        }                        
-                    }
-                    //
+        //        ViewBag.listLocation = selectLocationListItems;
+        //        ViewBag.listRack = selectRackListItems;
 
-                    //新增OLD 治具
-                    int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
-                    maxId += 1;
-                    Product.ID = maxId;
-                    Product.EngID = maxEngId;
-                    var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
-                    if (tmpLocation == null)
-                    {
-                        Location location = new Location();
-                        location.ID = db.Locations.DefaultIfEmpty().Max(l => l == null ? 0 : l.ID) + 1;
-                        location.Name = Product.Room.Trim();
-                        location.RackPosition = Product.Rack.Trim();
-                        location.Status = true;
-                        db.Locations.Add(location);
-                        db.SaveChanges();
-                        tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
-                    }
-                    Product.LocationID = tmpLocation.ID;
-                    Product.Usable = true;
+        //        return View();
+        //    }
+        //    else
+        //    {
+        //        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
+        //    }
 
-                    if (Product.Usable)
-                    {
-                        Product.Status = "倉庫";
-                    }
-                    else
-                    {
-                        Product.Status = "借出";
-                    }
+        //}
 
-                    Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                    Product.Overdue = false;
+        //[HttpPost]
+        //[Authorize(Users = "1,2")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult OldCreate([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateEmployee,OldQuantity,OldSupplier,OldState,OldKpn,OldAppendix,OldKindId")] Product Product)
+        //{
 
-                    db.Products.Add(Product);
-                    db.SaveChanges();
-                    //
-                }
-                else
-                {
-                    return Json(new { ReturnStatus = "error", ReturnData = "治具編號需3~7碼 !" });
-                }
+        //    int maxEngId = db.MeProducts.DefaultIfEmpty().Max(m => m == null ? 0 : m.ID) + 1;
+        //    int maxSupId = db.Suppliers.DefaultIfEmpty().Max(s => s == null ? 0 : s.ID) + 1;
+
+        //    try
+        //    {
+        //        if (this.CheckOldInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+
+        //        try
+        //        {
+        //            if (Session["UsrName"].ToString().Count() > 0)
+        //            {
+        //                Product.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                Product.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+        //            }
+        //            else
+        //            {
+        //                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+        //        }
 
 
-                this.logUtil.AppendMethod("Save Create");
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()) && MeProductRepo.DeleteMeProduct(maxEngId, Product.Spare5.Trim()))
-                {
-                    return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
-                }
-                else
-                {
-                    return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複，回朔刪除異常，請通知工程師 !" });
-                }                
-            }
-        }
+        //        if (Product.NumberID.Trim().Length > 3 && Product.NumberID.Trim().Length < 8)
+        //        {
+        //            //add MeProduct
+        //            MeProduct meproduct = new MeProduct();
+        //            try
+        //            {
+        //                meproduct.ID = maxEngId;
+        //                meproduct.ProdName = Product.Spare5.Trim();
+        //                meproduct.KindID = (int)Product.OldKindId;
+        //                meproduct.KindProcessID = 0;
+        //                meproduct.CustomerID = 0;
+        //                var tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
+
+        //                try
+        //                {
+        //                    if (tmpSupplier == null)
+        //                    {
+        //                        Supplier supplier = new Supplier();
+        //                        supplier.ID = maxSupId;
+        //                        supplier.Name = Product.OldSupplier.Trim();
+        //                        supplier.Email = "NA";
+        //                        supplier.Phone = "NA";
+        //                        supplier.Address = "NA";
+        //                        db.Suppliers.Add(supplier);
+        //                        db.SaveChanges();
+        //                        tmpSupplier = db.Suppliers.Where(s => s.Name == Product.OldSupplier.Trim()).FirstOrDefault();
+        //                    }
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()))
+        //                    {
+        //                        return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常 !" });
+        //                    }
+        //                    else
+        //                    {
+        //                        return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常，回朔刪除異常，請通知工程師 !" });
+        //                    }
+        //                }
+
+        //                meproduct.SupplierID = tmpSupplier.ID;
+        //                meproduct.Opid = Session["UsrOpid"].ToString();
+        //                meproduct.Quantity = (int)Product.OldQuantity;
+        //                meproduct.ShiftTime = 10;
+        //                meproduct.IsStock = true;
+        //                meproduct.IsReturnMe = false;
+        //                meproduct.Pb = false;
+        //                meproduct.ComList = Product.OldKpn.Trim();
+        //                meproduct.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                meproduct.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+
+        //                db.MeProducts.Add(meproduct);
+        //                db.SaveChanges();
+
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()) && MeProductRepo.DeleteMeProduct(maxEngId, Product.Spare5.Trim()))
+        //                {
+        //                    return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常 !" });
+        //                }
+        //                else
+        //                {
+        //                    return Json(new { ReturnStatus = "error", ReturnData = "新增供應商異常，回朔刪除異常，請通知工程師 !" });
+        //                }                        
+        //            }
+        //            //
+
+        //            //新增OLD 治具
+        //            int maxId = db.Products.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
+        //            maxId += 1;
+        //            Product.ID = maxId;
+        //            Product.EngID = maxEngId;
+        //            var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
+        //            if (tmpLocation == null)
+        //            {
+        //                Location location = new Location();
+        //                location.ID = db.Locations.DefaultIfEmpty().Max(l => l == null ? 0 : l.ID) + 1;
+        //                location.Name = Product.Room.Trim();
+        //                location.RackPosition = Product.Rack.Trim();
+        //                location.Status = true;
+        //                db.Locations.Add(location);
+        //                db.SaveChanges();
+        //                tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
+        //            }
+        //            Product.LocationID = tmpLocation.ID;
+        //            Product.Usable = true;
+
+        //            if (Product.Usable)
+        //            {
+        //                Product.Status = "倉庫";
+        //            }
+        //            else
+        //            {
+        //                Product.Status = "借出";
+        //            }
+
+        //            Product.StockDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        //            Product.Overdue = false;
+
+        //            db.Products.Add(Product);
+        //            db.SaveChanges();
+        //            //
+        //        }
+        //        else
+        //        {
+        //            return Json(new { ReturnStatus = "error", ReturnData = "治具編號需3~7碼 !" });
+        //        }
+
+
+        //        this.logUtil.AppendMethod("Save Create");
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        if (SupplierRepo.DeleteSupplier(maxSupId, Product.OldSupplier.Trim()) && MeProductRepo.DeleteMeProduct(maxEngId, Product.Spare5.Trim()))
+        //        {
+        //            return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複，回朔刪除異常，請通知工程師 !" });
+        //        }                
+        //    }
+        //}
 
         //GET: Product/Edit
         [Authorize(Users = "1,2")]
@@ -513,72 +513,72 @@ namespace TE_ManagementSystem.Controllers
             }
         }
 
-        //GET: Product/Edit
-        [Authorize(Users = "1,2")]
-        public ActionResult OldEdit(string id)
-        {
-            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+        ////GET: Product/Edit
+        //[Authorize(Users = "1,2")]
+        //public ActionResult OldEdit(string id)
+        //{
+        //    this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
-            try
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+        //    try
+        //    {
+        //        if (id == null)
+        //        {
+        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //        }
 
-                Product product = db.Products.Find(id);
+        //        Product product = db.Products.Find(id);
 
-                if (product == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(product);
+        //        if (product == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        return View(product);
 
-            }
-            catch (Exception ex)
-            {
-                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+        //    }
+        //}
 
-        [HttpPost]
-        [Authorize(Users = "1,2")]
-        [ValidateAntiForgeryToken]
-        public ActionResult OldEdit([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateDate,UpdateEmployee")] Product Product)
-        {
-            try
-            {
-                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
-                var model = db.Products.Where(x => x.ID == Product.ID).FirstOrDefault();
+        //[HttpPost]
+        //[Authorize(Users = "1,2")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult OldEdit([Bind(Include = "ID,NumberID,RFID,Status,LocationID,Room,Rack,EngID,StockDate,Life,LastBorrowDate,LastReturnDate,UseLastDate,Usable,Overdue,Spare1,Spare2,Spare3,Spare4,Spare5,UpdateDate,UpdateEmployee")] Product Product)
+        //{
+        //    try
+        //    {
+        //        if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+        //        var model = db.Products.Where(x => x.ID == Product.ID).FirstOrDefault();
 
-                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        //        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                try
-                {
-                    if (Session["UsrName"].ToString().Count() > 0)
-                    {
-                        model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
-                    }
-                    else
-                    {
-                        return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
-                }
+        //        try
+        //        {
+        //            if (Session["UsrName"].ToString().Count() > 0)
+        //            {
+        //                model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+        //            }
+        //            else
+        //            {
+        //                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+        //        }
 
-                db.SaveChanges();
-                this.logUtil.AppendMethod("Save Update");
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
-            }
-        }
+        //        db.SaveChanges();
+        //        this.logUtil.AppendMethod("Save Update");
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+        //    }
+        //}
 
         public ActionResult DisplayingImage(int imgid)
         {
@@ -684,17 +684,6 @@ namespace TE_ManagementSystem.Controllers
             if (Product.Spare5 == null || Product.Spare5 == string.Empty) { return true; };
             if (Product.Room == null || Product.Room == string.Empty) { return true; };
             if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
-
-            return false;
-        }
-
-        private bool CheckOldInputErr(Product Product)
-        {
-            if (Product.NumberID == null || Product.NumberID == string.Empty) { return true; };
-            if (Product.Room == null || Product.Room == string.Empty) { return true; };
-            if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
-            if (Product.OldKindId == null) { return true; };
-            if (Product.Spare5 == null || Product.Spare5 == string.Empty) { return true; };
 
             return false;
         }

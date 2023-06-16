@@ -42,12 +42,6 @@ namespace TE_ManagementSystem.Models
         public string Rack { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
         public string UpdateEmployee { get; set; }
-        public Nullable<int> OldQuantity { get; set; }
-        public string OldSupplier { get; set; }
-        public string OldState { get; set; }
-        public string OldKpn { get; set; }
-        public string OldAppendix { get; set; }
-        public Nullable<int> OldKindId { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual MeProduct MeProduct { get; set; }

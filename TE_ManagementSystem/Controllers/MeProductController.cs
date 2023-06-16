@@ -149,6 +149,28 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [Authorize(Users = "1,2,3")]
+        public ActionResult OldCreate(int id)
+        {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+            GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
+
+            if (GlobalValue.LoginUserName.ToString().Count() > 0)
+            {
+                this.loaddefault();
+
+                var readyImportProduct = db.OldProducts.Where(p => p.ID == id).FirstOrDefault();
+                ViewBag.MeProducts = readyImportProduct;
+
+                return View();
+            }
+            else
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize(Users = "1,2,3")]
         public ActionResult Edit(int id)
         {
             try
@@ -160,6 +182,7 @@ namespace TE_ManagementSystem.Controllers
                 if (GlobalValue.LoginUserName.ToString().Count() > 0)
                 {
                     this.loaddefault();
+
                     return View(model);
                 }
                 else
@@ -284,7 +307,7 @@ namespace TE_ManagementSystem.Controllers
                 {
                     ImageViewModel imageViewModel = new ImageViewModel();
                     imageBuff = imageViewModel.CreateThumbnailImage(100, 100, img.ImageByte, true);
-                }                    
+                }
 
                 return File(imageBuff, "image/png");
             }
@@ -378,8 +401,8 @@ namespace TE_ManagementSystem.Controllers
             {
                 meproductsList = meproductsList
                     .Where(x => x.ProdName.ToLower().Contains(searchValue.ToLower()) || x.KindProcessName.ToLower().Contains(searchValue.ToLower())
-                     || x.KindName.ToLower().Contains(searchValue.ToLower())|| x.CustomerName.ToLower().Contains(searchValue.ToLower())
-                     || x.SupplierName.ToLower().Contains(searchValue.ToLower())|| x.ComList.ToLower().Contains(searchValue.ToLower())).ToList<ViewMeProduct>();
+                     || x.KindName.ToLower().Contains(searchValue.ToLower()) || x.CustomerName.ToLower().Contains(searchValue.ToLower())
+                     || x.SupplierName.ToLower().Contains(searchValue.ToLower()) || x.ComList.ToLower().Contains(searchValue.ToLower())).ToList<ViewMeProduct>();
             }
             int totalrowsafterfiltering = meproductsList.Count;
             //sorting

@@ -1,7 +1,7 @@
 ﻿@model TE_ManagementSystem.Models.MeProduct
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,9 +14,10 @@
 <script src="~/Content/js/code.jquery.com_ui_1.13.2_jquery-ui.js"></script>
 <script src="~/Content/custom/supplierMePO.js"></script>
 
-<link href="~/Content/checkList.css" rel="stylesheet" />
-<script src="~/Content/jquery.ui.checkList.js"></script>
+<link rel="stylesheet" type="text/css" href="../Content/checkList.css" />
+<script src="../Content/jquery.ui.checkList.js"></script>
 <link href="~/Template/theme.min.css" rel="stylesheet" />
+
 
 <style>
     .image-preview-wrapper {
@@ -45,14 +46,14 @@
 </style>
 
 
-@using (Html.BeginForm("Edit", "MeProduct", FormMethod.Post, new { id = "frmMeProduct", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "MeProduct", FormMethod.Post, new { id = "frmMeProduct", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <form role="form" class="mb-9">
         <div class="row g-3 flex-between-end mb-5">
             <div class="col-auto">
-                <h2 class="mb-2">更新ME治具</h2>
+                <h2 class="mb-2">新增ME治具</h2>
             </div>
         </div>
 
@@ -62,14 +63,55 @@
             <div class="col-md-6">
                 <!-- general form elements -->
                 <div class="box box-primary">
+                    @*<script type="text/javascript">
+                            $(document).re
+                        </script>*@
 
                     <div class="box-body">
+
+                        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input type="text" autocomplete="off" class="form-control" id="NewMeProdId" value=@ViewBag.SuggestedNewMeProdId readonly="readonly" />
+                                </div>
+                            </div>*@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProdName, new { @class = "control-label", @style = "color:black" })
 
                             @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control", style = "width:Auto", required = "required" } })
                             @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KindID, new { @class = "control-label", @style = "color:black" })
+
+                            <div class="ui-widget">
+                                <select id="combobox" name="KindID">
+                                    <option value=""></option>
+                                    @foreach (var item in ViewBag.listKind)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KindProcessID, new { @class = "control-label", @style = "color:black" })
+
+                            <div class="ui-widget">
+                                <select id="combobox4" name="KindProcessID">
+                                    <option value=""></option>
+                                    @foreach (var item in ViewBag.listProcessKind)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
                         </div>
 
                         <div class="form-group">
@@ -99,7 +141,23 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.ComList, new { @class = "control-label", @style = "color:black" })
 
+                            @*<div class="ui-widget">
+                                    <select id="combobox4" name="ComList">
+                                        <option value=""></option>
+                                        @foreach (var item in ViewBag.listKPN)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>*@
+
                             <div id='myCheckList'></div>
+                            @*<div id='selectedItems'></div>*@
+                            @*@Html.Editor("ComList", new { id = "comListKpn", htmlAttributes = new { @class = "form-control" } })*@
+                            @*@Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })*@
+                            @*<label id="comListKpn" name="ComList" type="hidden" />
+                                <label id="test1" name="test1"/>*@
+                            @*<input type="text" id="test" name="Test">*@
 
                             @Html.TextBoxFor(model => model.Test, new { id = "Test", Value = "empty", Type = "hidden" })
 
@@ -134,6 +192,12 @@
 
                     </div>
 
+                    @*<script type="text/javascript">
+                            var onSuccess = function (data) {
+                                alert(data.result);
+                            }
+                        </script>*@
+
                 </div>
             </div>
 
@@ -147,7 +211,7 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Opid, new { @class = "control-label", @style = "color:black" })
-                                @Html.TextBoxFor(model => model.Opid, new { disabled = "disabled", @readonly = "readonly" })
+
                                 <div class="ui-widget">
                                     <select id="combobox3" name="Opid">
                                         <option value=""></option>
@@ -162,7 +226,7 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.SupplierID, new { @class = "control-label", @style = "color:black" })
-                                @Html.TextBoxFor(model => model.SupplierID, new { disabled = "disabled", @readonly = "readonly" })
+
                                 <div class="ui-widget">
                                     <select id="combobox2" name="SupplierID">
                                         <option value=""></option>
@@ -177,7 +241,7 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })
-                                @Html.TextBoxFor(model => model.CustomerID, new { disabled = "disabled", @readonly = "readonly" })
+
                                 <div class="ui-widget">
                                     <select id="combobox1" name="CustomerID">
                                         <option value=""></option>
@@ -205,11 +269,25 @@
                         <div class="card-body">
                             @Html.LabelFor(model => model.Image, new { @class = "control-label", @style = "color:black" })
 
+                            @*@Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })*@
+
+                            @*<div action="upload" class="dropzone dropzone-single" id="my-awesome-dropzone">
+
+                                    <div class="dz-preview d-flex flex-wrap"></div>
+                                    <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here<span class="text-800"> or</span><button class="btn btn-link p-0" type="button">Browse from device</button><br><img class="mt-3 me-2" src="../../../img/image-icon.png" width="40" alt=""></div>
+                                </div>*@
+
                             <div class="container">
                                 <div class="col-md-4">
                                     @Html.TextBoxFor(model => model.Image, new { id = "Image", Value = "empty", Type = "hidden" })
 
+                                    @*<input type="file" id="SelectImage" accept=".jpg,.png" required /><br />*@
+
+                                    @*<a href="#" class="btn btn-sm btn-info" onclick="UploadImage()">Upload</a>*@
                                 </div>
+
+                                @*<div class="col-md-4 thumbnail" id="UploadedImage"></div>*@
 
                                 <div class="container p-5">
 
@@ -240,9 +318,95 @@
 
                 </div>
 
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            未匯入的舊治具列表
+                        </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            @*<div id="events">...</div>*@
+                                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具名稱</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">匯入日期</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">種類</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">製程種類</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">客戶</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">供應商</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">數量</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Shift Time</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">有鉛</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">料號</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">備註</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach (var item in ViewBag.MeProducts)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @item.Number
+                                                            </td>
+                                                            <td>
+                                                                @item.NumberID
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.ProdName
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="container">
                     <br />
-                    <input type="submit" value="Save" id="EditProduct" class="btn btn-primary" />
+                    <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
                     @Html.ActionLink("Discard", "Index")
 
                 </div>
@@ -325,17 +489,17 @@
 
 <script type="text/javascript">
 
-    var postUrl = '@Url.Action("Edit", "MeProduct")';
+    var postUrl = '@Url.Action("Create", "MeProduct")';
 
     $(function () {
-        $('#EditProduct').click(function (e) {
+        $('#CreateProduct').click(function (e) {
             e.preventDefault();
             CreateItem();
         });
     });
 
     function CreateItem() {
-        var question = "確認更新匯入該項?";
+        var question = "確認新增匯入該項?";
         ConfirmCreate(question).then(function (answer) {
             var ans = (String(answer) === "true");
             if (ans) {
@@ -364,7 +528,7 @@
                 autoOpen: true,
                 modal: true,
                 draggable: true,
-                title: 'Confirm Update',
+                title: 'Confirm Create',
                 buttons: {
                     "Yes": function () {
                         defer.resolve("true");
@@ -407,6 +571,92 @@
     }
 
 </script>
+
+@*<script>
+        $(function () {
+            var items;
+
+            $.get("/MeProduct/PostMethod2",
+                function (response) {
+                    items = response;
+                    console.log(response);
+                    console.log(items);
+                }
+            );
+
+            $('#myCheckList').checkList({
+                listItems: items,
+                onChange: selChange
+            });
+
+            function selChange() {
+                var selection = $('#myCheckList').checkList('getSelection');
+
+                $("#Test").val(JSON.stringify(selection));
+
+            }
+        });
+
+    </script>*@
+
+
+@*<script>
+
+        $('#CreateProduct').click(function () {
+            var selection = $('#myCheckList').checkList('getSelection');
+
+            $.ajax('/MeProduct/Create2', {
+                method: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(selection),
+                traditional: true,
+                success: function (d) {
+                    //do stuff
+                }
+            });
+
+        });
+
+    </script>*@
+
+
+@*<script>
+        @foreach (var d in ViewBag.Suppliers)
+        {
+            @: suppliers.push(["@d.ID", "@d.Name", "@d.Email", "@d.Phone"]);
+        }
+        OnTypeSupplierName('#supplier');
+
+    </script>
+
+    <script>
+        @foreach (var d in ViewBag.Kind)
+        {
+            @: kinds.push(["@d.ID", "@d.Name"]);
+        }
+        OnTypeKindName('#kind');
+
+    </script>
+
+    <script>
+        @foreach (var d in ViewBag.Customer)
+        {
+            @: customers.push(["@d.ID", "@d.Name", "@d.CustCode"]);
+        }
+        OnTypeCustomerName('#customer');
+
+    </script>
+
+    <script>
+        @foreach (var d in ViewBag.Kpn)
+        {
+            @: kpns.push(["@d.ID", "@d.Name"]);
+        }
+        OnTypeKpnName('#kpn');
+
+    </script>*@
+
 
 <script>
     const imagePreview = document.querySelector('[data-target="image-preview"]');
@@ -510,106 +760,3 @@
     }
 </script>
 
-
-@*@using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>MeProduct</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.ID)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProdName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProdName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProdName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })
-
-                <div class="ui-widget">
-                    <select id="combobox1" name="CustomerID">
-                        <option value=""></option>
-                        @foreach (var item in ViewBag.listCustomer)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.SupplierID, "SupplierID", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.SupplierID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Opid, "Opid", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Opid, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Opid, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ShiftTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ShiftTime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Pb, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Pb)
-                        @Html.ValidationMessageFor(model => model.Pb, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ComList, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ComList, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }*@
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

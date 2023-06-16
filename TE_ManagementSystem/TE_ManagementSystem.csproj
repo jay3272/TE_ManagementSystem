@@ -405,6 +405,7 @@
     <Compile Include="Controllers\LabelRuleController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MeProductController.cs" />
+    <Compile Include="Controllers\OldProductController.cs" />
     <Compile Include="Controllers\POController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProjectBase.cs" />
@@ -460,12 +461,17 @@
     <Compile Include="Models\MeProduct.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OldProduct.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Product.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductTransaction.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Repo\IOldProductRepo.cs" />
+    <Compile Include="Models\Repo\OldProductRepo.cs" />
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>ManagementContext.tt</DependentUpon>
     </Compile>
@@ -502,6 +508,10 @@
     <Compile Include="Models\Repo\PORepo.cs" />
     <Compile Include="Models\Repo\MeProductRepo.cs" />
     <Compile Include="Models\Repo\ProductRepo.cs" />
+    <Compile Include="Models\SystemLog.cs">
+      <DependentUpon>ManagementContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewOldProduct.cs" />
     <Compile Include="Models\ViewMeProduct.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Models\ViewProduct.cs" />
@@ -10372,6 +10382,8 @@
     <Content Include="Views\PO\Index - 複製.cshtml" />
     <Content Include="Views\Product\OldCreate.cshtml" />
     <Content Include="Views\Product\OldEdit.cshtml" />
+    <Content Include="Views\OldProduct\Index.cshtml" />
+    <Content Include="Views\MeProduct\OldCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -38,5 +38,7 @@ namespace TE_ManagementSystem.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductTransaction> ProductTransactions { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<OldProduct> OldProducts { get; set; }
+        public virtual DbSet<SystemLog> SystemLogs { get; set; }
     }
 }

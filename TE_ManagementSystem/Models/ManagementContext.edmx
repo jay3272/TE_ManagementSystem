@@ -149,6 +149,29 @@
           <Property Name="MeStockDate" Type="datetime" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
+          <Property Name="OldNumberID" Type="varchar" MaxLength="50" />
+          <Property Name="OldLocation" Type="varchar" MaxLength="100" />
+          <Property Name="OldState" Type="varchar" MaxLength="100" />
+          <Property Name="OldKindProcess" Type="varchar" MaxLength="100" />
+          <Property Name="OldSupplier" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="OldProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="varchar" MaxLength="100" />
+          <Property Name="NumberID" Type="varchar" MaxLength="100" />
+          <Property Name="Location" Type="varchar" MaxLength="100" />
+          <Property Name="ProdName" Type="varchar" MaxLength="100" />
+          <Property Name="Files" Type="varchar" MaxLength="100" />
+          <Property Name="Customer" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="Qty" Type="varchar" MaxLength="100" />
+          <Property Name="StatusOnToolRoom" Type="varchar" MaxLength="100" />
+          <Property Name="KPN" Type="varchar" MaxLength="100" />
+          <Property Name="KindProcess" Type="varchar" MaxLength="100" />
+          <Property Name="IsDone" Type="bit" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -176,12 +199,6 @@
           <Property Name="Rack" Type="varchar" MaxLength="100" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
-          <Property Name="OldQuantity" Type="int" />
-          <Property Name="OldSupplier" Type="varchar" MaxLength="100" />
-          <Property Name="OldState" Type="varchar" MaxLength="100" />
-          <Property Name="OldKpn" Type="varchar(max)" />
-          <Property Name="OldAppendix" Type="varchar" MaxLength="100" />
-          <Property Name="OldKindId" Type="int" />
         </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
@@ -215,6 +232,16 @@
           <Property Name="Spare5" Type="varchar" MaxLength="100" />
           <Property Name="UpdateDate" Type="datetime" />
           <Property Name="UpdateEmployee" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'ManagementContext.dbo.SystemLog' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="LogTime" />
+            <PropertyRef Name="LogMessage" />
+          </Key>
+          <Property Name="LogTime" Type="datetime" Nullable="false" />
+          <Property Name="LogMessage" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_Employee_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
@@ -373,9 +400,16 @@
           <EntitySet Name="LabelRule" EntityType="Self.LabelRule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MeProduct" EntityType="Self.MeProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OldProduct" EntityType="Self.OldProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductTransaction" EntityType="Self.ProductTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemLog" EntityType="Self.SystemLog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SystemLog].[LogTime] AS [LogTime], 
+    [SystemLog].[LogMessage] AS [LogMessage]
+    FROM [dbo].[SystemLog] AS [SystemLog]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
@@ -591,7 +625,7 @@
           <Property Name="MeStockDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="NumberID" />
@@ -621,13 +655,7 @@
           <NavigationProperty Name="ProductTransactions" Relationship="Self.FK_ProductTransaction_Product" FromRole="Product" ToRole="ProductTransaction" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OldQuantity" Type="Int32" />
-          <Property Name="OldSupplier" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="OldState" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="OldKpn" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="OldAppendix" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="OldKindId" Type="Int32" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="ProductTransaction">
           <Key>
             <PropertyRef Name="ID" />
@@ -872,7 +900,35 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductTransaction" EntitySet="ProductTransactions" />
           </AssociationSet>
+          <EntitySet Name="OldProducts" EntityType="ManagementContextModel.OldProduct" />
+          <EntitySet Name="SystemLogs" EntityType="ManagementContextModel.SystemLog" />
         </EntityContainer>
+        <EntityType Name="OldProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NumberID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProdName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Files" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Customer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Qty" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="StatusOnToolRoom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KPN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KindProcess" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsDone" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="LogTime" />
+            <PropertyRef Name="LogMessage" />
+          </Key>
+          <Property Name="LogTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogMessage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1037,12 +1093,6 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ManagementContextModel.Product">
               <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="OldKindId" ColumnName="OldKindId" />
-                <ScalarProperty Name="OldAppendix" ColumnName="OldAppendix" />
-                <ScalarProperty Name="OldKpn" ColumnName="OldKpn" />
-                <ScalarProperty Name="OldState" ColumnName="OldState" />
-                <ScalarProperty Name="OldSupplier" ColumnName="OldSupplier" />
-                <ScalarProperty Name="OldQuantity" ColumnName="OldQuantity" />
                 <ScalarProperty Name="UpdateEmployee" ColumnName="UpdateEmployee" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1100,6 +1150,33 @@
                 <ScalarProperty Name="Spare3" ColumnName="Spare3" />
                 <ScalarProperty Name="Spare4" ColumnName="Spare4" />
                 <ScalarProperty Name="Spare5" ColumnName="Spare5" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OldProducts">
+            <EntityTypeMapping TypeName="ManagementContextModel.OldProduct">
+              <MappingFragment StoreEntitySet="OldProduct">
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+                <ScalarProperty Name="KindProcess" ColumnName="KindProcess" />
+                <ScalarProperty Name="KPN" ColumnName="KPN" />
+                <ScalarProperty Name="StatusOnToolRoom" ColumnName="StatusOnToolRoom" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Files" ColumnName="Files" />
+                <ScalarProperty Name="ProdName" ColumnName="ProdName" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="NumberID" ColumnName="NumberID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemLogs">
+            <EntityTypeMapping TypeName="ManagementContextModel.SystemLog">
+              <MappingFragment StoreEntitySet="SystemLog">
+                <ScalarProperty Name="LogMessage" ColumnName="LogMessage" />
+                <ScalarProperty Name="LogTime" ColumnName="LogTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

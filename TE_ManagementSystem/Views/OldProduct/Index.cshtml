@@ -1,0 +1,117 @@
+﻿@model IEnumerable<TE_ManagementSystem.Models.OldProduct>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_index.cshtml";
+}
+
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            舊治具查詢表
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="display nowrap dataTable" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                編號
+                            </th>
+                            <th>
+                                條碼
+                            </th>
+                            <th>
+                                儲位
+                            </th>
+                            <th>
+                                治具名稱
+                            </th>
+                            <th>
+                                files
+                            </th>
+                            <th>
+                                客戶or廠商
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Qty
+                            </th>
+                            <th>
+                                Status on Tool Room
+                            </th>
+                            <th>
+                                料號
+                            </th>
+                            <th>
+                                製程別
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            ajax: {
+                url: "/OldProduct/GetList",
+                type: "POST",
+                datatype: "json"
+            },
+            columns: [
+                { data: "ID", name: "ID" },
+                { data: "Number", name: "Number" },
+                { data: "NumberID", name: "NumberID" },
+                { data: "Location", name: "Location" },
+                { data: "ProdName", name: "ProdName" },
+                { data: "Files", name: "Files" },
+                { data: "Customer", name: "Customer" },                
+                { data: "Status", name: "Status" },
+                { data: "Qty", name: "Qty" },
+                { data: "StatusOnToolRoom", name: "StatusOnToolRoom" },
+                { data: "KPN", name: "KPN" },
+                { data: "KindProcess", name: "KindProcess" }, 
+                {
+                    data: "ID",
+                    name: "ID",
+                    render: function (data, type, row) {
+                        return '<a href="/MeProduct/OldCreate/' + data + '">轉新</a>';
+                    }
+                }
+            ],
+            pagingType: 'full_numbers',
+            order: [0, 'asc'],
+            serverSide: true,
+            processing: true,
+            language: {
+                processing: "processing...please wait."
+            }
+        });
+    });
+
+</script>
+
