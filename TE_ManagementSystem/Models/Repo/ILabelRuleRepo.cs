@@ -23,9 +23,9 @@ namespace TE_ManagementSystem.Models.Repo
 
         int GetLocationID(string room, string rack);
 
-        bool GenerateLabelRule(int kindId, int processKindID);
+        bool GenerateLabelRule(int kindId);
 
-        bool GenerateLabelRule(int engID);
+        //bool GenerateLabelRule(int engID);
 
         //新增
         bool UpdateLabelRuleNumber(int id, string name);

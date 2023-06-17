@@ -15,11 +15,9 @@ namespace TE_ManagementSystem.Models
     public partial class LabelRule
     {
         public int ID { get; set; }
-        public int ProcessKindID { get; set; }
         public int KindID { get; set; }
         public string LabelRule1 { get; set; }
     
         public virtual Kind Kind { get; set; }
-        public virtual KindProcess KindProcess { get; set; }
     }
 }

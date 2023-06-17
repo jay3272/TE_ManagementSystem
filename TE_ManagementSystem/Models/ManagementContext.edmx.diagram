@@ -24,7 +24,6 @@
         <AssociationConnector Association="ManagementContextModel.FK_ProductTransaction_Opid" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementContextModel.FK_LabelRule_Kind" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementContextModel.FK_Product_Kind" ManuallyRouted="false" />
-        <AssociationConnector Association="ManagementContextModel.FK_LabelRule_ProcessKind" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementContextModel.FK_Product_KindProcess" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementContextModel.FK_Product_Location" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementContextModel.FK_Product_Eng" ManuallyRouted="false" />

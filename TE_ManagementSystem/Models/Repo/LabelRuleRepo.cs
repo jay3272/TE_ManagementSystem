@@ -36,7 +36,7 @@ namespace TE_ManagementSystem.Models.Repo
             (x => (x.ID == engId)).FirstOrDefault();
 
             var labelRule = db.LabelRules.Where
-            (k => (k.KindID == meProduct.KindID && k.ProcessKindID == meProduct.KindProcessID)).FirstOrDefault();
+            (k => (k.KindID == meProduct.KindID )).FirstOrDefault();
 
             return labelRule.LabelRule1;
         }
@@ -57,27 +57,23 @@ namespace TE_ManagementSystem.Models.Repo
             return location.ID;
         }
 
-        public bool GenerateLabelRule(int kindId, int processKindID)
+        public bool GenerateLabelRule(int kindId)
         {
             LabelRule labelRule = new LabelRule();
             int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
             maxlabelRuleId += 1;
             labelRule.ID = maxlabelRuleId;
             labelRule.KindID = kindId;
-            labelRule.ProcessKindID = processKindID;
 
             var chkRepeat = db.LabelRules.Where
-            (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
+            (k => (k.KindID == labelRule.KindID )).FirstOrDefault();
 
             if (chkRepeat is null)
             {
-                var kindProcessess = db.KindProcesses.Where
-                (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
-
                 var kinds = db.Kinds.Where
                 (k => k.ID == labelRule.KindID).FirstOrDefault();
 
-                labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
+                labelRule.LabelRule1 = kinds.Number + "00000";
                 db.LabelRules.Add(labelRule);
                 db.SaveChanges();
                 return true;
@@ -90,46 +86,42 @@ namespace TE_ManagementSystem.Models.Repo
 
         }
 
-        /// <summary>
-        /// 給手動匯入資料庫檢查使用
-        /// </summary>
-        /// <param name="engID"></param>
-        /// <returns></returns>
-        public bool GenerateLabelRule(int engID)
-        {
-            MeProduct meProduct = new MeProduct();
-            var meProd = db.MeProducts.Where
-                (m => m.ID == engID).FirstOrDefault();
+        ///// <summary>
+        ///// 給手動匯入資料庫檢查使用
+        ///// </summary>
+        ///// <param name="engID"></param>
+        ///// <returns></returns>
+        //public bool GenerateLabelRule(int engID)
+        //{
+        //    MeProduct meProduct = new MeProduct();
+        //    var meProd = db.MeProducts.Where
+        //        (m => m.ID == engID).FirstOrDefault();
 
-            LabelRule labelRule = new LabelRule();
-            int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
-            maxlabelRuleId += 1;
-            labelRule.ID = maxlabelRuleId;
-            labelRule.KindID = meProd.KindID;
-            labelRule.ProcessKindID = meProd.KindProcessID;
+        //    LabelRule labelRule = new LabelRule();
+        //    int maxlabelRuleId = db.LabelRules.DefaultIfEmpty().Max(r => r == null ? 0 : r.ID);
+        //    maxlabelRuleId += 1;
+        //    labelRule.ID = maxlabelRuleId;
+        //    labelRule.KindID = meProd.KindID;
 
-            var chkRepeat = db.LabelRules.Where
-            (k => (k.KindID == labelRule.KindID && k.ProcessKindID == labelRule.ProcessKindID)).FirstOrDefault();
+        //    var chkRepeat = db.LabelRules.Where
+        //    (k => (k.KindID == labelRule.KindID )).FirstOrDefault();
 
-            if (chkRepeat is null)
-            {
-                var kindProcessess = db.KindProcesses.Where
-                (k => k.ID == labelRule.ProcessKindID).FirstOrDefault();
+        //    if (chkRepeat is null)
+        //    {
+        //        var kinds = db.Kinds.Where
+        //        (k => k.ID == labelRule.KindID).FirstOrDefault();
 
-                var kinds = db.Kinds.Where
-                (k => k.ID == labelRule.KindID).FirstOrDefault();
-
-                labelRule.LabelRule1 = kindProcessess.Number + kinds.Number + "00000";
-                db.LabelRules.Add(labelRule);
-                db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                //已有此規則不需建立新的
-                return false;
-            }
-        }
+        //        labelRule.LabelRule1 = kinds.Number + "00000";
+        //        db.LabelRules.Add(labelRule);
+        //        db.SaveChanges();
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        //已有此規則不需建立新的
+        //        return false;
+        //    }
+        //}
 
         public IQueryable<LabelRule> ListAllLabelRule()
         {
@@ -145,7 +137,7 @@ namespace TE_ManagementSystem.Models.Repo
                 int processkindId = this.FindProcessKindId(id);
 
                 var record = db.LabelRules.Where
-                (k => (k.KindID == kindId && k.ProcessKindID == processkindId)).FirstOrDefault();
+                (k => (k.KindID == kindId )).FirstOrDefault();
 
                 //確認檢查
                 string recordFrontNum = record.LabelRule1.Substring(0, 6);

@@ -34,6 +34,9 @@
                                 條碼
                             </th>
                             <th>
+                                種類
+                            </th>
+                            <th>
                                 儲位
                             </th>
                             <th>
@@ -60,7 +63,6 @@
                             <th>
                                 製程別
                             </th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,22 +88,16 @@
                 { data: "ID", name: "ID" },
                 { data: "Number", name: "Number" },
                 { data: "NumberID", name: "NumberID" },
+                { data: "Kind", name: "Kind" },
                 { data: "Location", name: "Location" },
                 { data: "ProdName", name: "ProdName" },
                 { data: "Files", name: "Files" },
-                { data: "Customer", name: "Customer" },                
+                { data: "Customer", name: "Customer" },
                 { data: "Status", name: "Status" },
                 { data: "Qty", name: "Qty" },
                 { data: "StatusOnToolRoom", name: "StatusOnToolRoom" },
                 { data: "KPN", name: "KPN" },
-                { data: "KindProcess", name: "KindProcess" }, 
-                {
-                    data: "ID",
-                    name: "ID",
-                    render: function (data, type, row) {
-                        return '<a href="/MeProduct/OldCreate/' + data + '">轉新</a>';
-                    }
-                }
+                { data: "KindProcess", name: "KindProcess" }
             ],
             pagingType: 'full_numbers',
             order: [0, 'asc'],

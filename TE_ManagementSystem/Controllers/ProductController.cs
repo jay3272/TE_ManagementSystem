@@ -147,17 +147,17 @@ namespace TE_ManagementSystem.Controllers
                 }
                 else
                 {
-                    this.LabelRuleRepo.GenerateLabelRule(Product.EngID);
+                    //this.LabelRuleRepo.GenerateLabelRule(Product.EngID);
                     labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
                     Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim());
                     Product.Usable = true;
                 }
 
                 //取label規則+1補0
-                string labelHeader = labelRuleNumber.Substring(0, 3);
+                string labelHeader = labelRuleNumber.Substring(0, 2);
                 string slabelNumber;
                 int labelNumber;
-                int.TryParse(labelRuleNumber.Substring(3, cNumberSeries), out labelNumber);
+                int.TryParse(labelRuleNumber.Substring(2, cNumberSeries), out labelNumber);
                 if (labelNumber < 99999)
                 {
                     labelNumber += 1;

@@ -22,7 +22,6 @@ namespace TE_ManagementSystem.Controllers
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
         IOldProductRepo OldProductRepo = new OldProductRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
-        private int oldId;
 
         // GET: MeProduct
         [Authorize(Users = "1,2,3,4,5")]
@@ -79,7 +78,6 @@ namespace TE_ManagementSystem.Controllers
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
                 meProduct.ProdName = meProduct.ProdName.Trim();
                 meProduct.Opid = meProduct.Opid.Trim();
-                meProduct.Spare1 = meProduct.Spare1.Trim();
 
                 if (meProduct.Image != "empty")
                 {
@@ -131,22 +129,24 @@ namespace TE_ManagementSystem.Controllers
 
                 db.MeProducts.Add(meProduct);
 
-                if (meProduct.KindID == 0 || meProduct.KindProcessID == 0)
+                if (meProduct.KindID == 0 )
                 {
                     //pass
                 }
                 else
                 {
-                    this.LabelRuleRepo.GenerateLabelRule(meProduct.KindID, meProduct.KindProcessID);
+                    this.LabelRuleRepo.GenerateLabelRule(meProduct.KindID);
                 }
 
                 db.SaveChanges();
 
                 //處理舊的完成
-                if (oldId > 0)
+                int oldId;
+                bool IsInt = int.TryParse(meProduct.Spare5, out oldId);
+
+                if (IsInt)
                 {
-                    OldProductRepo.UpdateOldProductDone(oldId);
-                    oldId = 0;
+                    this.OldProductRepo.UpdateOldProductDone(oldId);
                 }
 
                 this.logUtil.AppendMethod("Save Create");
@@ -155,28 +155,6 @@ namespace TE_ManagementSystem.Controllers
             catch (Exception ex)
             {
                 return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
-            }
-        }
-
-        [Authorize(Users = "1,2,3")]
-        public ActionResult OldCreate(int id)
-        {
-            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
-
-            GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
-
-            if (GlobalValue.LoginUserName.ToString().Count() > 0)
-            {
-                this.loaddefault();
-                oldId = id;
-                var readyImportProduct = db.OldProducts.DefaultIfEmpty().Where(p => p.ID == id);
-                ViewBag.MeProducts = readyImportProduct;
-
-                return View();
-            }
-            else
-            {
-                return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -551,14 +529,43 @@ namespace TE_ManagementSystem.Controllers
         private bool CheckInputErr(MeProduct meProduct)
         {
             if (meProduct.ProdName == null || meProduct.ProdName == string.Empty) { return true; };
-            //if (meProduct.KindID == 0) { return true; };
-            //if (meProduct.KindProcessID == 0) { return true; };
+            if (meProduct.KindID == 0) { return true; };
+            if (meProduct.KindProcessID == 0) { return true; };
             if (meProduct.Opid == null) { return true; };
             //if (meProduct.SupplierID == 0) { return true; };
             //if (meProduct.CustomerID == 0) { return true; };
             if (meProduct.Image == "empty") { return true; };
+            if (meProduct.Spare5 == null) { return true; };
 
             return false;
+        }
+
+        [HttpPost]
+        public ActionResult GetOldProductList()
+        {
+            //server side parameter
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            List<ViewOldProduct> oldproductsList = new List<ViewOldProduct>();
+            oldproductsList = OldProductRepo.ListAllOldProduct().ToList<ViewOldProduct>();
+            int totalrows = oldproductsList.Count;
+            //filter
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                oldproductsList = oldproductsList
+                    .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.ProdName.ToLower().Contains(searchValue.ToLower())).ToList<ViewOldProduct>();
+            }
+            int totalrowsafterfiltering = oldproductsList.Count;
+            //sorting
+            oldproductsList = oldproductsList.OrderBy(sortColumnName + " " + sortDirection).ToList<ViewOldProduct>();
+            //paging
+            oldproductsList = oldproductsList.Skip(start).Take(length).ToList<ViewOldProduct>();
+
+            return Json(new { data = oldproductsList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
     }

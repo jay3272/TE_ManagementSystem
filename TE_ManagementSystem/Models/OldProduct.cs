@@ -27,5 +27,6 @@ namespace TE_ManagementSystem.Models
         public string KPN { get; set; }
         public string KindProcess { get; set; }
         public Nullable<bool> IsDone { get; set; }
+        public string Kind { get; set; }
     }
 }

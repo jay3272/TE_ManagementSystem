@@ -38,7 +38,7 @@ namespace TE_ManagementSystem.Controllers
             if (!string.IsNullOrEmpty(searchValue))
             {
                 oldproductsList = oldproductsList
-                    .Where(x => x.ProdName.ToLower().Contains(searchValue.ToLower())).ToList<ViewOldProduct>();
+                    .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.ProdName.ToLower().Contains(searchValue.ToLower())).ToList<ViewOldProduct>();
             }
             int totalrowsafterfiltering = oldproductsList.Count;
             //sorting

@@ -101,7 +101,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="ProcessKindID" Type="int" Nullable="false" />
           <Property Name="KindID" Type="int" Nullable="false" />
           <Property Name="LabelRule" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
@@ -172,6 +171,7 @@
           <Property Name="KPN" Type="varchar" MaxLength="100" />
           <Property Name="KindProcess" Type="varchar" MaxLength="100" />
           <Property Name="IsDone" Type="bit" />
+          <Property Name="Kind" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -264,18 +264,6 @@
             </Principal>
             <Dependent Role="LabelRule">
               <PropertyRef Name="KindID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LabelRule_ProcessKind">
-          <End Role="KindProcess" Type="Self.KindProcess" Multiplicity="1" />
-          <End Role="LabelRule" Type="Self.LabelRule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KindProcess">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LabelRule">
-              <PropertyRef Name="ProcessKindID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -418,10 +406,6 @@
             <End Role="Kind" EntitySet="Kind" />
             <End Role="LabelRule" EntitySet="LabelRule" />
           </AssociationSet>
-          <AssociationSet Name="FK_LabelRule_ProcessKind" Association="Self.FK_LabelRule_ProcessKind">
-            <End Role="KindProcess" EntitySet="KindProcess" />
-            <End Role="LabelRule" EntitySet="LabelRule" />
-          </AssociationSet>
           <AssociationSet Name="FK_MeProduct_Opid" Association="Self.FK_MeProduct_Opid">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="MeProduct" EntitySet="MeProduct" />
@@ -544,7 +528,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Number" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="LabelRules" Relationship="Self.FK_LabelRule_ProcessKind" FromRole="KindProcess" ToRole="LabelRule" />
           <NavigationProperty Name="MeProducts" Relationship="Self.FK_Product_KindProcess" FromRole="KindProcess" ToRole="MeProduct" />
           <Property Name="UpdateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateEmployee" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -568,11 +551,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="ProcessKindID" Type="Int32" Nullable="false" />
           <Property Name="KindID" Type="Int32" Nullable="false" />
           <Property Name="LabelRule1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Kind" Relationship="Self.FK_LabelRule_Kind" FromRole="LabelRule" ToRole="Kind" />
-          <NavigationProperty Name="KindProcess" Relationship="Self.FK_LabelRule_ProcessKind" FromRole="LabelRule" ToRole="KindProcess" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -764,18 +745,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LabelRule_ProcessKind">
-          <End Role="KindProcess" Type="Self.KindProcess" Multiplicity="1" />
-          <End Role="LabelRule" Type="Self.LabelRule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KindProcess">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LabelRule">
-              <PropertyRef Name="ProcessKindID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Product_KindProcess">
           <End Role="KindProcess" Type="Self.KindProcess" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -876,10 +845,6 @@
             <End Role="Kind" EntitySet="Kinds" />
             <End Role="MeProduct" EntitySet="MeProducts" />
           </AssociationSet>
-          <AssociationSet Name="FK_LabelRule_ProcessKind" Association="Self.FK_LabelRule_ProcessKind">
-            <End Role="KindProcess" EntitySet="KindProcesses" />
-            <End Role="LabelRule" EntitySet="LabelRules" />
-          </AssociationSet>
           <AssociationSet Name="FK_Product_KindProcess" Association="Self.FK_Product_KindProcess">
             <End Role="KindProcess" EntitySet="KindProcesses" />
             <End Role="MeProduct" EntitySet="MeProducts" />
@@ -920,6 +885,7 @@
           <Property Name="KPN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="KindProcess" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsDone" Type="Boolean" />
+          <Property Name="Kind" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SystemLog">
           <Key>
@@ -1037,7 +1003,6 @@
             <EntityTypeMapping TypeName="ManagementContextModel.LabelRule">
               <MappingFragment StoreEntitySet="LabelRule">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ProcessKindID" ColumnName="ProcessKindID" />
                 <ScalarProperty Name="KindID" ColumnName="KindID" />
                 <ScalarProperty Name="LabelRule1" ColumnName="LabelRule" />
               </MappingFragment>
@@ -1156,6 +1121,7 @@
           <EntitySetMapping Name="OldProducts">
             <EntityTypeMapping TypeName="ManagementContextModel.OldProduct">
               <MappingFragment StoreEntitySet="OldProduct">
+                <ScalarProperty Name="Kind" ColumnName="Kind" />
                 <ScalarProperty Name="IsDone" ColumnName="IsDone" />
                 <ScalarProperty Name="KindProcess" ColumnName="KindProcess" />
                 <ScalarProperty Name="KPN" ColumnName="KPN" />

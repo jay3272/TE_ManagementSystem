@@ -16,9 +16,6 @@
                 <thead>
                     <tr>
                         <th>
-                            製程名稱
-                        </th>
-                        <th>
                             種類名稱
                         </th>
                         <th>
@@ -30,9 +27,6 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.KindProcess.Name)
-                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Kind.Name)
                             </td>

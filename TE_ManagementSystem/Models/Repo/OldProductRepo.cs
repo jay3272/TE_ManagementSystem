@@ -31,7 +31,8 @@ namespace TE_ManagementSystem.Models.Repo
                     Qty=el.Qty,
                     StatusOnToolRoom=el.StatusOnToolRoom,
                     KPN=el.KPN,
-                    KindProcess=el.KindProcess
+                    KindProcess=el.KindProcess,
+                    Kind=el.Kind
                 });
             }
 
