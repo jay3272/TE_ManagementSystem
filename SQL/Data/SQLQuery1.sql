@@ -16,6 +16,9 @@ SELECT COUNT(*) FROM Product
 SELECT COUNT(*) FROM Location
 SELECT COUNT(*) FROM OldProduct
 
+DBCC CHECKIDENT(OldProduct, RESEED, 0)
+
+
 
 SELECT * FROM Location WHERE ID = 4923
 

@@ -20,7 +20,9 @@ namespace TE_ManagementSystem.Controllers
     {
         IMeProductRepo MeProductRepo = new MeProductRepo();
         ILabelRuleRepo LabelRuleRepo = new LabelRuleRepo();
+        IOldProductRepo OldProductRepo = new OldProductRepo();
         private ManagementContextEntities db = new ManagementContextEntities();
+        private int oldId;
 
         // GET: MeProduct
         [Authorize(Users = "1,2,3,4,5")]
@@ -139,6 +141,14 @@ namespace TE_ManagementSystem.Controllers
                 }
 
                 db.SaveChanges();
+
+                //處理舊的完成
+                if (oldId > 0)
+                {
+                    OldProductRepo.UpdateOldProductDone(oldId);
+                    oldId = 0;
+                }
+
                 this.logUtil.AppendMethod("Save Create");
                 return RedirectToAction("Index");
             }
@@ -158,8 +168,8 @@ namespace TE_ManagementSystem.Controllers
             if (GlobalValue.LoginUserName.ToString().Count() > 0)
             {
                 this.loaddefault();
-
-                var readyImportProduct = db.OldProducts.Where(p => p.ID == id).FirstOrDefault();
+                oldId = id;
+                var readyImportProduct = db.OldProducts.DefaultIfEmpty().Where(p => p.ID == id);
                 ViewBag.MeProducts = readyImportProduct;
 
                 return View();

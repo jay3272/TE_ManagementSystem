@@ -64,18 +64,18 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     @*<script type="text/javascript">
-                            $(document).re
-                        </script>*@
+                $(document).re
+            </script>*@
 
                     <div class="box-body">
 
                         @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <input type="text" autocomplete="off" class="form-control" id="NewMeProdId" value=@ViewBag.SuggestedNewMeProdId readonly="readonly" />
-                                </div>
-                            </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="text" autocomplete="off" class="form-control" id="NewMeProdId" value=@ViewBag.SuggestedNewMeProdId readonly="readonly" />
+                    </div>
+                </div>*@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.ProdName, new { @class = "control-label", @style = "color:black" })
@@ -142,21 +142,21 @@
                             @Html.LabelFor(model => model.ComList, new { @class = "control-label", @style = "color:black" })
 
                             @*<div class="ui-widget">
-                                    <select id="combobox4" name="ComList">
-                                        <option value=""></option>
-                                        @foreach (var item in ViewBag.listKPN)
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    </select>
-                                </div>*@
+                        <select id="combobox4" name="ComList">
+                            <option value=""></option>
+                            @foreach (var item in ViewBag.listKPN)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>*@
 
                             <div id='myCheckList'></div>
                             @*<div id='selectedItems'></div>*@
                             @*@Html.Editor("ComList", new { id = "comListKpn", htmlAttributes = new { @class = "form-control" } })*@
                             @*@Html.ValidationMessageFor(model => model.ComList, "", new { @class = "text-danger" })*@
                             @*<label id="comListKpn" name="ComList" type="hidden" />
-                                <label id="test1" name="test1"/>*@
+                    <label id="test1" name="test1"/>*@
                             @*<input type="text" id="test" name="Test">*@
 
                             @Html.TextBoxFor(model => model.Test, new { id = "Test", Value = "empty", Type = "hidden" })
@@ -193,12 +193,100 @@
                     </div>
 
                     @*<script type="text/javascript">
-                            var onSuccess = function (data) {
-                                alert(data.result);
-                            }
-                        </script>*@
+                var onSuccess = function (data) {
+                    alert(data.result);
+                }
+            </script>*@
 
                 </div>
+
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            未匯入的舊治具列表
+                        </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            @*<div id="events">...</div>*@
+                                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">編號</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">條碼</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">儲位</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具名稱</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">files</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">客戶or廠商</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Status</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Qty</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Status on Tool Room</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">料號</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">製程別</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach (var item in ViewBag.MeProducts)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @item.Number
+                                                            </td>
+                                                            <td>
+                                                                @item.NumberID
+                                                            </td>
+                                                            <td>
+                                                                @item.Location
+                                                            </td>
+                                                            <td>
+                                                                @item.ProdName
+                                                            </td>
+                                                            <td>
+                                                                @item.Files
+                                                            </td>
+                                                            <td>
+                                                                @item.Customer
+                                                            </td>
+                                                            <td>
+                                                                @item.Status
+                                                            </td>
+                                                            <td>
+                                                                @item.Qty
+                                                            </td>
+                                                            <td>
+                                                                @item.StatusOnToolRoom
+                                                            </td>
+                                                            <td>
+                                                                @item.KPN
+                                                            </td>
+                                                            <td>
+                                                                @item.KindProcess
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <!-- right column -->
@@ -318,96 +406,10 @@
 
                 </div>
 
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    @*<h1 class="h3 mb-2 text-black-800">儲物查詢表</h1>*@
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            未匯入的舊治具列表
-                        </div>
-                        <div class="card-body">
-
-                            <div class="table-responsive">
-                                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            @*<div id="events">...</div>*@
-                                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">治具名稱</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">匯入日期</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">種類</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">製程種類</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">客戶</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">供應商</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">數量</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">Shift Time</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">有鉛</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">料號</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 85px;">備註</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach (var item in ViewBag.MeProducts)
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                @item.Number
-                                                            </td>
-                                                            <td>
-                                                                @item.NumberID
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.ProdName
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                            <td>
-                                                                @item.Location
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
                 <div class="container">
                     <br />
                     <input type="submit" value="新增" id="CreateProduct" class="btn btn-primary" />
-                    @Html.ActionLink("Discard", "Index")
+                    @Html.ActionLink("Discard", "Index", "OldProduct")
 
                 </div>
 
