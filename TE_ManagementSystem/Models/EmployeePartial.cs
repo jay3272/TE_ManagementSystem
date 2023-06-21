@@ -21,7 +21,7 @@ namespace TE_ManagementSystem.Models
             public string Email { get; set; }
             [Required(ErrorMessage = "required.")]
             [Display(Name = "權限")]
-            [RegularExpression(@"^[1-4]$", ErrorMessage = "Your rank must be at only 1 number long and range 1~4")]
+            [RegularExpression(@"^[1-5]$", ErrorMessage = "Your rank must be at only 1 number long and range 1~5")]
             public byte RankID { get; set; }
             [Required(ErrorMessage = "required.")]
             [Display(Name = "部門")]

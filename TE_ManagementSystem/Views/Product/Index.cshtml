@@ -66,8 +66,8 @@
                                 RFID
                             </th>
                             @*<th>
-                                    圖片
-                                </th>*@
+            圖片
+        </th>*@
                             <th>
                                 狀態
                             </th>
@@ -86,21 +86,24 @@
                             <th>
                                 治具種類
                             </th>
+                            <th>
+                                製程種類
+                            </th>
                             @*<th>
-                                    供應商
-                                </th>*@
+            供應商
+        </th>*@
                             <th>
                                 客戶
                             </th>
                             @*<th>
-                                    數量
-                                </th>
-                                <th>
-                                    ShiftTime
-                                </th>
-                                <th>
-                                    有鉛
-                                </th>*@
+            數量
+        </th>
+        <th>
+            ShiftTime
+        </th>
+        <th>
+            有鉛
+        </th>*@
                             <th>
                                 年限
                             </th>
@@ -114,8 +117,8 @@
                                 最後使用日期
                             </th>
                             @*<th>
-                                    履歷
-                                </th>*@
+            履歷
+        </th>*@
                             <th>
                                 料號
                             </th>
@@ -168,10 +171,10 @@
                     }
                 },
                 {
-                    data: "NumberID",
-                    name: "NumberID",
+                    data: "KindProcessNumberID",
+                    name: "KindProcessNumberID",
                     render: function (data, type, row) {
-                        return '<a href="/Product/Resume/' + data + '">' + data + '</a>';
+                        return '<a href="/Product/Resume/' + data.slice(-7) + '">' + data + '</a>';
                     }
                 },
                 { data: "RFID", name: "RFID" },
@@ -206,6 +209,7 @@
                 { data: "LocationRackPosition", name: "LocationRackPosition" },
                 { data: "ProdName", name: "ProdName" },
                 { data: "KindName", name: "KindName" },
+                { data: "KindProcessName", name: "KindProcessName" },
                 { data: "CustomerName", name: "CustomerName" },
                 { data: "Life", name: "Life" },
                 {
@@ -275,7 +279,7 @@
                     data: "NumberID",
                     name: "NumberID",
                     render: function (data, type, row) {
-                            return '<a href="/Product/Edit/' + data + '">Edit</a>';
+                        return '<a href="/Product/Edit/' + data + '">Edit</a>';
                     }
                 }
             ],
@@ -287,8 +291,8 @@
                 processing: "processing...please wait."
             },
             lengthMenu: [
-                [50, 25, 10,100],
-                [50, 25, 10,100],
+                [50, 25, 10, 100],
+                [50, 25, 10, 100],
             ],
             scrollY: '400px',
             scrollX: true,

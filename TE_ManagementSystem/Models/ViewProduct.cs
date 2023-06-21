@@ -31,10 +31,13 @@ namespace TE_ManagementSystem.Models
         public string LocationRackPosition { get; set; }
         public string ProdName { get; set; }
         public string KindName { get; set; }
+        public string KindProcessName { get; set; }
         public string SupplierName { get; set; }
         public string CustomerName { get; set; }
         public string ComList { get; set; }
         public int Quantity { get; set; }
         public bool Pb { get; set; }
+        public string KindProcessNumber { get; set; }
+        public string KindProcessNumberID { get; set; }
     }
 }

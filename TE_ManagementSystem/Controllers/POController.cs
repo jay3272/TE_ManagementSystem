@@ -94,6 +94,7 @@ namespace TE_ManagementSystem.Controllers
                 productTransaction.ID = maxId;
                 productTransaction.IsReturn = IsReturn;
                 productTransaction.RegisterDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                productTransaction.ProductID = productTransaction.ProductID.Substring(productTransaction.ProductID.Length - 7, 7);
                 db.ProductTransactions.Add(productTransaction);
 
                 var products = db.Products.Where
@@ -143,7 +144,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" });
+                return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整或資料重複 !" + ex.Message });
             }
         }
 
@@ -224,6 +225,8 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
+                text = text.Substring(text.Length - 7, 7);
+
                 byte[] imageBuff = { 136, 12 };
                 if (text == "")
                 {

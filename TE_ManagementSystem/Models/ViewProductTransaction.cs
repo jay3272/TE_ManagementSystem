@@ -27,6 +27,8 @@ namespace TE_ManagementSystem.Models
         public string Spare3 { get; set; }
         public string Spare4 { get; set; }
         public string Spare5 { get; set; }
+        public string KindProcessNumber { get; set; }
+        public string KindProcessNumberID { get; set; }
 
     }
 }

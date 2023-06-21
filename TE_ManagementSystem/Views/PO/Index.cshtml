@@ -100,10 +100,10 @@
                 { data: "DepartmentName", name: "DepartmentName" },
                 { data: "EmployeeName", name: "EmployeeName" },
                 {
-                    data: "ProductID",
-                    name: "ProductID",
+                    data: "KindProcessNumberID",
+                    name: "KindProcessNumberID",
                     render: function (data, type, row) {
-                        return '<a href="/Product/Resume/' + data + '">' + data + '</a>';
+                        return '<a href="/Product/Resume/' + data.slice(-7) + '">' + data + '</a>';
                     }
                 },
                 { data: "ProdName", name: "ProdName" },

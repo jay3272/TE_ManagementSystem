@@ -56,7 +56,6 @@ namespace TE_ManagementSystem.Controllers
                 //employee.Password = Encryption.Encrypt(employee.Password, "d3A#");
                 employee.Opid = employee.Opid.Trim();
                 employee.Name = employee.Name.Trim();
-                employee.Email = employee.Email.Trim();
                 employee.Password = employee.Password.Trim();
 
                 try
@@ -83,7 +82,7 @@ namespace TE_ManagementSystem.Controllers
                 }
                 else
                 {
-                    employee.Email = employee.Email + "@tailyn.com.tw";
+                    employee.Email = employee.Email.Trim() + "@tailyn.com.tw";
                 }
 
                 db.Employees.Add(employee);

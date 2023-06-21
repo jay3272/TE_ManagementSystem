@@ -53,7 +53,9 @@ namespace TE_ManagementSystem.Models.Repo
                     IsReturn=el.IsReturn,
                     IsToFix=el.IsToFix,
                     BorrowDay=el.BorrowDay,
-                    RegisterDate=el.RegisterDate
+                    RegisterDate=el.RegisterDate,
+                    KindProcessNumber = el.Product.MeProduct.KindProcess.Number,
+                    KindProcessNumberID = el.Product.MeProduct.KindProcess.Number + el.Product.NumberID
                 });
             }
 

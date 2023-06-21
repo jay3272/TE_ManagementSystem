@@ -76,8 +76,8 @@ namespace TE_ManagementSystem.Models.Repo
                     , EngID=el.EngID, StockDate=el.StockDate, Life=el.Life, LastBorrowDate=el.LastBorrowDate, LastReturnDate=el.LastReturnDate
                     , UseLastDate=el.UseLastDate, Usable=el.Usable, Overdue=el.Overdue, Spare1=el.Spare1
                     , UpdateDate=el.UpdateDate, UpdateEmployee=el.UpdateEmployee, LocationName=el.Location.Name, LocationRackPosition=el.Location.RackPosition
-                    , ProdName=el.MeProduct.ProdName, KindName=el.MeProduct.Kind.Name, CustomerName=el.MeProduct.Customer.Name
-                    , ComList=el.MeProduct.ComList
+                    , ProdName=el.MeProduct.ProdName, KindName=el.MeProduct.Kind.Name, KindProcessName = el.MeProduct.KindProcess.Name, CustomerName=el.MeProduct.Customer.Name
+                    , ComList=el.MeProduct.ComList, KindProcessNumber = el.MeProduct.KindProcess.Number, KindProcessNumberID = el.MeProduct.KindProcess.Number + el.NumberID
                 });
             }
 
