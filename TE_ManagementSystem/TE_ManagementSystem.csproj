@@ -10383,6 +10383,7 @@
     <Content Include="Views\Product\OldCreate.cshtml" />
     <Content Include="Views\Product\OldEdit.cshtml" />
     <Content Include="Views\OldProduct\Index.cshtml" />
+    <Content Include="Views\Home\IndexAuth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

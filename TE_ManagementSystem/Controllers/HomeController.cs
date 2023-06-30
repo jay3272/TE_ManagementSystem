@@ -26,6 +26,13 @@ namespace TE_ManagementSystem.Controllers
             return View();
 
         }
+        public ActionResult IndexAuth()
+        {
+            this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
+
+            return View();
+
+        }
 
         public ActionResult About()
         {
