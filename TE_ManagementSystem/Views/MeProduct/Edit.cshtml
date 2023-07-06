@@ -152,7 +152,7 @@
 
                             <div class="form-group">
                                 <span style="color:red;">*</span>
-                                @Html.LabelFor(model => model.Opid, new { @class = "control-label", @style = "color:black" })
+                                @Html.LabelFor(model => model.Opid, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
                                 @Html.TextBoxFor(model => model.Opid, new { disabled = "disabled", @readonly = "readonly" })
                                 <div class="ui-widget">
                                     <select id="combobox3" name="Opid">
@@ -168,7 +168,7 @@
 
                             <div class="form-group">
                                 <span style="color:red;">*</span>
-                                @Html.LabelFor(model => model.SupplierID, new { @class = "control-label", @style = "color:black" })
+                                @Html.LabelFor(model => model.SupplierID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
                                 @Html.TextBoxFor(model => model.SupplierID, new { disabled = "disabled", @readonly = "readonly" })
                                 <div class="ui-widget">
                                     <select id="combobox2" name="SupplierID">
@@ -184,7 +184,7 @@
 
                             <div class="form-group">
                                 <span style="color:red;">*</span>
-                                @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })
+                                @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
                                 @Html.TextBoxFor(model => model.CustomerID, new { disabled = "disabled", @readonly = "readonly" })
                                 <div class="ui-widget">
                                     <select id="combobox1" name="CustomerID">
