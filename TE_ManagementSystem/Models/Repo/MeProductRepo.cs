@@ -127,7 +127,8 @@ namespace TE_ManagementSystem.Models.Repo
                     KindProcessName=el.KindProcess.Name,
                     KindName=el.Kind.Name,
                     CustomerName=el.Customer.Name,
-                    SupplierName=el.Supplier.Name
+                    SupplierName=el.Supplier.Name,
+                    OpidName = el.Employee.Name
                 });
             }
 

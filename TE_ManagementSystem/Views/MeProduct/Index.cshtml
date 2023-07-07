@@ -35,9 +35,9 @@
                             <th>
                                 治具名稱
                             </th>
-                            @*<th>
+                            <th>
                                     圖片
-                                </th>*@
+                            </th>
                             <th>
                                 製程種類
                             </th>
@@ -78,7 +78,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
                     </tbody>
                 </table>
             </div>
@@ -114,6 +113,14 @@
                     }
                 },
                 { data: "ProdName", name: "ProdName" },
+                {
+                    data: "ID",
+                    name: "ID",
+                    render: function (data, type, row) {
+                        var html = '<img src="/MeProduct/DisplayingIndexImage?imgID=' + data + '" class="img-responsive" thimbnail"="">';
+                        return html;
+                    }
+                },
                 { data: "KindProcessName", name: "KindProcessName" },
                 { data: "KindName", name: "KindName" },
                 { data: "CustomerName", name: "CustomerName" },
@@ -136,7 +143,7 @@
                     }
                 },
                 { data: "ComList", name: "ComList" },
-                { data: "UpdateEmployee", name: "UpdateEmployee" },
+                { data: "OpidName", name: "OpidName" },
                 { data: "Spare1", name: "Spare1" },
                 {
                     data: "UpdateDate",

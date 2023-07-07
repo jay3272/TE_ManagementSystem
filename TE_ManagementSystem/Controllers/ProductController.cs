@@ -454,18 +454,58 @@ namespace TE_ManagementSystem.Controllers
 
             try
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
 
-                Product product = db.Products.Find(id);
+                GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
-                if (product == null)
+                if (GlobalValue.LoginUserName.ToString().Count() > 0)
                 {
-                    return HttpNotFound();
+
+                    if (id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+
+                    Product product = db.Products.Find(id);
+
+                    var locationData = db.Locations.Select(x => x.Name).Distinct();
+                    var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
+
+                    List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+                    List<SelectListItem> selectRackListItems = new List<SelectListItem>();
+
+                    foreach (var item in locationData)
+                    {
+                        selectLocationListItems.Add(new SelectListItem()
+                        {
+                            Text = item,
+                            Selected = false
+                        });
+                    }
+
+                    foreach (var item in rackData)
+                    {
+                        selectRackListItems.Add(new SelectListItem()
+                        {
+                            Text = item,
+                            Selected = false
+                        });
+                    }
+
+                    ViewBag.listLocation = selectLocationListItems;
+                    ViewBag.listRack = selectRackListItems;
+
+
+                    if (product == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View(product);
+
                 }
-                return View(product);
+                else
+                {
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
+                }
 
             }
             catch (Exception ex)
@@ -481,7 +521,7 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                if (this.CheckEditInputErr(Product)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.Products.Where(x => x.ID == Product.ID).FirstOrDefault();
 
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -492,6 +532,7 @@ namespace TE_ManagementSystem.Controllers
                     {
                         model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
+                        model.LocationID = LabelRuleRepo.GetLocationID(model.Room.Trim(), model.Rack.Trim());
                     }
                     else
                     {
@@ -682,6 +723,14 @@ namespace TE_ManagementSystem.Controllers
         private bool CheckInputErr(Product Product)
         {
             if (Product.Spare5 == null || Product.Spare5 == string.Empty) { return true; };
+            if (Product.Room == null || Product.Room == string.Empty) { return true; };
+            if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
+
+            return false;
+        }
+
+        private bool CheckEditInputErr(Product Product)
+        {
             if (Product.Room == null || Product.Room == string.Empty) { return true; };
             if (Product.Rack == null || Product.Rack == string.Empty) { return true; };
 

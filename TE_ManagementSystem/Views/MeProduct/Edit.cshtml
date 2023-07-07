@@ -75,6 +75,22 @@
 
                         <div class="form-group">
                             <span style="color:red;">*</span>
+                            @Html.LabelFor(model => model.KindProcessID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font><a href="/KindProcess/Create">add</a>
+
+                            <div class="ui-widget">
+                                <select id="combobox4" name="KindProcessID">
+                                    <option value=""></option>
+                                    @foreach (var item in ViewBag.listProcessKind)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <span style="color:red;">*</span>
                             @Html.LabelFor(model => model.Quantity, new { @class = "control-label", @style = "color:black" })
 
                             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity", Value = 1, min = 1, max = 300, style = "width:Auto" } })

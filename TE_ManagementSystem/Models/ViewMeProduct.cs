@@ -27,5 +27,7 @@ namespace TE_ManagementSystem.Models
         public string KindName { get; set; }
         public string CustomerName { get; set; }
         public string SupplierName { get; set; }
+        public string OpidName { get; set; }
+
     }
 }

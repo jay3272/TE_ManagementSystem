@@ -2,12 +2,20 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout_index.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+<link href="~/Content/css/code.jquery.com_ui_1.13.2_themes_base_jquery-ui.css" rel="stylesheet" />
+<link href="../Content/style2.css" rel="stylesheet" />
+
+<script src="~/Content/js/code.jquery.com_jquery-3.6.0.js"></script>
+<script src="~/Content/js/code.jquery.com_ui_1.13.2_jquery-ui.js"></script>
+<script src="~/Content/custom/supplierMePO.js"></script>
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { id = "frmProductEdit", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -44,6 +52,38 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <span style="color:red;">*</span>
+                            @Html.Label("治具室", new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字帶出)</font><a href="/Location/Create">add</a>
+
+                            <div class="ui-widget">
+                                <select id="combobox" name="Room">
+                                    <option value=""></option>
+                                    @foreach (var item in ViewBag.listLocation)
+                                    {
+                                        <option value="@item.Text">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <span style="color:red;">*</span>
+                            @Html.Label("儲位", new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字帶出)</font>
+
+                            <div class="ui-widget">
+                                <select id="combobox1" name="Rack">
+                                    <option value=""></option>
+                                    @foreach (var item in ViewBag.listRack)
+                                    {
+                                        <option value="@item.Text">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -53,7 +93,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" id="EditProduct"  class="btn btn-info" />
             </div>
         </div>
     </div>
@@ -62,3 +102,88 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script type="text/javascript">
+
+    var postUrl = '@Url.Action("Edit", "Product")';
+
+    $(function () {
+        $('#EditProduct').click(function (e) {
+            e.preventDefault();
+            CreateItem();
+        });
+    });
+
+    function CreateItem() {
+        var question = "確認新增匯入該項?";
+        ConfirmCreate(question).then(function (answer) {
+            var ans = (String(answer) === "true");
+            if (ans) {
+                var data = $('#frmProductEdit').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    data: data,
+                    success: function (response) {
+                        if (response.ReturnStatus == "error") {
+                            AlertCreate(response.ReturnData);
+                        } else {
+                            window.location.href = "index";
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function ConfirmCreate(question) {
+        var defer = $.Deferred();
+        $('<div id="id="divCreateClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Confirm Create',
+                buttons: {
+                    "Yes": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function () {
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+    function AlertCreate(question) {
+        var defer = $.Deferred();
+        $('<div style="color: red" id="id="divCreateErrorClientRequest""></div>')
+            .html(question)
+            .dialog({
+                autoOpen: true,
+                modal: true,
+                draggable: true,
+                title: 'Error',
+                buttons: {
+                    "OK": function () {
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+
+        return defer.promise();
+    }
+
+</script>
