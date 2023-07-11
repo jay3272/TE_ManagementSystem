@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <span style="color:red;">*</span>
                             @Html.LabelFor(model => model.KindProcessID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font><a href="/KindProcess/Create">add</a>
-
+                            @Html.TextBox("Name", (object)ViewBag.KindProcessName, new { disabled = "disabled", @readonly = "readonly" })<font size="1">(原本)</font>
                             <div class="ui-widget">
                                 <select id="combobox4" name="KindProcessID">
                                     <option value=""></option>
@@ -93,7 +93,7 @@
                             <span style="color:red;">*</span>
                             @Html.LabelFor(model => model.Quantity, new { @class = "control-label", @style = "color:black" })
 
-                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity", Value = 1, min = 1, max = 300, style = "width:Auto" } })
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity", min = 1, max = 300, style = "width:Auto" } })
                             @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
 
                         </div>
@@ -102,7 +102,7 @@
                             <span style="color:red;">*</span>
                             @Html.LabelFor(model => model.ShiftTime, new { @class = "control-label", @style = "color:black" })
 
-                            @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control", @id = "shiftTime", Value = 10, min = 1, max = 300, style = "width:Auto" } })
+                            @Html.EditorFor(model => model.ShiftTime, new { htmlAttributes = new { @class = "form-control", @id = "shiftTime", min = 1, max = 300, style = "width:Auto" } })
                             @Html.ValidationMessageFor(model => model.ShiftTime, "", new { @class = "text-danger" })
 
                         </div>
@@ -119,6 +119,7 @@
                         <div class="form-group">
                             <span style="color:red;">*</span>
                             @Html.LabelFor(model => model.ComList, new { @class = "control-label", @style = "color:black" })
+                            @Html.TextBoxFor(model => model.ComList, new { disabled = "disabled", @readonly = "readonly" })<font size="1">(原本)</font>
 
                             <div id='myCheckList'></div>
 
@@ -169,7 +170,7 @@
                             <div class="form-group">
                                 <span style="color:red;">*</span>
                                 @Html.LabelFor(model => model.Opid, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
-                                @Html.TextBoxFor(model => model.Opid, new { disabled = "disabled", @readonly = "readonly" })
+                                @Html.TextBox("Name", (object)ViewBag.Emp, new { disabled = "disabled", @readonly = "readonly" })<font size="1">(原本)</font>
                                 <div class="ui-widget">
                                     <select id="combobox3" name="Opid">
                                         <option value=""></option>
@@ -185,7 +186,7 @@
                             <div class="form-group">
                                 <span style="color:red;">*</span>
                                 @Html.LabelFor(model => model.SupplierID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
-                                @Html.TextBoxFor(model => model.SupplierID, new { disabled = "disabled", @readonly = "readonly" })
+                                @Html.TextBox("Name", (object)ViewBag.Supp, new { disabled = "disabled", @readonly = "readonly" })<font size="1">(原本)</font>
                                 <div class="ui-widget">
                                     <select id="combobox2" name="SupplierID">
                                         <option value=""></option>
@@ -201,7 +202,7 @@
                             <div class="form-group">
                                 <span style="color:red;">*</span>
                                 @Html.LabelFor(model => model.CustomerID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
-                                @Html.TextBoxFor(model => model.CustomerID, new { disabled = "disabled", @readonly = "readonly" })
+                                @Html.TextBox("Name", (object)ViewBag.Cust, new { disabled = "disabled", @readonly = "readonly" })<font size="1">(原本)</font>
                                 <div class="ui-widget">
                                     <select id="combobox1" name="CustomerID">
                                         <option value=""></option>
@@ -229,6 +230,11 @@
                         <div class="card-body">
                             <span style="color:red;">*</span>
                             @Html.LabelFor(model => model.Image, new { @class = "control-label", @style = "color:black" })
+
+                            <div class="jumbotron" style="width: 200px;">
+                                <p></p>
+                                <img class="card-img-top" src="/MeProduct/DisplayingIndexEditImage?imgID= + @Html.DisplayFor(model =>model.ID)" alt="Card image cap"><font size="1">(原本)</font>
+                            </div>
 
                             <div class="container">
                                 <div class="col-md-4">

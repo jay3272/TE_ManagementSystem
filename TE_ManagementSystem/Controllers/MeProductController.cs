@@ -159,11 +159,18 @@ namespace TE_ManagementSystem.Controllers
         }
 
         [Authorize(Users = "1,2,3")]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             try
             {
-                var model = db.MeProducts.Where(x => x.ID == id).FirstOrDefault();
+                if (id == "index")
+                {
+                    return RedirectToAction("Index");
+                }
+                int pid;
+                pid = Convert.ToInt32(id);
+
+                var model = db.MeProducts.Where(x => x.ID == pid).FirstOrDefault();
 
                 GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
@@ -171,17 +178,22 @@ namespace TE_ManagementSystem.Controllers
                 {
                     this.loaddefault();
 
+                    ViewBag.KindProcessName = db.KindProcesses.Find(model.KindProcessID).Name;
+                    ViewBag.Emp = db.Employees.Find(model.Opid).Name;
+                    ViewBag.Supp = db.Suppliers.Find(model.SupplierID).Name;
+                    ViewBag.Cust = db.Customers.Find(model.CustomerID).Name;
+
                     return View(model);
                 }
                 else
                 {
-                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" });
+                    return Json(new { ReturnStatus = "error", ReturnData = "登入逾時...請重新登入再匯入 !" }, JsonRequestBehavior.AllowGet);
                 }
 
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -192,26 +204,23 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                if (this.CheckEdittErr(meProduct)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.MeProducts.Where(x => x.ID == meProduct.ID).FirstOrDefault();
 
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
 
-                if (meProduct.Image != "empty")
+                model.ProdName = meProduct.ProdName;
+                
+                if (meProduct.KindProcessID != 0)
                 {
-                    model.ImageByte = images.ImageByte;
-                }
-                else
-                {
-                    //TempData["ErrMessage"] = "請確認有上傳圖片!";
-                    return Json(new { ReturnStatus = "error", ReturnData = "請確認有上傳圖片 !" });
+                    model.KindProcessID = meProduct.KindProcessID;
                 }
 
-                if (meProduct.Test == "empty")
-                {
-                    model.ComList = "empty";
-                }
-                else
+                model.Quantity = meProduct.Quantity;
+                model.ShiftTime = meProduct.ShiftTime;
+                model.Pb = meProduct.Pb;
+                
+                if (meProduct.Test != "empty")
                 {
                     model.ComList = String.Empty;
                     List<Mutiplekpn> mutiplekpns = JsonSerializer.Deserialize<List<Mutiplekpn>>(meProduct.Test);
@@ -219,6 +228,28 @@ namespace TE_ManagementSystem.Controllers
                     {
                         model.ComList += item.value + ",";
                     }
+                }
+
+                if (meProduct.Opid != null)
+                {
+                    model.Opid = meProduct.Opid;
+                }
+
+                if (meProduct.SupplierID != 0)
+                {
+                    model.SupplierID = meProduct.SupplierID;
+                }
+
+                if (meProduct.CustomerID != 0)
+                {
+                    model.CustomerID = meProduct.CustomerID;
+                }
+
+                model.Spare1 = meProduct.Spare1;
+
+                if (meProduct.Image != "empty")
+                {
+                    model.ImageByte = images.ImageByte;
                 }
 
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -316,6 +347,27 @@ namespace TE_ManagementSystem.Controllers
                 {
                     ImageViewModel imageViewModel = new ImageViewModel();
                     imageBuff = imageViewModel.CreateThumbnailImage(50, 50, img.ImageByte, true);
+                }
+
+                return File(imageBuff, "image/png");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ReturnStatus = "error", ReturnData = "DisplayingIndexImage(), ex:" + ex });
+            }
+        }
+
+        public ActionResult DisplayingIndexEditImage(int imgid)
+        {
+            try
+            {
+                ManagementContextEntities db = new ManagementContextEntities();
+                var img = db.MeProducts.SingleOrDefault(x => x.ID == imgid);
+                byte[] imageBuff = { 136, 12 };
+                if (!(img.ImageByte is null))
+                {
+                    ImageViewModel imageViewModel = new ImageViewModel();
+                    imageBuff = imageViewModel.CreateThumbnailImage(100, 100, img.ImageByte, true);
                 }
 
                 return File(imageBuff, "image/png");
@@ -536,6 +588,13 @@ namespace TE_ManagementSystem.Controllers
             //if (meProduct.CustomerID == 0) { return true; };
             if (meProduct.Image == "empty") { return true; };
             if (meProduct.Spare5 == null) { return true; };
+
+            return false;
+        }
+
+        private bool CheckEdittErr(MeProduct meProduct)
+        {
+            if (meProduct.ProdName == null || meProduct.ProdName == string.Empty) { return true; };
 
             return false;
         }
