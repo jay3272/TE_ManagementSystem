@@ -88,16 +88,24 @@ namespace TE_ManagementSystem.Controllers
         /// <param name="filterContext"></param>
         protected override void OnException(ExceptionContext filterContext)
         {
-            //儲存錯誤訊息
-            StringBuilder buff = new StringBuilder();
-            buff.Append(string.Concat(new object[] { "Exception.Type : ", filterContext.Exception.GetType().Name, "\r\nException.Message : ", filterContext.Exception.Message, "\r\nException.TargetSite: ", filterContext.Exception.TargetSite, "\r\nException.StackTrace: \r\n", filterContext.Exception.StackTrace }));
-            this.logUtil.AppendMessage("系統發生錯誤", buff.ToString());
+            try
+            {
+                //儲存錯誤訊息
+                StringBuilder buff = new StringBuilder();
+                buff.Append(string.Concat(new object[] { "Exception.Type : ", filterContext.Exception.GetType().Name, "\r\nException.Message : ", filterContext.Exception.Message, "\r\nException.TargetSite: ", filterContext.Exception.TargetSite, "\r\nException.StackTrace: \r\n", filterContext.Exception.StackTrace }));
+                this.logUtil.AppendMessage("系統發生錯誤", buff.ToString());
 
-            //輸出 Log
-            this.logUtil.OutputLog();
+                //輸出 Log
+                this.logUtil.OutputLog();
 
-            base.OnException(filterContext);
+                base.OnException(filterContext);
+            }
+            catch (Exception)
+            {
+
+            }
         }
+
         #endregion
 
         #region 共用方法

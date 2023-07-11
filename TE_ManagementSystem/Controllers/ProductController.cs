@@ -450,10 +450,16 @@ namespace TE_ManagementSystem.Controllers
         [Authorize(Users = "1,2")]
         public ActionResult Edit(string id)
         {
+            if (id == "index")
+            {
+                return RedirectToAction("Index");
+            }
             this.logUtil.AppendMethod(MethodBase.GetCurrentMethod().DeclaringType.FullName + "." + MethodBase.GetCurrentMethod().Name);
 
             try
             {
+                int pid;
+                pid = Convert.ToInt32(id);
 
                 GlobalValue.LoginUserName = Convert.ToString(Session["UsrName"] ?? "").Trim();
 
@@ -465,7 +471,7 @@ namespace TE_ManagementSystem.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                     }
 
-                    Product product = db.Products.Find(id);
+                    Product product = db.Products.FirstOrDefault(p => p.ID == pid);
 
                     var locationData = db.Locations.Select(x => x.Name).Distinct();
                     var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
@@ -510,7 +516,7 @@ namespace TE_ManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex });
+                return Json(new { ReturnStatus = "error", ReturnData = "Edit(), ex:" + ex }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -532,7 +538,7 @@ namespace TE_ManagementSystem.Controllers
                     {
                         model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
-                        model.LocationID = LabelRuleRepo.GetLocationID(model.Room.Trim(), model.Rack.Trim());
+                        model.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim());
                     }
                     else
                     {
