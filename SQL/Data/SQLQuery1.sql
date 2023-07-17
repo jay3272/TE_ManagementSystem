@@ -24,3 +24,7 @@ SELECT * FROM Location WHERE ID = 4923
 
 UPDATE MeProduct SET IsStock = 1 WHERE ID > 0
 UPDATE Product SET IsOld = 1 WHERE ID > 0
+
+
+SELECT * FROM OldProduct WHERE Number = '33'
+UPDATE OldProduct SET IsDone = 0 WHERE ID > 0

@@ -72,7 +72,9 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(meProduct)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                bool isWI = false;
+                if (meProduct.KindID == 1) { isWI = true; }
+                if (this.CheckInputErr(meProduct, isWI)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 if (MeProductRepo.CheckNameRepeat(meProduct.ProdName)) { return Json(new { ReturnStatus = "error", ReturnData = "治具名稱重複 !" }); }
                 int maxId = db.MeProducts.DefaultIfEmpty().Max(p => p == null ? 0 : p.ID);
                 var images = db.Images.Where(m => m.ID == 0).FirstOrDefault();
@@ -85,6 +87,12 @@ namespace TE_ManagementSystem.Controllers
                 }
                 else
                 {
+                    if (isWI)
+                    {
+                        byte[] imageBuff = { 136, 12 };
+                        meProduct.ImageByte = imageBuff;
+                    }
+                    
                     //TempData["ErrMessage"] = "請確認有上傳圖片!";
                     return Json(new { ReturnStatus = "error", ReturnData = "請確認有上傳圖片 !" });
                 }
@@ -578,7 +586,7 @@ namespace TE_ManagementSystem.Controllers
 
         }
 
-        private bool CheckInputErr(MeProduct meProduct)
+        private bool CheckInputErr(MeProduct meProduct, bool isWI)
         {
             if (meProduct.ProdName == null || meProduct.ProdName == string.Empty) { return true; };
             if (meProduct.KindID == 0) { return true; };
@@ -586,7 +594,10 @@ namespace TE_ManagementSystem.Controllers
             if (meProduct.Opid == null) { return true; };
             //if (meProduct.SupplierID == 0) { return true; };
             //if (meProduct.CustomerID == 0) { return true; };
-            if (meProduct.Image == "empty") { return true; };
+            if (! isWI)
+            {
+                if (meProduct.Image == "empty") { return true; };
+            }
             if (meProduct.Spare5 == null) { return true; };
 
             return false;
