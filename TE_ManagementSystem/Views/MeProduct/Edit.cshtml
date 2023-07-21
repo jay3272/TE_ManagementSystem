@@ -75,7 +75,7 @@
 
                         <div class="form-group">
                             <span style="color:red;">*</span>
-                            @Html.LabelFor(model => model.KindProcessID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font><a href="/KindProcess/Create">add</a>
+                            @Html.LabelFor(model => model.KindProcessID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font><a href="/KindProcess/Create" target="_blank">add</a>
                             @Html.TextBox("Name", (object)ViewBag.KindProcessName, new { disabled = "disabled", @readonly = "readonly" })<font size="1">(原本)</font>
                             <div class="ui-widget">
                                 <select id="combobox4" name="KindProcessID">
