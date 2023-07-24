@@ -140,18 +140,35 @@ namespace TE_ManagementSystem.Controllers
                 var meProd = db.MeProducts.Where
                     (m => m.ID == Product.EngID).FirstOrDefault();
 
-                if (meProd.KindID == 0 || meProd.KindProcessID == 0)
+                ///mcautocomplete 方式
+                //if (meProd.KindID == 0 || meProd.KindProcessID == 0)
+                //{
+                //    //labelRuleNumber = LabelRuleRepo.GetDefaultLabelRule();
+                //    return Json(new { ReturnStatus = "error", ReturnData = "種類與製程種類未分類不允許匯入 !" });
+                //}
+                //else
+                //{
+                //    //this.LabelRuleRepo.GenerateLabelRule(Product.EngID);
+                //    labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
+                //    Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim());
+                //    Product.Usable = true;
+                //}
+
+                var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
+                if (tmpLocation == null)
                 {
-                    //labelRuleNumber = LabelRuleRepo.GetDefaultLabelRule();
-                    return Json(new { ReturnStatus = "error", ReturnData = "種類與製程種類未分類不允許匯入 !" });
+                    Location location = new Location();
+                    location.ID = db.Locations.DefaultIfEmpty().Max(l => l == null ? 0 : l.ID) + 1;
+                    location.Name = Product.Room.Trim();
+                    location.RackPosition = Product.Rack.Trim();
+                    location.Status = true;
+                    db.Locations.Add(location);
+                    db.SaveChanges();
+                    tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
                 }
-                else
-                {
-                    //this.LabelRuleRepo.GenerateLabelRule(Product.EngID);
-                    labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
-                    Product.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim());
-                    Product.Usable = true;
-                }
+                Product.LocationID = tmpLocation.ID;
+                Product.Usable = true;
+                labelRuleNumber = LabelRuleRepo.GetLabelRule(Product.EngID);
 
                 //取label規則+1補0
                 string labelHeader = labelRuleNumber.Substring(0, 2);
@@ -682,7 +699,9 @@ namespace TE_ManagementSystem.Controllers
                     default:
                         viewproductsPartialList = GlobalValue.viewproductsList
                             .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
-                             || x.Status.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
+                             || x.Status.ToLower().Contains(searchValue.ToLower()) || x.ProdName.ToLower().Contains(searchValue.ToLower())
+                              || x.KindName.ToLower().Contains(searchValue.ToLower()) || x.KindProcessName.ToLower().Contains(searchValue.ToLower())
+                               || x.CustomerName.ToLower().Contains(searchValue.ToLower()) || x.ComList.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
                         break;
                 }
 

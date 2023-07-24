@@ -69,7 +69,7 @@
 
                                     </div>*@
 
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <span style="color:red;">*</span>
                                     @Html.Label("治具室", new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字帶出)</font><a href="/Location/Create" target="_blank">add</a>
 
@@ -98,6 +98,22 @@
                                             }
                                         </select>
                                     </div>
+
+                                </div>*@
+
+                                <div class="form-group">
+                                    @Html.Label("治具室", htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+                                    @Html.EditorFor(model => model.Room, new { htmlAttributes = new { @class = "form-control", Value = "A室", style = "width:Auto" } })
+                                    @Html.ValidationMessageFor(model => model.Room, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("儲位", htmlAttributes: new { @class = "control-label", @style = "color:black" })
+
+                                    @Html.EditorFor(model => model.Rack, new { htmlAttributes = new { @class = "form-control", style = "width:Auto" } })
+                                    @Html.ValidationMessageFor(model => model.Rack, "", new { @class = "text-danger" })
 
                                 </div>
 
