@@ -701,7 +701,8 @@ namespace TE_ManagementSystem.Controllers
                             .Where(x => x.NumberID.ToLower().Contains(searchValue.ToLower()) || x.RFID.ToLower().Contains(searchValue.ToLower())
                              || x.Status.ToLower().Contains(searchValue.ToLower()) || x.ProdName.ToLower().Contains(searchValue.ToLower())
                               || x.KindName.ToLower().Contains(searchValue.ToLower()) || x.KindProcessName.ToLower().Contains(searchValue.ToLower())
-                               || x.CustomerName.ToLower().Contains(searchValue.ToLower()) || x.ComList.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
+                               || x.CustomerName.ToLower().Contains(searchValue.ToLower()) || x.ComList.ToLower().Contains(searchValue.ToLower())
+                               || x.LocationName.ToLower().Contains(searchValue.ToLower()) || x.LocationRackPosition.ToLower().Contains(searchValue.ToLower())).ToList<ViewProduct>();
                         break;
                 }
 
