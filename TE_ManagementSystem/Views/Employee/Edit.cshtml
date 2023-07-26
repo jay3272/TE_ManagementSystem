@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_Layout_index.cshtml";
 }
 
+<script src="~/Content/custom/downloads/jquery.mcautocomplete.js"></script>
+<link href="~/Content/css/code.jquery.com_ui_1.13.2_themes_base_jquery-ui.css" rel="stylesheet" />
+<link href="../Content/style2.css" rel="stylesheet" />
+
+<script src="~/Content/js/code.jquery.com_jquery-3.6.0.js"></script>
+<script src="~/Content/js/code.jquery.com_ui_1.13.2_jquery-ui.js"></script>
+<script src="~/Content/custom/supplierMePO.js"></script>
+
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
@@ -15,7 +23,7 @@
         <h4>Employee</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Opid)
+        @*@Html.HiddenFor(model => model.Opid)*@
 
         <div class="form-group">
             <span style="color:red;">*</span>
@@ -37,20 +45,35 @@
 
         <div class="form-group">
             <span style="color:red;">*</span>
-            @Html.LabelFor(model => model.RankID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RankID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RankID, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.RankID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
+            <br />
+
+            <div class="ui-widget">
+                <select id="combobox" name="RankID">
+                    <option value=""></option>
+                    @foreach (var item in ViewBag.listRank)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
             </div>
+
         </div>
 
         <div class="form-group">
             <span style="color:red;">*</span>
-            @Html.LabelFor(model => model.DepartmentID, "DepartmentID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DepartmentID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.DepartmentID, new { @class = "control-label", @style = "color:black" })<font size="1">(方向鍵或關鍵字自動帶出)</font>
+
+            <div class="ui-widget">
+                <select id="combobox1" name="DepartmentID">
+                    <option value=""></option>
+                    @foreach (var item in ViewBag.listDepartment)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
             </div>
+
         </div>
 
         <div class="form-group">

@@ -489,33 +489,36 @@ namespace TE_ManagementSystem.Controllers
                     }
 
                     Product product = db.Products.FirstOrDefault(p => p.ID == pid);
+                    Location location = db.Locations.FirstOrDefault(l => l.ID == product.LocationID);
+                    product.Room = location.Name;
+                    product.Rack = location.RackPosition;
 
-                    var locationData = db.Locations.Select(x => x.Name).Distinct();
-                    var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
+                    //var locationData = db.Locations.Select(x => x.Name).Distinct();
+                    //var rackData = db.Locations.Select(x => x.RackPosition).Distinct();
 
-                    List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
-                    List<SelectListItem> selectRackListItems = new List<SelectListItem>();
+                    //List<SelectListItem> selectLocationListItems = new List<SelectListItem>();
+                    //List<SelectListItem> selectRackListItems = new List<SelectListItem>();
 
-                    foreach (var item in locationData)
-                    {
-                        selectLocationListItems.Add(new SelectListItem()
-                        {
-                            Text = item,
-                            Selected = false
-                        });
-                    }
+                    //foreach (var item in locationData)
+                    //{
+                    //    selectLocationListItems.Add(new SelectListItem()
+                    //    {
+                    //        Text = item,
+                    //        Selected = false
+                    //    });
+                    //}
 
-                    foreach (var item in rackData)
-                    {
-                        selectRackListItems.Add(new SelectListItem()
-                        {
-                            Text = item,
-                            Selected = false
-                        });
-                    }
+                    //foreach (var item in rackData)
+                    //{
+                    //    selectRackListItems.Add(new SelectListItem()
+                    //    {
+                    //        Text = item,
+                    //        Selected = false
+                    //    });
+                    //}
 
-                    ViewBag.listLocation = selectLocationListItems;
-                    ViewBag.listRack = selectRackListItems;
+                    //ViewBag.listLocation = selectLocationListItems;
+                    //ViewBag.listRack = selectRackListItems;
 
 
                     if (product == null)
@@ -555,7 +558,22 @@ namespace TE_ManagementSystem.Controllers
                     {
                         model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         model.UpdateEmployee = Convert.ToString(Session["UsrName"] ?? "").Trim();
-                        model.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim());
+                        //model.LocationID = LabelRuleRepo.GetLocationID(Product.Room.Trim(), Product.Rack.Trim()); 舊方法
+
+                        var tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
+                        if (tmpLocation == null)
+                        {
+                            Location location = new Location();
+                            location.ID = db.Locations.DefaultIfEmpty().Max(l => l == null ? 0 : l.ID) + 1;
+                            location.Name = Product.Room.Trim();
+                            location.RackPosition = Product.Rack.Trim();
+                            location.Status = true;
+                            db.Locations.Add(location);
+                            db.SaveChanges();
+                            tmpLocation = db.Locations.Where(l => (l.Name == Product.Room.Trim() && l.RackPosition == Product.Rack.Trim())).FirstOrDefault();
+                        }
+                        model.LocationID = tmpLocation.ID;
+
                     }
                     else
                     {
@@ -671,7 +689,7 @@ namespace TE_ManagementSystem.Controllers
             //server side parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
+            string searchValue = Request["search[value]"].Trim();
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             int totalrowsafterfiltering;

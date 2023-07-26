@@ -108,6 +108,7 @@ namespace TE_ManagementSystem.Controllers
 
                 if (GlobalValue.LoginUserName.ToString().Count() > 0)
                 {
+                    this.loaddefault();
                     var model = db.Employees.Where(x => x.Opid == Opid).FirstOrDefault();
                     return View(model);
                 }
@@ -130,13 +131,13 @@ namespace TE_ManagementSystem.Controllers
         {
             try
             {
-                if (this.CheckInputErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
+                if (this.CheckInputEditErr(employee)) { return Json(new { ReturnStatus = "error", ReturnData = "請確認輸入訊息完整 !" }); }
                 var model = db.Employees.Where(x => x.Opid == employee.Opid).FirstOrDefault();
                 model.Name = employee.Name.Trim();
                 model.Email = employee.Email.Trim();
-                model.RankID = employee.RankID;
-                model.DepartmentID = employee.DepartmentID;
-                model.IsActive = employee.IsActive;
+                if (employee.RankID != 0) { model.RankID = employee.RankID; }
+                if (employee.DepartmentID !=0) { model.DepartmentID = employee.DepartmentID; }
+                model.IsActive = true;
                 model.Password = employee.Password.Trim();
                 model.UpdateDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
@@ -173,6 +174,14 @@ namespace TE_ManagementSystem.Controllers
             if (employee.Name == null || employee.Name == string.Empty) { return true; };
             if (employee.RankID == 0) { return true; };
             if (employee.DepartmentID == 0) { return true; };
+
+            return false;
+        }
+
+        private bool CheckInputEditErr(Employee employee)
+        {
+            if (employee.Opid == null || employee.Opid == string.Empty) { return true; };
+            if (employee.Name == null || employee.Name == string.Empty) { return true; };
 
             return false;
         }

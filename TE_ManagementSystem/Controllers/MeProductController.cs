@@ -437,7 +437,7 @@ namespace TE_ManagementSystem.Controllers
             //server side parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
+            string searchValue = Request["search[value]"].Trim();
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 

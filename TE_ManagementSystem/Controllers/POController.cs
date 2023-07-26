@@ -94,15 +94,17 @@ namespace TE_ManagementSystem.Controllers
                 productTransaction.ID = maxId;
                 productTransaction.IsReturn = IsReturn;
                 productTransaction.RegisterDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                string kindprocess = productTransaction.ProductID.Substring(0, 1).ToUpper();
                 productTransaction.ProductID = productTransaction.ProductID.Substring(productTransaction.ProductID.Length - 7, 7);
                 db.ProductTransactions.Add(productTransaction);
 
+                //條碼不需加製程碼，顯示需顯示加製程碼
                 var products = db.Products.Where
                 (m => m.NumberID == productTransaction.ProductID).FirstOrDefault();
 
                 if (products == null)
                 {
-                    return Json(new { ReturnStatus = "error", ReturnData = productTransaction.ProductID + ",不存在於治具編號內!" });
+                    return Json(new { ReturnStatus = "error", ReturnData = kindprocess + productTransaction.ProductID + ",不存在於治具編號內!" });
                 }
 
                 productTransaction.BorrowDay = products.MeProduct.ShiftTime;
@@ -119,7 +121,7 @@ namespace TE_ManagementSystem.Controllers
                     else
                     {
                         //TempData["message"] = products.NumberID + ",已在儲室!";
-                        return Json(new { ReturnStatus = "error", ReturnData = products.NumberID + ",已在儲室!" });
+                        return Json(new { ReturnStatus = "error", ReturnData = kindprocess + products.NumberID + ",已在儲室!" });
                     }
                 }
                 else
@@ -132,8 +134,8 @@ namespace TE_ManagementSystem.Controllers
                     }
                     else
                     {
-                        TempData["message"] = products.NumberID + ",已借出!";
-                        return RedirectToAction("Index");
+                        //TempData["message"] = products.NumberID + ",已借出!";
+                        return Json(new { ReturnStatus = "error", ReturnData = kindprocess + products.NumberID + ",已借出!" });
                     }
 
                 }

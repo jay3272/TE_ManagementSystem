@@ -41,12 +41,13 @@
                 <ul class="list-group" style="">
                 </ul>治具資訊
             </h3><ul class="list-group" style="">
-    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>編號:@Html.DisplayFor(model => model.NumberID)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>編號:@Html.DisplayFor(model => model.MeProduct.KindProcess.Number)@Html.DisplayFor(model => model.NumberID)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>名稱:@Html.DisplayFor(model => model.MeProduct.ProdName)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>狀態:@Html.DisplayFor(model => model.Status)</b></span><br></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>逾期:@Html.DisplayFor(model => model.Overdue)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>位置:@Html.DisplayFor(model => model.Location.Name)_@Html.DisplayFor(model => model.Location.RackPosition)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>種類:@Html.DisplayFor(model => model.MeProduct.Kind.Name)</b></span></div></li>
+    <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>製程種類:@Html.DisplayFor(model => model.MeProduct.KindProcess.Name)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>數量:@Html.DisplayFor(model => model.MeProduct.Quantity)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>鉛:@Html.DisplayFor(model => model.MeProduct.Pb)</b></span></div></li>
     <li class="list-group-item"><div style="text-align: left;"><span style="font-size: 18px; white-space: nowrap;"><b>Shift Time:@Html.DisplayFor(model => model.MeProduct.ShiftTime)</b></span></div></li>
@@ -129,7 +130,7 @@
                                         @item.Employee.Name
                                     </td>
                                     <td>
-                                        @item.Product.NumberID
+                                        @Html.DisplayFor(model => model.MeProduct.KindProcess.Number)@item.Product.NumberID
                                     </td>
                                     <td>
                                         @item.Product.MeProduct.ProdName
@@ -172,9 +173,7 @@
                                         @item.RegisterDate
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                        
                                     </td>
                                 </tr>
                             }
