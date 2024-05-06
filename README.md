@@ -21,6 +21,13 @@ Web Basae開發倉儲系統，用於借還物品紀錄追蹤。
 
 ![image](https://github.com/jay3272/TE_ManagementSystem/assets/56573618/a6fab75e-983e-428c-9d03-547c5f067508)
 
+- MVC
+
+![image](https://github.com/jay3272/TE_ManagementSystem/assets/56573618/9785e758-7d22-4fb2-ae9b-5db0f26cf0db)
+
+- 關聯資料庫
+
+![image](https://github.com/jay3272/TE_ManagementSystem/assets/56573618/5a413006-1ec1-426b-8036-a2962823b776)
 
 - Fine Tuning
 
